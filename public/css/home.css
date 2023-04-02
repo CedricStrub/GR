@@ -1,0 +1,296 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+:root{
+    --bgd-high: rgba(217,217,217,1);
+    --white: white; 
+    --brd: rgba(17,17,17,1);
+}
+
+.top-nav {
+    width: 100vw;
+    display: flex;
+    position: relative;
+}
+
+.profile {
+    margin-left: auto;
+}
+
+.search {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.search-sc-10{
+    position: absolute;
+    clip-path: polygon(453px 0px, 45.54% 0px, 46.95% 109.09%, 33.06% 107.57%);
+    transition: clip-path 0.1s ease-in-out;
+}
+
+.search-sc-10.clip-sc-10{
+    clip-path: polygon(138px 0px, 14.02% 0px, 15.29% 100%, 10.77% 101.50%);
+}
+
+.search-sc-11{
+    position: absolute;
+    clip-path: polygon(53.93% 0px, 68.13% 0px, 66.57% 104.54%, 756px 109.1%);
+}
+
+.search-sc-11.clip-sc-11{
+    clip-path: polygon(1231px -3px, 90.21% -3px, 88.54% 116.67%, 1208px 115.15%);
+}
+
+.search-sc-12{
+    position: absolute;
+    clip-path: polygon(249px 0px, 31.49% -1px, 32.92% 110.71%, 18.96% 110.71%);
+}
+
+.search-sc-12.clip-sc-12{
+    clip-path: polygon(86px -3px, 9.58% -3px, 10.9% 108.93%, 104px 103.57%);
+}
+
+.search-sc-13{
+    position: absolute;
+    clip-path: polygon(68.1% -1px, 82.17% 0px, 80.51% 102.10%, 959px 103.58%);
+}
+
+.search-sc-13.clip-sc-13{
+    clip-path: polygon(1294px 0px, 93.75% -1px, 92.43% 110.72%, 1274px 114.29%);
+}
+
+.search-sc-14{
+    position: absolute;
+    clip-path: polygon(45px 0px, 17.25% -1px, 18.89% 117.4%, 5.00% 115.22%);
+}
+
+.search-sc-14.clip-sc-14{
+    clip-path: polygon(47px 0px, 6.18% 0px, 7.29% 113.04%, 62px 106.52%);
+}
+
+.search-sc-15{
+    position: absolute;
+    clip-path: polygon(82.1% 0px, 96.32% 0px, 94.44% 119.56%, 1157px 121.89%);
+}
+
+.search-sc-15.clip-sc-15{
+    clip-path: polygon(93.49% 0px, 96.32% 0px, 95.27% 121.74%, 1327px 123.91%);
+}
+
+.search-input{
+    position: absolute;
+    width: 970px;
+    height: 47px;
+    left: 230px;
+    top: 11px;
+    font-size: 25px;
+    text-align: center;
+    visibility: hidden;
+    border: none;
+}
+
+#search-mask{
+    fill: transparent;
+    z-index: 10;
+    visibility: visible;
+    cursor: pointer;
+}
+
+#search-mask-deploy{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#m0-o-f{
+    fill: transparent;
+    z-index: 10;
+    visibility: visible;
+    cursor: pointer;
+}
+
+#m0-o-d{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#ms0-o-f{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#ms0-o-d{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#m1-o-f{
+    fill: transparent;
+    z-index: 10;
+    visibility: visible;
+    cursor: pointer;
+}
+
+#m1-o-d{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#ms1-o-f{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#ms1-o-d{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#m2-o-f{
+    fill: transparent;
+    z-index: 10;
+    visibility: visible;
+    cursor: pointer;
+}
+
+#m2-o-d{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#ms2-o-f{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#ms2-o-d{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#m3-o-f{
+    fill: transparent;
+    z-index: 10;
+    visibility: visible;
+    cursor: pointer;
+}
+
+#m3-o-d{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#ms3-o-f{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#ms3-o-d{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#m4-o-f{
+    fill: transparent;
+    z-index: 10;
+    visibility: visible;
+    cursor: pointer;
+}
+
+#m4-o-d{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#ms4-o-f{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#ms4-o-d{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#m5-o-f{
+    fill: transparent;
+    z-index: 10;
+    visibility: visible;
+    cursor: pointer;
+}
+
+#m5-o-d{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#ms5-o-f{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#ms5-o-d{
+    fill: transparent;
+    z-index: 10;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+#search-inner{
+    opacity: 0;
+}
+
+.svg-s-o{
+    fill: var(--bgd-high); 
+    stroke: var(--brd);
+}
+
+.svg-s-i{
+    fill: var(--white); 
+    stroke: var(--brd);
+}
+
+input:focus {
+    outline: none;
+}

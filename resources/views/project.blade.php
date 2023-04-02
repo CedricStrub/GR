@@ -3,20 +3,17 @@
 
 
 
+<button onclick="newModifyAble()">new element</button>
+
 
 
 
 <div class="page">
 
-
 </div>
 
 
 
-
-
-
-<button onclick="newModifyAble()">new element</button>
 
 
 

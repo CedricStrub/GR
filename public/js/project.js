@@ -1,7 +1,7 @@
 function makeResizableDiv(div) {
     const resizers = div.querySelectorAll(".resizer");
-    const minHeight = 20;
-    const minWidth = 20;
+    const minHeight = 50;
+    const minWidth = 200;
     
     for (let resizer of resizers) {
         resizer.addEventListener("mousedown", function (e) {
@@ -60,20 +60,27 @@ function makeResizableDiv(div) {
                     bottom: newTop + viewRect.top + newHeight,
                 };
             
-                // Update the width if there are no collisions on the X axis
-                if (!hasCollisionWithOthers(div, newXRect) && newLeft >= 0 && newLeft + newWidth <= viewRect.width) {
+                let xCollision = hasCollisionWithOthers(div, newXRect);
+                let yCollision = hasCollisionWithOthers(div, newYRect);
+            
+                if (!xCollision && newLeft >= 0 && newLeft + newWidth <= viewRect.width) {
                     div.style.width = newWidth + "px";
                     div.style.left = newLeft + "px";
                 }
             
-                // Update the height if there are no collisions on the Y axis
-                if (!hasCollisionWithOthers(div, newYRect) && newTop >= 0 && newTop + newHeight <= viewRect.height) {
+                if (!yCollision && newTop >= 0 && newTop + newHeight <= viewRect.height) {
                     div.style.height = newHeight + "px";
                     div.style.top = newTop + "px";
                 }
+            
+                if (xCollision && !yCollision) {
+                    div.style.height = newHeight + "px";
+                }
+            
+                if (!xCollision && yCollision) {
+                    div.style.width = newWidth + "px";
+                }
             }
-            
-            
             
     
             function stopResize() {
@@ -114,7 +121,7 @@ function selectDrag(event){
 }
 
 function dragElement(element, selectedView) {
-    let initialX, initialY, offsetX, offsetY;
+    let offsetX, offsetY;
 
     element.onmousedown = onMouseDown;
 
@@ -340,6 +347,10 @@ function newWidget() {
     toggleLock(resizableDiv);
     toggleLock(resizableDiv);
 
+    // Add the lock button event listener
+    const lockButton = resizableDiv.querySelector('.lock-btn');
+    lockButton.addEventListener('click', () => toggleLock(resizableDiv));
+
     // Adjust the position of the new div to avoid overlapping.
     const newPosition = findNonOverlappingPosition(resizableDiv, selectedView);
 
@@ -353,6 +364,7 @@ function newWidget() {
     resizableDiv.style.left = newPosition.left + 'px';
     resizableDiv.style.top = newPosition.top + 'px';
 }
+
 
 function toggleLock(element) {
     element.locked = !element.locked; // Toggle the locked state
@@ -463,7 +475,15 @@ function createResizableView() {
         const currentScrollTop = document.documentElement.scrollTop;
         const scrollDifference = currentScrollTop - startScrollTop;
         const newHeight = startHeight + (e.clientY - startY) + scrollDifference;
-        resizer.parentElement.style.height = newHeight + 'px';
+    
+        const widgets = Array.from(resizer.parentElement.querySelectorAll('.resizable'));
+        const minHeight = Math.max(...widgets.map(w => w.offsetTop + w.offsetHeight));
+    
+        if (newHeight >= minHeight) {
+            resizer.parentElement.style.height = newHeight + 'px';
+        } else {
+            resizer.parentElement.style.height = minHeight + 'px';
+        }
     };
     
     const onMouseUp = (onMouseMove) => () => {

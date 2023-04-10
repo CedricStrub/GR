@@ -52,8 +52,8 @@
 .page{
     margin: 30px;
     margin-top: 70px;
-    width: calc(100vw - 60px);
-    height: 80vh;
+    width: calc(100vw - 80px);
+    height: 100vh;
     background: rgb(180, 180, 180);
 }
 
@@ -89,4 +89,23 @@
 
 .resizable .remove-btn:hover {
     background-color: #2261b7;
+}
+
+.view {
+    width: 100%;
+    height: 400px;
+    background-color: lightblue;
+    position: relative;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.resizerView {
+    width: 100%;
+    height: 8px;
+    background-color: #aaa;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    cursor: ns-resize;
 }

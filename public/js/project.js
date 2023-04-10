@@ -1,109 +1,99 @@
-function hello(){
-    console.log('hello')
+function makeResizableDiv(div) {
+    const resizers = div.querySelectorAll(".resizer");
+    const minHeight = 20;
+    const minWidth = 20;
+    
+    for (let resizer of resizers) {
+        resizer.addEventListener("mousedown", function (e) {
+            e.preventDefault();
+            window.addEventListener("mousemove", resize);
+            window.addEventListener("mouseup", stopResize);
+    
+            let startX = e.clientX;
+            let startY = e.clientY;
+            let startWidth = parseFloat(getComputedStyle(div, null).getPropertyValue("width").replace("px", ""));
+            let startHeight = parseFloat(getComputedStyle(div, null).getPropertyValue("height").replace("px", ""));
+            let startTop = div.offsetTop;
+            let startLeft = div.offsetLeft;
+            let viewRect = selectedView.getBoundingClientRect();
+    
+            function resize(e) {
+                e.preventDefault();
+            
+                let dx = e.clientX - startX;
+                let dy = e.clientY - startY;
+                let newWidth, newHeight, newTop, newLeft;
+            
+                if (resizer.classList.contains("bottom-right")) {
+                    newWidth = Math.max(minWidth, startWidth + dx);
+                    newHeight = Math.max(minHeight, startHeight + dy);
+                    newTop = startTop;
+                    newLeft = startLeft;
+                } else if (resizer.classList.contains("bottom-left")) {
+                    newWidth = Math.max(minWidth, startWidth - dx);
+                    newHeight = Math.max(minHeight, startHeight + dy);
+                    newLeft = Math.min(startLeft + dx, startLeft + startWidth - minWidth);
+                    newTop = startTop;
+                } else if (resizer.classList.contains("top-right")) {
+                    newWidth = Math.max(minWidth, startWidth + dx);
+                    newHeight = Math.max(minHeight, startHeight - dy);
+                    newTop = Math.min(startTop + dy, startTop + startHeight - minHeight);
+                    newLeft = startLeft;
+                } else {
+                    newWidth = Math.max(minWidth, startWidth - dx);
+                    newHeight = Math.max(minHeight, startHeight - dy);
+                    newTop = Math.min(startTop + dy, startTop + startHeight - minHeight);
+                    newLeft = Math.min(startLeft + dx, startLeft + startWidth - minWidth);
+                }
+            
+                const newXRect = {
+                    left: newLeft + viewRect.left,
+                    right: newLeft + viewRect.left + newWidth,
+                    top: newTop + viewRect.top,
+                    bottom: newTop + viewRect.top + newHeight,
+                };
+            
+                const newYRect = {
+                    left: newLeft + viewRect.left,
+                    right: newLeft + viewRect.left + newWidth,
+                    top: newTop + viewRect.top,
+                    bottom: newTop + viewRect.top + newHeight,
+                };
+            
+                // Update the width if there are no collisions on the X axis
+                if (!hasCollisionWithOthers(div, newXRect) && newLeft >= 0 && newLeft + newWidth <= viewRect.width) {
+                    div.style.width = newWidth + "px";
+                    div.style.left = newLeft + "px";
+                }
+            
+                // Update the height if there are no collisions on the Y axis
+                if (!hasCollisionWithOthers(div, newYRect) && newTop >= 0 && newTop + newHeight <= viewRect.height) {
+                    div.style.height = newHeight + "px";
+                    div.style.top = newTop + "px";
+                }
+            }
+            
+            
+            
+    
+            function stopResize() {
+                window.removeEventListener("mousemove", resize);
+                window.removeEventListener("mouseup", stopResize);
+            }
+        });
+    }
 }
 
-/*Make resizable div by Hung Nguyen*/
-function makeResizableDiv(element) {
-    element.locked = false;
-    const resizers = element.querySelectorAll('.resizer');
-    const minimum_size = 20;
-    let original_width = 0;
-    let original_height = 0;
-    let original_x = 0;
-    let original_y = 0;
-    let original_mouse_x = 0;
-    let original_mouse_y = 0;
 
-    const lockButton = element.querySelector(".lock-btn");
-        lockButton.addEventListener("click", () => toggleLock(element));
+function hasCollisionWithOthers(element, newRect) {
+    const resizableElements = Array.from(selectedView.querySelectorAll('.resizable')).filter((el) => el !== element);
 
-    for (let i = 0; i < resizers.length; i++) {
-        const currentResizer = resizers[i];
-        currentResizer.addEventListener('mousedown', function (e) {
-            e.preventDefault();
-            original_width = parseFloat(getComputedStyle(element, null).getPropertyValue('width').replace('px', ''));
-            original_height = parseFloat(getComputedStyle(element, null).getPropertyValue('height').replace('px', ''));
-            
-            const container = document.querySelector('.page');
-            const containerRect = container.getBoundingClientRect();
-            const elementRect = element.getBoundingClientRect();
-        
-            original_x = Math.max(Math.min(parseFloat(element.style.left || 0), containerRect.right - elementRect.width), containerRect.left);
-            original_y = Math.max(Math.min(parseFloat(element.style.top || 0), containerRect.bottom - elementRect.height), containerRect.top);
-        
-            original_mouse_x = e.pageX;
-            original_mouse_y = e.pageY;
-            window.addEventListener('mousemove', resize);
-            window.addEventListener('mouseup', stopResize);
-        });
-        function resize(e) {
-            if (element.locked) return;
-            const widthOffset = e.pageX - original_mouse_x;
-            const heightOffset = e.pageY - original_mouse_y;
-        
-            const container = document.querySelector('.page');
-            const containerRect = container.getBoundingClientRect();
-            const elementRect = element.getBoundingClientRect();
-        
-            // Check for collisions with other resizable elements:
-            const resizableElements = document.querySelectorAll('.resizable');
-        
-            let newWidth, newHeight, newTop, newLeft;
-        
-            if (currentResizer.classList.contains('bottom-right')) {
-                newWidth = Math.min(Math.max(original_width + widthOffset, minimum_size), containerRect.right - element.getBoundingClientRect().left);
-                newHeight = Math.min(Math.max(original_height + heightOffset, minimum_size), containerRect.bottom - element.getBoundingClientRect().top);
-                newTop = original_y;
-                newLeft = original_x;
-            } else if (currentResizer.classList.contains('bottom-left')) {
-                newWidth = Math.min(Math.max(original_width - widthOffset, minimum_size), element.getBoundingClientRect().right - containerRect.left);
-                newHeight = Math.min(Math.max(original_height + heightOffset, minimum_size), containerRect.bottom - element.getBoundingClientRect().top);
-                newTop = original_y;
-                newLeft = original_x + (original_width - newWidth);
-            } else if (currentResizer.classList.contains('top-right')) {
-                newWidth = Math.min(Math.max(original_width + widthOffset, minimum_size), containerRect.right - element.getBoundingClientRect().left);
-                newHeight = Math.min(Math.max(original_height - heightOffset, minimum_size), element.getBoundingClientRect().bottom - containerRect.top);
-                newTop = original_y + (original_height - newHeight);
-                newLeft = original_x;
-            } else { // top-left
-                newWidth = Math.min(Math.max(original_width - widthOffset, minimum_size), element.getBoundingClientRect().right - containerRect.left);
-                newHeight = Math.min(Math.max(original_height - heightOffset, minimum_size), element.getBoundingClientRect().bottom - containerRect.top);
-                newTop = original_y + (original_height - newHeight);
-                newLeft = original_x + (original_width - newWidth);
-            }
-        
-            let allowResize = true;
-            resizableElements.forEach((resizableElement) => {
-                if (resizableElement === element) return; // Skip the element being resized
-        
-                const resizableElementRect = resizableElement.getBoundingClientRect();
-        
-                const isCollidingHorizontally =
-                    newLeft < resizableElementRect.right &&
-                    newLeft + newWidth > resizableElementRect.left;
-        
-                const isCollidingVertically =
-                    newTop < resizableElementRect.bottom &&
-                    newTop + newHeight > resizableElementRect.top;
-        
-                if (isCollidingHorizontally && isCollidingVertically) {
-                    allowResize = false;
-                }
-            });
-        
-            if (allowResize) {
-                element.style.width = newWidth + 'px';
-                element.style.height = newHeight + 'px';
-                element.style.top = newTop + 'px';
-                element.style.left = newLeft + 'px';
-            }
-        }
-        
-
-        function stopResize() {
-            window.removeEventListener('mousemove', resize)
+    for (const existingElement of resizableElements) {
+        if (isRectanglesOverlapping(newRect, existingElement.getBoundingClientRect())) {
+            return true;
         }
     }
+    return false;
 }
 
 
@@ -123,97 +113,201 @@ function selectDrag(event){
     }
 }
 
-function dragElement(elmnt) {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+function dragElement(element, selectedView) {
+    let initialX, initialY, offsetX, offsetY;
 
-    elmnt.onmousedown = dragMouseDown;
+    element.onmousedown = onMouseDown;
 
-    function dragMouseDown(e) {
-        if (e.target.classList.contains("resizer") || elmnt.locked) {
-            return; // Ignore mousedown on resizers or if the element is locked
-        }
-        e = e || window.event;
+    function onMouseDown(e) {
         e.preventDefault();
-        // Get the mouse cursor position at startup:
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        // Call a function whenever the cursor moves:
-        document.onmousemove = elementDrag;
+    
+        // Check if the clicked element is a resizer
+        if (e.target.classList.contains('resizer')) {
+            return;
+        }
+    
+        if (element.locked) return;
+    
+        offsetX = e.clientX - parseFloat(element.style.left || 0);
+        offsetY = e.clientY - parseFloat(element.style.top || 0);
+    
+        initialX = e.clientX;
+        initialY = e.clientY;
+    
+        document.onmousemove = onMouseMove;
+        document.onmouseup = onMouseUp;
     }
 
-    function elementDrag(e) {
-        e = e || window.event;
+    function onMouseMove(e) {
         e.preventDefault();
 
-        // Calculate the new cursor position:
-        const oldPos1 = pos1;
-        const oldPos2 = pos2;
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-
-        // Calculate the movement direction:
-        const horizontalDirection = oldPos1 < pos1 ? "left" : "right";
-        const verticalDirection = oldPos2 < pos2 ? "up" : "down";
-        // Set the element's new position:
-        const newTop = elmnt.offsetTop - pos2;
-        const newLeft = elmnt.offsetLeft - pos1;
+        const newX = e.clientX - offsetX;
+        const newY = e.clientY - offsetY;
     
-        const container = document.querySelector('.page');
-        const containerRect = container.getBoundingClientRect();
-        const elementRect = elmnt.getBoundingClientRect();
+        const viewRect = selectedView.getBoundingClientRect();
+        const elementRect = element.getBoundingClientRect();
     
-        // Check for collisions with other resizable elements:
-        const resizableElements = document.querySelectorAll('.resizable');
-        let allowVerticalMove = true;
-        let allowHorizontalMove = true;
-        resizableElements.forEach((resizableElement) => {
-            if (resizableElement === elmnt) return; // Skip the element being dragged
+        let finalX = Math.min(Math.max(newX, 0), viewRect.width - elementRect.width);
+        let finalY = Math.min(Math.max(newY, 0), viewRect.height - elementRect.height);
     
-            const resizableElementRect = resizableElement.getBoundingClientRect();
+        const newPosition = findNearestNonOverlappingPosition(element, finalX, finalY, selectedView);
     
-            const hypotheticalTop = newTop;
-            const hypotheticalLeft = newLeft;
-    
-            const isCollidingHorizontally =
-                hypotheticalLeft < resizableElementRect.right &&
-                hypotheticalLeft + elementRect.width > resizableElementRect.left;
-    
-            const isCollidingVertically =
-                hypotheticalTop < resizableElementRect.bottom &&
-                hypotheticalTop + elementRect.height > resizableElementRect.top;
-    
-            if (isCollidingHorizontally && isCollidingVertically) {
-                allowVerticalMove = false;
-                allowHorizontalMove = false;
-            }
-        });
-    
-        if (allowVerticalMove) {
-            if (newTop >= containerRect.top && newTop + elementRect.height <= containerRect.bottom) {
-                elmnt.style.top = newTop + "px";
-            }
-        }
-    
-        if (allowHorizontalMove) {
-            if (newLeft >= containerRect.left && newLeft + elementRect.width <= containerRect.right) {
-                elmnt.style.left = newLeft + "px";
-            }
-        }
+        element.style.left = newPosition.x + 'px';
+        element.style.top = newPosition.y + 'px';
     }
 
-    function closeDragElement() {
-        // Stop moving when the mouse button is released:
-        document.onmouseup = null;
+
+    function onMouseUp() {
         document.onmousemove = null;
+        document.onmouseup = null;
     }
+}
+
+function findNearestNonOverlappingPosition(element, newX, newY, selectedView, stepSize = 5) {
+    const viewRect = selectedView.getBoundingClientRect();
+    const elementRect = element.getBoundingClientRect();
+    const resizableElements = Array.from(selectedView.querySelectorAll('.resizable')).filter((el) => el !== element);
+
+    const potentialPositions = [];
+
+    for (let x = 0; x <= viewRect.width - elementRect.width; x += stepSize) {
+        for (let y = 0; y <= viewRect.height - elementRect.height; y += stepSize) {
+            const distX = Math.abs(x - newX);
+            const distY = Math.abs(y - newY);
+            const dist = Math.sqrt(distX * distX + distY * distY);
+            potentialPositions.push({ x, y, dist });
+        }
+    }
+
+    potentialPositions.sort((a, b) => a.dist - b.dist);
+
+    for (const position of potentialPositions) {
+        const proposedRect = {
+            left: position.x + viewRect.left,
+            right: position.x + viewRect.left + elementRect.width,
+            top: position.y + viewRect.top,
+            bottom: position.y + viewRect.top + elementRect.height,
+        };
+
+        let hasOverlap = false;
+
+        for (const existingElement of resizableElements) {
+            const existingElementRect = existingElement.getBoundingClientRect();
+            if (isRectanglesOverlapping(proposedRect, existingElementRect)) {
+                hasOverlap = true;
+                break;
+            }
+        }
+
+        if (!hasOverlap) {
+            return { x: position.x, y: position.y };
+        }
+    }
+
+    // If no non-overlapping position is found, return the original position
+    return { x: parseFloat(element.style.left || 0), y: parseFloat(element.style.top || 0) };
+}
+
+function calculateOverlapArea(rect1, rect2) {
+    const xOverlap = Math.max(0, Math.min(rect1.right, rect2.right) - Math.max(rect1.left, rect2.left));
+    const yOverlap = Math.max(0, Math.min(rect1.bottom, rect2.bottom) - Math.max(rect1.top, rect2.top));
+    return xOverlap * yOverlap;
+}
+
+
+function elementCollidesWithOthers(element, newX, newY) {
+    const elementRect = element.getBoundingClientRect();
+    const resizableElements = document.querySelectorAll('.resizable');
+    
+    for (const resizableElement of resizableElements) {
+        if (resizableElement === element) continue;
+
+        const resizableElementRect = resizableElement.getBoundingClientRect();
+        const isCollidingHorizontally =
+            newX < resizableElementRect.right &&
+            newX + elementRect.width > resizableElementRect.left;
+
+        const isCollidingVertically =
+            newY < resizableElementRect.bottom &&
+            newY + elementRect.height > resizableElementRect.top;
+
+        if (isCollidingHorizontally && isCollidingVertically) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+function isMoveAllowed(element, newX, newY, selectedView) {
+    const elementRect = element.getBoundingClientRect();
+    const viewRect = selectedView.getBoundingClientRect();
+
+    const newElementRect = {
+        left: newX + viewRect.left,
+        right: newX + viewRect.left + elementRect.width,
+        top: newY + viewRect.top,
+        bottom: newY + viewRect.top + elementRect.height,
+    };
+
+    if (
+        newElementRect.left >= viewRect.left &&
+        newElementRect.right <= viewRect.right &&
+        newElementRect.top >= viewRect.top &&
+        newElementRect.bottom <= viewRect.bottom
+    ) {
+        const resizableElements = Array.from(selectedView.querySelectorAll('.resizable')).filter((el) => el !== element);
+
+        for (const existingElement of resizableElements) {
+            if (isRectanglesOverlapping(newElementRect, existingElement.getBoundingClientRect())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+
+function isResizeAllowed(element, newWidth, newHeight, newTop, newLeft) {
+    const container = document.querySelector('.page');
+    const containerRect = container.getBoundingClientRect();
+    const scrollLeft = container.scrollLeft;
+    const scrollTop = container.scrollTop;
+
+    if (newLeft + scrollLeft < containerRect.left || newLeft + scrollLeft + newWidth > containerRect.right) {
+        return false;
+    }
+
+    if (newTop + scrollTop < containerRect.top || newTop + scrollTop + newHeight > containerRect.bottom) {
+        return false;
+    }
+
+    const resizableElements = document.querySelectorAll('.resizable');
+    return Array.from(resizableElements).every((resizableElement) => {
+        if (resizableElement === element) return true;
+
+        const resizableElementRect = resizableElement.getBoundingClientRect();
+        const relativeLeft = resizableElementRect.left - containerRect.left + scrollLeft;
+        const relativeTop = resizableElementRect.top - containerRect.top + scrollTop;
+
+        const isCollidingHorizontally =
+            newLeft < relativeLeft + resizableElement.clientWidth &&
+            newLeft + newWidth > relativeLeft;
+
+        const isCollidingVertically =
+            newTop < relativeTop + resizableElement.clientHeight &&
+            newTop + newHeight > relativeTop;
+
+        return !(isCollidingHorizontally && isCollidingVertically);
+    });
 }
 
 
 
-function newModifyAble() {
+function newWidget() {
     const resizableDiv = document.createElement('div');
     resizableDiv.classList.add('resizable');
     resizableDiv.innerHTML = `
@@ -230,44 +324,35 @@ function newModifyAble() {
     removeButton.addEventListener('click', () => removeDiv(resizableDiv));
 
     // Append the resizableDiv to the body or a container of your choice.
-    document.body.appendChild(resizableDiv);
+    if (selectedView) {
+        selectedView.appendChild(resizableDiv);
+    } else {
+        alert('No view is selected.');
+    }
 
     // Apply the resizable functionality to the new element.
     makeResizableDiv(resizableDiv);
 
     // Apply the drag functionality to the new element.
-    dragElement(resizableDiv);
+    dragElement(resizableDiv, selectedView);
 
     // Set the initial lock state.
     toggleLock(resizableDiv);
     toggleLock(resizableDiv);
 
     // Adjust the position of the new div to avoid overlapping.
-    const container = document.querySelector('.page');
-    const newPosition = findNonOverlappingPosition(resizableDiv, container);
+    const newPosition = findNonOverlappingPosition(resizableDiv, selectedView);
 
     // Check if newPosition is null and display a message if there's no space for another div.
     if (newPosition === null) {
         alert('There is no space for another div.');
-        document.body.removeChild(resizableDiv);
+        selectedView.removeChild(resizableDiv);
         return;
     }
 
     resizableDiv.style.left = newPosition.left + 'px';
     resizableDiv.style.top = newPosition.top + 'px';
 }
-
-
-// Apply makeResizableDiv to the existing resizable element
-const existingResizable = document.querySelector('.resizable');
-existingResizable.innerHTML = `
-    <button class="lock-btn">Lock</button>
-    <button class="remove-btn">Remove</button>
-    <div class="resizer top-left"></div>
-    <div class="resizer top-right"></div>
-    <div class="resizer bottom-left"></div>
-    <div class="resizer bottom-right"></div>
-`;
 
 function toggleLock(element) {
     element.locked = !element.locked; // Toggle the locked state
@@ -281,34 +366,36 @@ function toggleLock(element) {
     });
 }
 
+// element.querySelector
+
 function isRectanglesOverlapping(rect1, rect2) {
     return (
-        rect1.x < rect2.right &&
-        rect1.right > rect2.x &&
-        rect1.y < rect2.bottom &&
-        rect1.bottom > rect2.y
+        rect1.left < rect2.right &&
+        rect1.right > rect2.left &&
+        rect1.top < rect2.bottom &&
+        rect1.bottom > rect2.top
     );
 }
 
-function findNonOverlappingPosition(element, container) {
+function findNonOverlappingPosition(element, selectedView) {
     const elementRect = element.getBoundingClientRect();
-    const containerRect = container.getBoundingClientRect();
-    const resizableElements = document.querySelectorAll('.resizable');
+    const viewRect = selectedView.getBoundingClientRect();
+    const resizableElements = Array.from(selectedView.querySelectorAll('.resizable'));
 
     let newPosition = {
-        left: containerRect.x,
-        top: containerRect.y,
+        left: 0,
+        top: 0,
     };
 
-    for (let x = containerRect.left; x < containerRect.right - elementRect.width; x += 10) {
-        for (let y = containerRect.top; y < containerRect.bottom - elementRect.height; y += 10) {
+    for (let y = 0; y <= viewRect.height - elementRect.height; y += 10) {
+        for (let x = 0; x <= viewRect.width - elementRect.width; x += 10) {
             newPosition.left = x;
             newPosition.top = y;
             let newPositionRect = {
-                x: newPosition.left,
-                y: newPosition.top,
-                right: newPosition.left + elementRect.width,
-                bottom: newPosition.top + elementRect.height,
+                left: newPosition.left + viewRect.left,
+                right: newPosition.left + viewRect.left + elementRect.width,
+                top: newPosition.top + viewRect.top,
+                bottom: newPosition.top + viewRect.top + elementRect.height,
             };
             let hasOverlap = false;
 
@@ -328,6 +415,101 @@ function findNonOverlappingPosition(element, container) {
     return null;
 }
 
+
 function removeDiv(element) {
     element.parentElement.removeChild(element);
 }
+
+
+function growPageOnScroll() {
+
+    const page = document.querySelector(".page");
+    const pageHeight = parseInt(getComputedStyle(page).getPropertyValue("height"));
+
+    if (
+        page.offsetHeight - window.scrollY <= window.innerHeight
+    ) {
+      // Increase the height of the page by 100vh when the user scrolls to the bottom
+        page.style.height = pageHeight + window.innerHeight + "px";
+    }}
+
+  // Attach the growPageOnScroll function to the window's scroll event
+window.addEventListener("scroll", growPageOnScroll);
+
+let startY;
+let startHeight;
+
+function onMouseMove(e) {
+    const view = resizerView.parentElement;
+    const newHeight = startHeight + e.clientY - startY;
+    view.style.height = newHeight + 'px';
+}
+
+function onMouseUp() {
+    window.removeEventListener('mousemove', onMouseMove);
+    window.removeEventListener('mouseup', onMouseUp);
+}
+
+
+function createResizableView() {
+    const view = document.createElement('div');
+    view.className = 'view';
+
+    const resizer = document.createElement('div');
+    resizer.className = 'resizerView';
+    view.appendChild(resizer);
+
+    const onMouseMove = (startY, startHeight, startScrollTop) => (e) => {
+        const currentScrollTop = document.documentElement.scrollTop;
+        const scrollDifference = currentScrollTop - startScrollTop;
+        const newHeight = startHeight + (e.clientY - startY) + scrollDifference;
+        resizer.parentElement.style.height = newHeight + 'px';
+    };
+    
+    const onMouseUp = (onMouseMove) => () => {
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+    };
+    
+    resizer.addEventListener('mousedown', (e) => {
+        const startY = e.clientY;
+        const scrollTop = document.documentElement.scrollTop;
+        const startHeight = parseInt(document.defaultView.getComputedStyle(resizer.parentElement).height, 10);
+        const boundOnMouseMove = onMouseMove(startY, startHeight, scrollTop);
+        const boundOnMouseUp = onMouseUp(boundOnMouseMove);
+        window.addEventListener('mousemove', boundOnMouseMove);
+        window.addEventListener('mouseup', boundOnMouseUp);
+    });
+
+    view.addEventListener('click', (e) => {
+        if (e.target === view) {
+            selectView(view);
+        }
+    });
+
+    return view;
+}
+
+let selectedView = null;
+
+function newView() {
+    const page = document.querySelector('.page');
+    const view = createResizableView();
+    page.appendChild(view);
+
+    if (selectedView === null) {
+        selectedView = view;
+        view.classList.add('selected');
+    }
+}
+const page = document.querySelector('.page');
+
+function selectView(view) {
+    if (selectedView) {
+        selectedView.classList.remove('selected');
+    }
+    selectedView = view;
+    view.classList.add('selected');
+}
+
+newView()

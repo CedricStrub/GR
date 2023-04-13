@@ -45,44 +45,56 @@ function makeResizableDiv(div) {
                     newTop = Math.min(startTop + dy, startTop + startHeight - minHeight);
                     newLeft = Math.min(startLeft + dx, startLeft + startWidth - minWidth);
                 }
-            
-                const newXRect = {
+                
+                newTop = Math.max(0, Math.min(viewRect.height - newHeight, newTop));
+                newLeft = Math.max(0, Math.min(viewRect.width - newWidth, newLeft));
+                newWidth = Math.min(viewRect.width - newLeft, newWidth);
+                newHeight = Math.min(viewRect.height - newTop, newHeight);
+
+                const newRect = {
                     left: newLeft + viewRect.left,
                     right: newLeft + viewRect.left + newWidth,
                     top: newTop + viewRect.top,
                     bottom: newTop + viewRect.top + newHeight,
                 };
             
-                const newYRect = {
-                    left: newLeft + viewRect.left,
-                    right: newLeft + viewRect.left + newWidth,
-                    top: newTop + viewRect.top,
-                    bottom: newTop + viewRect.top + newHeight,
-                };
+                let collision = hasCollisionWithOthers(div, newRect);
             
-                let xCollision = hasCollisionWithOthers(div, newXRect);
-                let yCollision = hasCollisionWithOthers(div, newYRect);
+                if (!collision) {
+                    if (e.clientX >= viewRect.left && e.clientX <= viewRect.right) {
+                        div.style.width = newWidth + "px";
+                        div.style.left = newLeft + "px";
+                    }
+                    if (e.clientY >= viewRect.top && e.clientY <= viewRect.bottom) {
+                        div.style.height = newHeight + "px";
+                        div.style.top = newTop + "px";
+                    }
+                } else {
+                    let xRect = Object.assign({}, newRect);
+                    xRect.top = div.offsetTop + viewRect.top;
+                    xRect.bottom = xRect.top + parseFloat(div.style.height);
             
-                if (!xCollision && newLeft >= 0 && newLeft + newWidth <= viewRect.width) {
-                    div.style.width = newWidth + "px";
-                    div.style.left = newLeft + "px";
-                }
+                    let yRect = Object.assign({}, newRect);
+                    yRect.left = div.offsetLeft + viewRect.left;
+                    yRect.right = yRect.left + parseFloat(div.style.width);
             
-                if (!yCollision && newTop >= 0 && newTop + newHeight <= viewRect.height) {
-                    div.style.height = newHeight + "px";
-                    div.style.top = newTop + "px";
-                }
+                    let xCollision = hasCollisionWithOthers(div, xRect);
+                    let yCollision = hasCollisionWithOthers(div, yRect);
             
-                if (xCollision && !yCollision) {
-                    div.style.height = newHeight + "px";
-                }
+                    if (!xCollision && e.clientX >= viewRect.left && e.clientX <= viewRect.right) {
+                        div.style.width = newWidth + "px";
+                        div.style.left = newLeft + "px";
+                    }
             
-                if (!xCollision && yCollision) {
-                    div.style.width = newWidth + "px";
+                    if (!yCollision && e.clientY >= viewRect.top && e.clientY <= viewRect.bottom) {
+                        div.style.height = newHeight + "px";
+                        div.style.top = newTop + "px";
+                    }
                 }
             }
             
-    
+            
+            
             function stopResize() {
                 window.removeEventListener("mousemove", resize);
                 window.removeEventListener("mouseup", stopResize);

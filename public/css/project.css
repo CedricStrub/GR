@@ -1,5 +1,5 @@
 
-.resizable {
+.widget {
     background: rgb(215, 255, 194);
     width: 500px;
     height: 200px;
@@ -50,7 +50,7 @@
     background: rgb(180, 180, 180);
 }
 
-.resizable .lock-btn {
+.widget .lock-btn {
     position: absolute;
     top: 5px;
     right: 5px;
@@ -63,11 +63,11 @@
     z-index: 1;
 }
 
-.resizable .lock-btn:hover {
+.widget .lock-btn:hover {
     background-color: #2261b7;
 }
 
-.resizable .remove-btn {
+.widget .remove-btn {
     position: absolute;
     top: 5px;
     left: 5px;
@@ -80,7 +80,7 @@
     z-index: 1;
 }
 
-.resizable .remove-btn:hover {
+.widget .remove-btn:hover {
     background-color: #2261b7;
 }
 

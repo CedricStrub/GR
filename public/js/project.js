@@ -105,7 +105,7 @@ function makeResizableDiv(div) {
 
 
 function hasCollisionWithOthers(element, newRect) {
-    const resizableElements = Array.from(selectedView.querySelectorAll('.resizable')).filter((el) => el !== element);
+    const resizableElements = Array.from(selectedView.querySelectorAll('.widget')).filter((el) => el !== element);
 
     for (const existingElement of resizableElements) {
         if (isRectanglesOverlapping(newRect, existingElement.getBoundingClientRect())) {
@@ -165,7 +165,7 @@ function dragElement(element, selectedView) {
 function findNearestNonOverlappingPosition(element, newX, newY, selectedView, stepSize = 5) {
     const viewRect = selectedView.getBoundingClientRect();
     const elementRect = element.getBoundingClientRect();
-    const resizableElements = Array.from(selectedView.querySelectorAll('.resizable')).filter((el) => el !== element);
+    const resizableElements = Array.from(selectedView.querySelectorAll('.widget')).filter((el) => el !== element);
 
     const potentialPositions = [];
 
@@ -207,9 +207,13 @@ function findNearestNonOverlappingPosition(element, newX, newY, selectedView, st
     return { x: parseFloat(element.style.left || 0), y: parseFloat(element.style.top || 0) };
 }
 
+let idWidget = 0
+
 function newWidget() {
     const resizableDiv = document.createElement('div');
-    resizableDiv.classList.add('resizable');
+    resizableDiv.classList.add('widget');
+    resizableDiv.setAttribute('id', 'widget_'+ idWidget)
+    idWidget += 1
     resizableDiv.innerHTML = `
         <button class="lock-btn">Lock</button>
         <button class="remove-btn">Remove</button>
@@ -300,7 +304,7 @@ function isRectanglesOverlapping(rect1, rect2) {
 function findNonOverlappingPosition(element, selectedView) {
     const elementRect = element.getBoundingClientRect();
     const viewRect = selectedView.getBoundingClientRect();
-    const resizableElements = Array.from(selectedView.querySelectorAll('.resizable'));
+    const resizableElements = Array.from(selectedView.querySelectorAll('.widget'));
 
     // Add the resizer of the selectedView to the resizableElements array
     const resizerView = selectedView.querySelector('.resizerView');
@@ -392,7 +396,7 @@ function createResizableView() {
         const scrollDifference = currentScrollTop - startScrollTop;
         const newHeight = startHeight + (e.clientY - startY) + scrollDifference;
     
-        const widgets = Array.from(resizer.parentElement.querySelectorAll('.resizable'));
+        const widgets = Array.from(resizer.parentElement.querySelectorAll('.widget'));
         const minHeight = Math.max(...widgets.map(w => w.offsetTop + w.offsetHeight));
     
         if (newHeight >= minHeight) {
@@ -427,10 +431,13 @@ function createResizableView() {
 }
 
 let selectedView = null;
+let idView = 0;
 
 function newView() {
     const page = document.querySelector('.page');
     const view = createResizableView();
+    view.setAttribute('id', 'view_'+idView)
+    idView += 1
     page.appendChild(view);
 
     if (selectedView === null) {
@@ -449,3 +456,37 @@ function selectView(view) {
 }
 
 newView()
+
+function extractSizeAndPosition() {
+    const views = document.querySelectorAll(".view");
+    const sizeAndPosition = {};
+
+    for (const view of views) {
+        const viewId = view.getAttribute("id");
+        sizeAndPosition[viewId] = {
+            top: view.offsetTop,
+            height: view.offsetHeight,
+            widgets: [],
+        };
+
+        const widgets = view.querySelectorAll(".widget");
+        for (const widget of widgets) {
+            const widgetId = widget.getAttribute("id");
+            sizeAndPosition[viewId].widgets.push({
+                id: widgetId,
+                left: widget.offsetLeft,
+                top: widget.offsetTop,
+                width: widget.offsetWidth,
+                height: widget.offsetHeight,
+            });
+        }
+    }
+
+    return sizeAndPosition;
+}
+
+function saveProject(){
+    const sizeAndPosition = extractSizeAndPosition();
+    const serializedData = JSON.stringify(sizeAndPosition);
+    console.log(serializedData)
+}

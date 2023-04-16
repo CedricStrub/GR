@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('project_widgets',function (Blueprint $table) {
 
             $table->id();
-            $table->titre();
-            $table->haut();
-            $table->gauche();
-            $table->hauteur();
-            $table->largeur();
-            $table->css_id();
-            $table->created_at();
-            $table->updated_at();
+            $table->string('titre');
+            $table->string('haut');
+            $table->string('gauche');
+            $table->string('hauteur');
+            $table->string('largeur');
+            $table->string('css_id');
+            $table->timestamp('created_at');
+            $table->timestamp('updated_at');
 
         });
     }

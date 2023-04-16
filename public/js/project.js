@@ -464,6 +464,7 @@ function extractSizeAndPosition() {
     for (const view of views) {
         const viewId = view.getAttribute("id");
         sizeAndPosition[viewId] = {
+            id: viewId,
             top: view.offsetTop,
             height: view.offsetHeight,
             widgets: [],
@@ -488,5 +489,27 @@ function extractSizeAndPosition() {
 function saveProject(){
     const sizeAndPosition = extractSizeAndPosition();
     const serializedData = JSON.stringify(sizeAndPosition);
-    console.log(serializedData)
+    console.log(serializedData);
+
+    // Get CSRF token from the meta tag
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+    
+    // Send JSON data to the controller
+    fetch('/projectSave', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': csrfToken
+        },
+        body: serializedData
+    })
+    .then(response => {
+        // Handle the response from the controller
+        console.log(response);
+    })
+    .catch(error => {
+        // Handle any errors that occur during the request
+        console.error(error);
+    });
 }

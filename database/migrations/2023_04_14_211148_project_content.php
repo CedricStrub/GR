@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('project_contents',function (Blueprint $table) {
 
             $table->id();
-            $table->project();
-            $table->foreign('project')->references('id')->on('project')->onDelete('cascade');
-            $table->view();
-            $table->foreign('project_view')->references('id')->on('view')->onDelete('cascade');
-            $table->widget();
-            $table->foreign('project_widget')->references('id')->on('widget')->onDelete('cascade');
-            $table->created_at();
-            $table->updated_at();
+            $table->unsignedBigInteger('project');
+            $table->foreign('project')->references('id')->on('projects')->onDelete('cascade');
+            $table->unsignedBigInteger('view');
+            $table->foreign('view')->references('id')->on('project_views')->onDelete('cascade');
+            $table->unsignedBigInteger('widget');
+            $table->foreign('widget')->references('id')->on('project_widgets')->onDelete('cascade');
+            $table->timestamp('created_at');
+            $table->timestamp('updated_at');
 
         });
     }

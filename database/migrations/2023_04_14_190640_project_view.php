@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('project_views',function (Blueprint $table) {
 
             $table->id();
-            $table->titre();
-            $table->haut();
-            $table->hauteur();
-            $table->css_id();
-            $table->created_at();
-            $table->updated_at();
+            $table->string('titre');
+            $table->string('haut');
+            $table->string('hauteur');
+            $table->string('css_id');
+            $table->timestamp('created_at');
+            $table->timestamp('updated_at');
 
         });
     }

@@ -8,6 +8,8 @@ function makeResizableDiv(div) {
             e.preventDefault();
             window.addEventListener("mousemove", resize);
             window.addEventListener("mouseup", stopResize);
+                // Add click event listener to update the selected view
+            selectedView = resizer.parentElement.parentElement;
     
             let startX = e.clientX;
             let startY = e.clientY;
@@ -209,11 +211,20 @@ function findNearestNonOverlappingPosition(element, newX, newY, selectedView, st
 
 let idWidget = 0
 
-function newWidget() {
+function newWidget(widgetObj = null, targetView = selectedView) {
     const resizableDiv = document.createElement('div');
     resizableDiv.classList.add('widget');
-    resizableDiv.setAttribute('id', 'widget_'+ idWidget)
-    idWidget += 1
+    if (widgetObj) {
+        resizableDiv.setAttribute('id', widgetObj.id);
+        resizableDiv.style.left = widgetObj.left + 'px';
+        resizableDiv.style.top = widgetObj.top + 'px';
+        resizableDiv.style.width = widgetObj.width + 'px';
+        resizableDiv.style.height = widgetObj.height + 'px';
+        idWidget += 1;
+    } else {
+        resizableDiv.setAttribute('id', 'widget_' + idWidget);
+        idWidget += 1;
+    }
     resizableDiv.innerHTML = `
         <button class="lock-btn">Lock</button>
         <button class="remove-btn">Remove</button>
@@ -228,8 +239,8 @@ function newWidget() {
     removeButton.addEventListener('click', () => removeDiv(resizableDiv));
 
     // Append the resizableDiv to the body or a container of your choice.
-    if (selectedView) {
-        selectedView.appendChild(resizableDiv);
+    if (targetView) {
+        targetView.appendChild(resizableDiv);
     } else {
         alert('No view is selected.');
     }
@@ -238,10 +249,12 @@ function newWidget() {
     makeResizableDiv(resizableDiv);
 
     // Apply the drag functionality to the new element.
-    dragElement(resizableDiv, selectedView);
+    dragElement(resizableDiv, targetView);
 
-    resizableDiv.style.left = '0px';
-    resizableDiv.style.top = '0px';
+    if (!widgetObj) {
+        resizableDiv.style.left = '0px';
+        resizableDiv.style.top = '0px';
+    }
 
     const topLeftCornerRect = {
         left: selectedView.getBoundingClientRect().left,
@@ -262,10 +275,11 @@ function newWidget() {
         resizableDiv.style.left = newPosition.left + 'px';
         resizableDiv.style.top = newPosition.top + 'px';
     } else {
-        resizableDiv.style.left = '0px';
-        resizableDiv.style.top = '0px';
+        if (!widgetObj) {
+            resizableDiv.style.left = '0px';
+            resizableDiv.style.top = '0px';
+        }
     }
-
 
     // Set the initial lock state.
     toggleLock(resizableDiv);
@@ -275,7 +289,26 @@ function newWidget() {
     const lockButton = resizableDiv.querySelector('.lock-btn');
     lockButton.addEventListener('click', () => toggleLock(resizableDiv));
 
+    return resizableDiv;
 }
+
+function loadWidgets(jsonData) {
+    for (const viewKey in jsonData) {
+        if (jsonData.hasOwnProperty(viewKey)) {
+            const viewObj = jsonData[viewKey];
+            const viewElement = document.getElementById(viewObj.id);
+
+            if (viewElement) {
+                for (const widgetObj of viewObj.widgets) {
+                    newWidget(widgetObj, viewElement);
+                }
+            }
+        }
+    }
+}
+
+
+
 
 
 function toggleLock(element) {
@@ -433,18 +466,29 @@ function createResizableView() {
 let selectedView = null;
 let idView = 0;
 
-function newView() {
+function newView(viewObj = null) {
     const page = document.querySelector('.page');
     const view = createResizableView();
-    view.setAttribute('id', 'view_'+idView)
-    idView += 1
+
     page.appendChild(view);
+
+    if (viewObj) {
+        view.style.height = viewObj.height + 'px';
+        view.style.left = '0px';
+        view.style.width = '100%';
+        view.setAttribute('id', viewObj.id);
+        idView += 1;
+    } else {
+        view.setAttribute('id', 'view_' + idView);
+        idView += 1;
+    }
 
     if (selectedView === null) {
         selectedView = view;
         view.classList.add('selected');
     }
 }
+
 const page = document.querySelector('.page');
 
 function selectView(view) {
@@ -516,7 +560,7 @@ function saveProject(){
 
 function loadProject(){
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-    let id = 11
+    let id = 12
     // Send JSON data to the controller
     fetch('/projectLoad', {
         method: 'POST',
@@ -537,8 +581,21 @@ function loadProject(){
             // Handle the response from the controller
             if (data.status === 'success') {
                 const jsonData = data.data;
-                // Use jsonData as needed
                 console.log(jsonData);
+
+                // Remove existing views
+                const existingViews = document.querySelectorAll('.view');
+                existingViews.forEach((view) => view.remove());
+
+                // Create views from jsonData
+                for (const viewKey in jsonData) {
+                    if (jsonData.hasOwnProperty(viewKey)) {
+                        const viewObj = jsonData[viewKey];
+                        newView(viewObj);
+                    }
+                }
+
+                loadWidgets(jsonData);
             } else {
                 console.error('Error: ' + data.message);
             }

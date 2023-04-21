@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreign('project')->references('id')->on('projects')->onDelete('cascade');
             $table->unsignedBigInteger('view');
             $table->foreign('view')->references('id')->on('project_views')->onDelete('cascade');
-            $table->unsignedBigInteger('widget');
+            $table->unsignedBigInteger('widget')->nullable()->default(null);
             $table->foreign('widget')->references('id')->on('project_widgets')->onDelete('cascade');
             $table->timestamp('created_at');
             $table->timestamp('updated_at');

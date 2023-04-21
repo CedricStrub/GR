@@ -6,6 +6,7 @@
 <button onclick="newWidget()">new widget</button>
 <button onclick="newView()">new view</button>
 <button onclick="saveProject()">save project</button>
+<button onclick="loadProject()">load project</button>
 
 
 <div class="page">

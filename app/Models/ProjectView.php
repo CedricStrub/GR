@@ -14,6 +14,7 @@ class ProjectView extends Model
         'haut',
         'hauteur',
         'css_id',
+        'project',
         'created_at',
         'updated_at'
     ];

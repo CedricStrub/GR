@@ -29,4 +29,6 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
 
     Route::post('/projectSave', [ControllerProject::class, 'save']);
 
+    Route::post('/projectLoad', [ControllerProject::class, 'load']);
+
 });

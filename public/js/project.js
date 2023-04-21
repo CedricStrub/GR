@@ -513,3 +513,38 @@ function saveProject(){
         console.error(error);
     });
 }
+
+function loadProject(){
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+    let id = 11
+    // Send JSON data to the controller
+    fetch('/projectLoad', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+        },
+        body: id,
+    })
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to fetch data');
+            }
+        })
+        .then((data) => {
+            // Handle the response from the controller
+            if (data.status === 'success') {
+                const jsonData = data.data;
+                // Use jsonData as needed
+                console.log(jsonData);
+            } else {
+                console.error('Error: ' + data.message);
+            }
+        })
+        .catch((error) => {
+            // Handle any errors that occur during the request
+            console.error(error);
+        });
+}

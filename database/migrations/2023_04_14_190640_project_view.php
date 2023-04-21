@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('haut');
             $table->string('hauteur');
             $table->string('css_id');
+            $table->unsignedBigInteger('project');
+            $table->foreign('project')->references('id')->on('projects')->onDelete('cascade');
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
 

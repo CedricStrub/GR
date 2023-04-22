@@ -8,7 +8,11 @@
     <title>Galaxy-Roads</title>
 
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <!-- Styles -->
+    @livewireStyles
 </head>
 <body>
 <nav class="top-nav">

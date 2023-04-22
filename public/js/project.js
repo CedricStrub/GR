@@ -560,7 +560,7 @@ function saveProject(){
 
 function loadProject(){
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-    let id = 12
+    let id = 13
     // Send JSON data to the controller
     fetch('/projectLoad', {
         method: 'POST',

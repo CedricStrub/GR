@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControllerProject;
+use App\Http\Controllers\InterfaceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,5 +35,7 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
     Route::post('/projectSave', [ControllerProject::class, 'save']);
 
     Route::post('/projectLoad', [ControllerProject::class, 'load']);
+
+    Route::get('/test', [InterfaceController::class, 'setting']);
 
 });

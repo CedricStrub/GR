@@ -341,3 +341,75 @@ input:focus {
 .invisible{
     opacity: 0;
 }
+
+.project-icon{
+    width: 40px;
+    height: 40px;
+    background-image: url('../project.png');
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    right: 137.5px;
+    top: 5px;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.dark-icon{
+    width: 40px;
+    height: 40px;
+    background-image: url('../dark.png');
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    right: 117.5px;
+    top: 55px;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.settings-icon{
+    width: 40px;
+    height: 40px;
+    background-image: url('../settings.png');
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    right: 12.5px;
+    top: 117.5px;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.sc-text-high{
+    width: 150px;
+    height: 35px;
+    color: var(--brd);
+    font-size: 15px;
+    position: absolute;
+    z-index: 20;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.sc-text-mid{
+    width: 150px;
+    height: 15px;
+    color: var(--brd);
+    font-size: 12.5px;
+    position: absolute;
+    z-index: 20;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.sc-text-low{
+    width: 150px;
+    height: 15px;
+    color: var(--brd);
+    font-size: 11px;
+    position: absolute;
+    z-index: 20;
+    overflow: hidden;
+    pointer-events: none;
+}

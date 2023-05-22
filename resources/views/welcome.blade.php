@@ -14,8 +14,4 @@
 
 
 
-
-
-
-
 @include('footer')

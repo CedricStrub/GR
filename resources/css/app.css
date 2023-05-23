@@ -3,3 +3,5 @@
     width: 200px;
     height: 100px;
 }
+
+@import "~dropzone/dist/dropzone.css";

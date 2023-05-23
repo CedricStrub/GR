@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControllerProject;
 use App\Http\Controllers\InterfaceController;
+use App\Http\Controllers\FileUploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,10 @@ Route::get('/project', function () {
     return view('project');
 });
 
+Route::get('/dropzone', function () {
+    return view('dropzone');
+});
+
 Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -37,5 +42,9 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
     Route::post('/projectLoad', [ControllerProject::class, 'load']);
 
     Route::get('/test', [InterfaceController::class, 'setting']);
+
+    Route::get('image/upload',[FileUploadController::class, 'fileCreate']);
+    Route::post('image/upload/store',[FileUploadController::class, 'fileStore']);
+    Route::post('image/delete',[FileUploadController::class, 'fileDestroy']);
 
 });

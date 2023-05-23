@@ -37,6 +37,7 @@ let pf_b1_ico = document.querySelector('#project-icon')
 let pf_b2_ico = document.querySelector('#dark-icon')
 let pf_b3_ico = document.querySelector('#settings-icon')
 
+
 const b1_ico_i = KUTE.fromTo(pf_b1_ico, {opacity: 1}, {opacity: 0}, { duration: 100})
 const b1_ico_v = KUTE.fromTo(pf_b1_ico, {opacity: 0}, {opacity: 1}, { duration: 50 , delay: 200})
 const b2_ico_i = KUTE.fromTo(pf_b2_ico, {opacity: 1}, {opacity: 0}, { duration: 100})
@@ -108,14 +109,13 @@ function pDeploy(){
     pf_b2_f.addEventListener('mouseleave',pFold)
     pf_b3_f.addEventListener('mouseleave',pFold)
 }
- 
+
 
 let prev = null
 
 function pFold(event){
 
     let tid = event.explicitOriginalTarget.id
-    console.log(tid)
     
     if(tid != 'p-b1-f' && tid != 'p-b2-f' && tid != 'p-b3-f' && tid != 'p-f' || prev == tid){
         pf_f.addEventListener('mouseenter',pDeploy)

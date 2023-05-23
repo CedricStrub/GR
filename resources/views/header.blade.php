@@ -36,7 +36,7 @@
         @endif
         @if (isset($shortcut[2]))
         <div class="search-sc-12">
-            <p id="sc2-txt" class="sc-text-mid" style="left:285px; top:17.5px;">{{$shortcut[2][0]}} un peut long  c'est vraiment un très long nom tu crois pas ?</p>
+            <p id="sc2-txt" class="sc-text-mid" style="left:285px; top:12.5px;">{{$shortcut[2][0]}}</p>
             <svg id="s-sc-2" width="1440" height="56" viewBox="0 0 1440 56" fill="none" >
             <path id="sc2-o" class="svg-s-o" d="M221 50H20.3465L1 0H204.647L221 50Z" transform="translate(249, 0)"/>
             <path id="sc2-i" class="svg-s-i" d="M201 40.5L190.529 9.5H21L32.2051 40.5H201Z" transform="translate(249, 0)"/>
@@ -50,7 +50,7 @@
         @endif
         @if (isset($shortcut[0]))
         <div class="search-sc-10">
-            <p id="sc0-txt" class="sc-text-high" style="left:485px; top:12.5px;">{{$shortcut[0][0]}} c'est vraiment un très long nom tu crois pas ?</p>
+            <p id="sc0-txt" class="sc-text-high" style="left:485px; top:12.5px;">{{$shortcut[0][0]}}</p>
             <svg id="s-sc-0" width="1440" height="66" viewBox="0 0 1440 66" fill="none" >
             <path id="sc0-o" class="svg-s-o" d="M21.2696 60.5L1.5 0.5H204L221.5 60.5H21.2696Z" transform="translate(452, 0)"/>
             <path id="sc0-i" class="svg-s-i" d="M201.5 49.5L188.713 9.5H21.5L34.0916 49.5H201.5Z" transform="translate(452, 0)"/>

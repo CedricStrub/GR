@@ -1,6 +1,7 @@
 let sc0_o_d,sc0_o_f,sc0_o_r,sc0_o_e,sc0_i_r,sc0_i_e,sc_0_o,sc_0_i,n_0,scm0_f,scm0_d,scm0_o_r,scm0_i_r,scm0_o_e,scm0_i_e,sscm0_f,sscm0_d
 let s_sc0_1,s_n_0,e_n_0,sc0_t_s,e_sc0_1,sc0_t_e,ssc0_t_s,ssc0_t_e,ssc0_t_r,sc0_n_r,sct0_o_e,sct0_o_r,sct0_i_e,sct0_i_r,ssct0_d,ssct0_f
 let sct0_d,sct0_f,sctn0_d,sctn0_f,ssctn0_d,ssctn0_f,sct0_r_o,sct0_e_o,sct0_r_i,sct0_e_i,sct0_r_n,sct0_e_n,m0_o_f,m0_o_d,ms0_o_f,ms0_o_d
+let sc0_txt,sc0_t_d,sc0_t_f,sc0t_f,sc0t_d,sc0tf_f,sc0tf_d,sc0_tf_f,sc0_tf_d,sc0td_f,sc0td_d,sc0_td_f,sc0_td_d
 //Shortcut 0
 
 if(document.querySelector('.search-sc-10') != undefined){
@@ -17,6 +18,7 @@ if(document.querySelector('.search-sc-10') != undefined){
     sc_0_o = document.querySelector('#sc0-o')
     sc_0_i = document.querySelector('#sc0-i')
     n_0 = document.querySelector('#n-0')
+    sc0_txt = document.querySelector('#sc0-txt')
 
     //definition des morph (scm = shortcut morph / sm = search morph / d = deploy / f = fold / o = outer / i = inner)
     scm0_f = KUTE.fromTo(sc_0_o, { path: sc0_o_d }, { path: sc0_o_f }, { easing: 'easingExponentialOut',duration: 50 })
@@ -39,6 +41,12 @@ if(document.querySelector('.search-sc-10') != undefined){
     ssc0_t_e = { translateX: 139.5, translateY: 5 }
     ssc0_t_r = { translateX: 132, translateY: 5 }
     sc0_n_r = { translateX: 130, translateY: 0 }
+    sc0_t_d = { translateX: 2, translateY: 5 }
+    sc0_t_f = { translateX: 0, translateY: 0 }
+    sc0_tf_d = { translateX: -322, translateY: 0 }
+    sc0_tf_f = { translateX: 0, translateY: 0 }
+    sc0_td_d = { translateX: -320, translateY: 5 }
+    sc0_td_f = { translateX: -322, translateY: 0 }
 
     //Declaration des animations
     sct0_o_e = KUTE.fromTo(sc_0_o, sc0_t_s, sc0_t_e, { easing: 'easingExponentialOut',duration: 250 })
@@ -59,6 +67,12 @@ if(document.querySelector('.search-sc-10') != undefined){
     sct0_e_i = KUTE.fromTo(sc_0_i, sc0_t_e, sc0_t_s, { easing: 'easingExponentialOut',duration: 50 })
     sct0_r_n = KUTE.fromTo(n_0, sc0_t_s, sc0_n_r, { easing: 'easingExponentialOut',duration: 50 })
     sct0_e_n = KUTE.fromTo(n_0, sc0_n_r, sc0_t_s, { easing: 'easingExponentialOut',duration: 50 })
+    sc0t_f = KUTE.fromTo(sc0_txt, sc0_t_d, sc0_t_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc0t_d = KUTE.fromTo(sc0_txt, sc0_t_f, sc0_t_d, { easing: 'easingExponentialOut',duration: 50 })
+    sc0tf_f = KUTE.fromTo(sc0_txt, sc0_tf_d, sc0_tf_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc0tf_d = KUTE.fromTo(sc0_txt, sc0_tf_f, sc0_tf_d, { easing: 'easingExponentialOut',duration: 50 })
+    sc0td_f = KUTE.fromTo(sc0_txt, sc0_td_d, sc0_td_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc0td_d = KUTE.fromTo(sc0_txt, sc0_td_f, sc0_td_d, { easing: 'easingExponentialOut',duration: 50 })
 
     //masque de selection
     m0_o_f = document.querySelector('#m0-o-f')
@@ -76,7 +90,7 @@ if(document.querySelector('.search-sc-10') != undefined){
 let sc1_o_d,sc1_o_f,sc1_o_r,sc1_o_e,sc1_i_r,sc1_i_e,sc_1_o,sc_1_i,n_1,scm1_f,scm1_d,scm1_o_r,scm1_i_r,scm1_o_e,scm1_i_e,sscm1_f,sscm1_d
 let s_sc1_1,s_n_1,e_n_1,sc1_t_s,e_sc1_1,sc1_t_e,ssc1_t_s,ssc1_t_e,ssc1_t_r,sc1_n_r,ssct1_d,ssct1_f,sct1_d,sct1_f,sctn1_d,sctn1_f
 let ssctn1_d,ssctn1_f,sct1_r_o,sct1_e_o,sct1_r_i,sct1_e_i,sct1_r_n,sct1_e_n,m1_o_f,m1_o_d,ms1_o_f,ms1_o_d
-
+let sc1_txt,sc1_t_d,sc1_t_f,sc1t_f,sc1t_d,sc1tf_f,sc1tf_d,sc1_tf_f,sc1_tf_d,sc1td_f,sc1td_d,sc1_td_f,sc1_td_d
 //Shortcut 1
 
 if(document.querySelector('.search-sc-11') != undefined){
@@ -93,6 +107,7 @@ if(document.querySelector('.search-sc-11') != undefined){
     sc_1_o = document.querySelector('#sc1-o')
     sc_1_i = document.querySelector('#sc1-i')
     n_1 = document.querySelector('#n-1')
+    sc1_txt = document.querySelector('#sc1-txt')
 
     //definition des morph (scm = shortcut morph / sm = search morph / d = deploy / f = fold / o = outer / i = inner)
     scm1_f = KUTE.fromTo(sc_1_o, { path: sc1_o_d }, { path: sc1_o_f }, { easing: 'easingExponentialOut',duration: 200 })
@@ -115,6 +130,12 @@ if(document.querySelector('.search-sc-11') != undefined){
     ssc1_t_e = { translateX: 1211.5, translateY: 5 }
     ssc1_t_r = { translateX: 1076, translateY: 5 }
     sc1_n_r = { translateX: 1077, translateY: 0 }
+    sc1_t_d = { translateX: -2, translateY: 5 }
+    sc1_t_f = { translateX: 0, translateY: 0 }
+    sc1_tf_d = { translateX: 443, translateY: 0 }
+    sc1_tf_f = { translateX: 0, translateY: 0 }
+    sc1_td_d = { translateX: 441, translateY: 5 }
+    sc1_td_f = { translateX: 443, translateY: 0 }
 
     //Declaration des animations
     ssct1_d = KUTE.fromTo(sc_1_i, ssc1_t_s, ssc1_t_e, { easing: 'easingExponentialOut',duration: 50 })
@@ -131,6 +152,12 @@ if(document.querySelector('.search-sc-11') != undefined){
     sct1_e_i = KUTE.fromTo(sc_1_i, sc1_t_e, sc1_t_s, { easing: 'easingExponentialOut',duration: 50 })
     sct1_r_n = KUTE.fromTo(n_1, sc1_t_s, sc1_n_r, { easing: 'easingExponentialOut',duration: 50 })
     sct1_e_n = KUTE.fromTo(n_1, sc1_n_r, sc1_t_s, { easing: 'easingExponentialOut',duration: 50 })
+    sc1t_f = KUTE.fromTo(sc1_txt, sc1_t_d, sc1_t_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc1t_d = KUTE.fromTo(sc1_txt, sc1_t_f, sc1_t_d, { easing: 'easingExponentialOut',duration: 50 })
+    sc1tf_f = KUTE.fromTo(sc1_txt, sc1_tf_d, sc1_tf_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc1tf_d = KUTE.fromTo(sc1_txt, sc1_tf_f, sc1_tf_d, { easing: 'easingExponentialOut',duration: 50 })
+    sc1td_f = KUTE.fromTo(sc1_txt, sc1_td_d, sc1_td_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc1td_d = KUTE.fromTo(sc1_txt, sc1_td_f, sc1_td_d, { easing: 'easingExponentialOut',duration: 50 })
 
 
     //masque de selection
@@ -149,6 +176,7 @@ if(document.querySelector('.search-sc-11') != undefined){
 let sc2_o_d,sc2_o_f,sc2_o_r,sc2_o_e,sc2_i_r,sc2_i_e,sc_2_o,sc_2_i,n_2,scm2_f,scm2_d,scm2_o_r,scm2_i_r,scm2_o_e,scm2_i_e,sscm2_f,sscm2_d
 let s_sc2_1,s_n_2,e_n_2,sc2_t_s,e_sc2_1,sc2_t_e,ssc2_t_s,ssc2_t_e,ssc2_t_r,sc2_n_r,sct2_o_e,sct2_o_r,sct2_i_e,sct2_i_r,ssct2_d,ssct2_f
 let sct2_d,sct2_f,sctn2_d,sctn2_f,ssctn2_d,ssctn2_f,sct2_r_o,sct2_e_o,sct2_r_i,sct2_e_i,sct2_r_n,sct2_e_n,m2_o_f,m2_o_d,ms2_o_f,ms2_o_d
+let sc2_txt,sc2_t_d,sc2_t_f,sc2t_f,sc2t_d,sc2tf_f,sc2tf_d,sc2_tf_f,sc2_tf_d,sc2td_f,sc2td_d,sc2_td_f,sc2_td_d
 //Shortcut 2
 
 if(document.querySelector('.search-sc-12') != undefined){
@@ -166,6 +194,7 @@ if(document.querySelector('.search-sc-12') != undefined){
     sc_2_o = document.querySelector('#sc2-o')
     sc_2_i = document.querySelector('#sc2-i')
     n_2 = document.querySelector('#n-2')
+    sc2_txt = document.querySelector('#sc2-txt')
 
     //definition des morph (scm = shortcut morph / sm = search morph / d = deploy / f = fold / o = outer / i = inner)
     scm2_f = KUTE.fromTo(sc_2_o, { path: sc2_o_d }, { path: sc2_o_f }, { easing: 'easingExponentialOut',duration: 200 })
@@ -188,6 +217,12 @@ if(document.querySelector('.search-sc-12') != undefined){
     ssc2_t_e = { translateX: 88.5, translateY: 5 }
     ssc2_t_r = { translateX: 82, translateY: 5 }
     sc2_n_r = { translateX: 80, translateY: 0 }
+    sc2_t_d = { translateX: 2, translateY: 5 }
+    sc2_t_f = { translateX: 0, translateY: 0 }
+    sc2_tf_d = { translateX: -177, translateY: 0 }
+    sc2_tf_f = { translateX: 0, translateY: 0 }
+    sc2_td_d = { translateX: -175, translateY: 5 }
+    sc2_td_f = { translateX: -177, translateY: 0 }
 
     //Declaration des animations
     ssct2_d = KUTE.fromTo(sc_2_i, ssc2_t_s, ssc2_t_e, { easing: 'easingExponentialOut',duration: 50 })
@@ -204,6 +239,12 @@ if(document.querySelector('.search-sc-12') != undefined){
     sct2_e_i = KUTE.fromTo(sc_2_i, sc2_t_e, sc2_t_s, { easing: 'easingExponentialOut',duration: 50 })
     sct2_r_n = KUTE.fromTo(n_2, sc2_t_s, sc2_n_r, { easing: 'easingExponentialOut',duration: 50 })
     sct2_e_n = KUTE.fromTo(n_2, sc2_n_r, sc2_t_s, { easing: 'easingExponentialOut',duration: 50 })
+    sc2t_f = KUTE.fromTo(sc2_txt, sc2_t_d, sc2_t_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc2t_d = KUTE.fromTo(sc2_txt, sc2_t_f, sc2_t_d, { easing: 'easingExponentialOut',duration: 50 })
+    sc2tf_f = KUTE.fromTo(sc2_txt, sc2_tf_d, sc2_tf_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc2tf_d = KUTE.fromTo(sc2_txt, sc2_tf_f, sc2_tf_d, { easing: 'easingExponentialOut',duration: 50 })
+    sc2td_f = KUTE.fromTo(sc2_txt, sc2_td_d, sc2_td_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc2td_d = KUTE.fromTo(sc2_txt, sc2_td_f, sc2_td_d, { easing: 'easingExponentialOut',duration: 50 })
 
 
     //masque de selection
@@ -222,6 +263,7 @@ if(document.querySelector('.search-sc-12') != undefined){
 let sc3_o_d,sc3_o_f,sc3_o_r,sc3_o_e,sc3_i_r,sc3_i_e,sc_3_o,sc_3_i,n_3,scm3_f,scm3_d,scm3_o_r,scm3_i_r,scm3_o_e,scm3_i_e,sscm3_f,sscm3_d
 let s_sc3_1,s_n_3,e_n_3,sc3_t_s,e_sc3_1,sc3_t_e,ssc3_t_s,ssc3_t_e,ssc3_t_r,sc3_n_r,sct3_o_e,sct3_o_r,sct3_i_e,sct3_i_r,ssct3_d,ssct3_f
 let sct3_d,sct3_f,sctn3_d,sctn3_f,ssctn3_d,ssctn3_f,sct3_r_o,sct3_e_o,sct3_r_i,sct3_e_i,sct3_r_n,sct3_e_n,m3_o_f,m3_o_d,ms3_o_f,ms3_o_d
+let sc3_txt,sc3_t_d,sc3_t_f,sc3t_f,sc3t_d,sc3tf_f,sc3tf_d,sc3_tf_f,sc3_tf_d,sc3td_f,sc3td_d,sc3_td_f,sc3_td_d
 //Shortcut 3
 
 if(document.querySelector('.search-sc-13') != undefined){
@@ -239,6 +281,7 @@ if(document.querySelector('.search-sc-13') != undefined){
     sc_3_o = document.querySelector('#sc3-o')
     sc_3_i = document.querySelector('#sc3-i')
     n_3 = document.querySelector('#n-3')
+    sc3_txt = document.querySelector('#sc3-txt')
 
     //definition des morph (scm = shortcut morph / sm = search morph / d = deploy / f = fold / o = outer / i = inner)
     scm3_f = KUTE.fromTo(sc_3_o, { path: sc3_o_d }, { path: sc3_o_f }, { easing: 'easingExponentialOut',duration: 200 })
@@ -261,6 +304,12 @@ if(document.querySelector('.search-sc-13') != undefined){
     ssc3_t_e = { translateX: 1276.5, translateY: 5 }
     ssc3_t_r = { translateX: 1130, translateY: 5 }
     sc3_n_r = { translateX: 1132, translateY: 0 }
+    sc3_t_d = { translateX: -2, translateY: 5 }
+    sc3_t_f = { translateX: 0, translateY: 0 }
+    sc3_tf_d = { translateX: 306, translateY: 0 }
+    sc3_tf_f = { translateX: 0, translateY: 0 }
+    sc3_td_d = { translateX: 304, translateY: 5 }
+    sc3_td_f = { translateX: 306, translateY: 0 }
 
     //Declaration des animations
     ssct3_d = KUTE.fromTo(sc_3_i, ssc3_t_s, ssc3_t_e, { easing: 'easingExponentialOut',duration: 50 })
@@ -277,6 +326,12 @@ if(document.querySelector('.search-sc-13') != undefined){
     sct3_e_i = KUTE.fromTo(sc_3_i, sc3_t_e, sc3_t_s, { easing: 'easingExponentialOut',duration: 50 })
     sct3_r_n = KUTE.fromTo(n_3, sc3_t_s, sc3_n_r, { easing: 'easingExponentialOut',duration: 50 })
     sct3_e_n = KUTE.fromTo(n_3, sc3_n_r, sc3_t_s, { easing: 'easingExponentialOut',duration: 50 })
+    sc3t_f = KUTE.fromTo(sc3_txt, sc3_t_d, sc3_t_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc3t_d = KUTE.fromTo(sc3_txt, sc3_t_f, sc3_t_d, { easing: 'easingExponentialOut',duration: 50 })
+    sc3tf_f = KUTE.fromTo(sc3_txt, sc3_tf_d, sc3_tf_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc3tf_d = KUTE.fromTo(sc3_txt, sc3_tf_f, sc3_tf_d, { easing: 'easingExponentialOut',duration: 50 })
+    sc3td_f = KUTE.fromTo(sc3_txt, sc3_td_d, sc3_td_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc3td_d = KUTE.fromTo(sc3_txt, sc3_td_f, sc3_td_d, { easing: 'easingExponentialOut',duration: 50 })
 
     //masque de selection
     m3_o_f = document.querySelector('#m3-o-f')
@@ -295,6 +350,7 @@ if(document.querySelector('.search-sc-13') != undefined){
 let sc4_o_d,sc4_o_f,sc4_o_r,sc4_o_e,sc4_i_r,sc4_i_e,sc_4_o,sc_4_i,n_4,scm4_f,scm4_d,scm4_o_r,scm4_i_r,scm4_o_e,scm4_i_e,sscm4_f,sscm4_d
 let s_sc4_1,s_n_4,e_n_4,sc4_t_s,e_sc4_1,sc4_t_e,ssc4_t_s,ssc4_t_e,ssc4_t_r,sc4_n_r,sct4_o_e,sct4_o_r,sct4_i_e,sct4_i_r,ssct4_d,ssct4_f
 let sct4_d,sct4_f,sctn4_d,sctn4_f,ssctn4_d,ssctn4_f,sct4_r_o,sct4_e_o,sct4_r_i,sct4_e_i,sct4_r_n,sct4_e_n,m4_o_f,m4_o_d,ms4_o_f,ms4_o_d
+let sc4_txt,sc4_t_d,sc4_t_f,sc4t_f,sc4t_d,sc4tf_f,sc4tf_d,sc4_tf_f,sc4_tf_d,sc4td_f,sc4td_d,sc4_td_f,sc4_td_d
 //Shortcut 4
 
 if(document.querySelector('.search-sc-14') != undefined){
@@ -312,6 +368,7 @@ if(document.querySelector('.search-sc-14') != undefined){
     sc_4_o = document.querySelector('#sc4-o')
     sc_4_i = document.querySelector('#sc4-i')
     n_4 = document.querySelector('#n-4')
+    sc4_txt = document.querySelector('#sc4-txt')
 
     //definition des morph (scm = shortcut morph / sm = search morph / d = deploy / f = fold / o = outer / i = inner)
     scm4_f = KUTE.fromTo(sc_4_o, { path: sc4_o_d }, { path: sc4_o_f }, { easing: 'easingExponentialOut',duration: 200 })
@@ -334,6 +391,12 @@ if(document.querySelector('.search-sc-14') != undefined){
     ssc4_t_e = { translateX: 50.5, translateY: 5 }
     ssc4_t_r = { translateX: 44, translateY: 5 }
     sc4_n_r = { translateX: 42, translateY: 0 }
+    sc4_t_d = { translateX: 2, translateY: 5 }
+    sc4_t_f = { translateX: 0, translateY: 0 }
+    sc4_tf_d = { translateX: -8, translateY: 0 }
+    sc4_tf_f = { translateX: 0, translateY: 0 }
+    sc4_td_d = { translateX: -6, translateY: 5 }
+    sc4_td_f = { translateX: -8, translateY: 0 }
 
     //Declaration des animations
     ssct4_d = KUTE.fromTo(sc_4_i, ssc4_t_s, ssc4_t_e, { easing: 'easingExponentialOut',duration: 50 })
@@ -350,6 +413,12 @@ if(document.querySelector('.search-sc-14') != undefined){
     sct4_e_i = KUTE.fromTo(sc_4_i, sc4_t_e, sc4_t_s, { easing: 'easingExponentialOut',duration: 50 })
     sct4_r_n = KUTE.fromTo(n_4, sc4_t_s, sc4_n_r, { easing: 'easingExponentialOut',duration: 50 })
     sct4_e_n = KUTE.fromTo(n_4, sc4_n_r, sc4_t_s, { easing: 'easingExponentialOut',duration: 50 })
+    sc4t_f = KUTE.fromTo(sc4_txt, sc4_t_d, sc4_t_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc4t_d = KUTE.fromTo(sc4_txt, sc4_t_f, sc4_t_d, { easing: 'easingExponentialOut',duration: 50 })
+    sc4tf_f = KUTE.fromTo(sc4_txt, sc4_tf_d, sc4_tf_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc4tf_d = KUTE.fromTo(sc4_txt, sc4_tf_f, sc4_tf_d, { easing: 'easingExponentialOut',duration: 50 })
+    sc4td_f = KUTE.fromTo(sc4_txt, sc4_td_d, sc4_td_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc4td_d = KUTE.fromTo(sc4_txt, sc4_td_f, sc4_td_d, { easing: 'easingExponentialOut',duration: 50 })
 
     //masque de selection
     m4_o_f = document.querySelector('#m4-o-f')
@@ -369,6 +438,7 @@ if(document.querySelector('.search-sc-14') != undefined){
 let sc5_o_d,sc5_o_f,sc5_o_r,sc5_o_e,sc5_i_r,sc5_i_e,sc_5_o,sc_5_i,n_5,scm5_f,scm5_d,scm5_o_r,scm5_i_r,scm5_o_e,scm5_i_e,sscm5_f,sscm5_d
 let s_sc5_1,s_n_5,e_n_5,sc5_t_s,e_sc5_1,sc5_t_e,ssc5_t_s,ssc5_t_e,ssc5_t_r,sc5_n_r,sct5_o_e,sct5_o_r,sct5_i_e,sct5_i_r,ssct5_d,ssct5_f
 let sct5_d,sct5_f,sctn5_d,sctn5_f,ssctn5_d,ssctn5_f,sct5_r_o,sct5_e_o,sct5_r_i,sct5_e_i,sct5_r_n,sct5_e_n,m5_o_f,m5_o_d,ms5_o_f,ms5_o_d
+let sc5_txt,sc5_t_d,sc5_t_f,sc5t_f,sc5t_d,sc5tf_f,sc5tf_d,sc5_tf_f,sc5_tf_d,sc5td_f,sc5td_d,sc5_td_f,sc5_td_d
 //Shortcut 5
 
 if(document.querySelector('.search-sc-15') != undefined){
@@ -386,6 +456,7 @@ if(document.querySelector('.search-sc-15') != undefined){
     sc_5_o = document.querySelector('#sc5-o')
     sc_5_i = document.querySelector('#sc5-i')
     n_5 = document.querySelector('#n-5')
+    sc5_txt = document.querySelector('#sc5-txt')
 
     //definition des morph (scm = shortcut morph / sm = search morph / d = deploy / f = fold / o = outer / i = inner)
     scm5_f = KUTE.fromTo(sc_5_o, { path: sc5_o_d }, { path: sc5_o_f }, { easing: 'easingExponentialOut',duration: 200 })
@@ -409,6 +480,12 @@ if(document.querySelector('.search-sc-15') != undefined){
     ssc5_t_e = { translateX: 1330.5, translateY: 5 }
     ssc5_t_r = { translateX: 1165, translateY: 5 }
     sc5_n_r = { translateX: 1167, translateY: 0 }
+    sc5_t_d = { translateX: -2, translateY: 5 }
+    sc5_t_f = { translateX: 0, translateY: 0 }
+    sc5_tf_d = { translateX: 155, translateY: 0 }
+    sc5_tf_f = { translateX: 0, translateY: 0 }
+    sc5_td_d = { translateX: 157, translateY: 5 }
+    sc5_td_f = { translateX: 155, translateY: 0 }
 
     //Declaration des animations
     ssct5_d = KUTE.fromTo(sc_5_i, ssc5_t_s, ssc5_t_e, { easing: 'easingExponentialOut',duration: 50 })
@@ -425,6 +502,12 @@ if(document.querySelector('.search-sc-15') != undefined){
     sct5_e_i = KUTE.fromTo(sc_5_i, sc5_t_e, sc5_t_s, { easing: 'easingExponentialOut',duration: 50 })
     sct5_r_n = KUTE.fromTo(n_5, sc5_t_s, sc5_n_r, { easing: 'easingExponentialOut',duration: 50 })
     sct5_e_n = KUTE.fromTo(n_5, sc5_n_r, sc5_t_s, { easing: 'easingExponentialOut',duration: 50 })
+    sc5t_f = KUTE.fromTo(sc5_txt, sc5_t_d, sc5_t_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc5t_d = KUTE.fromTo(sc5_txt, sc5_t_f, sc5_t_d, { easing: 'easingExponentialOut',duration: 50 })
+    sc5tf_f = KUTE.fromTo(sc5_txt, sc5_tf_d, sc5_tf_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc5tf_d = KUTE.fromTo(sc5_txt, sc5_tf_f, sc5_tf_d, { easing: 'easingExponentialOut',duration: 50 })
+    sc5td_f = KUTE.fromTo(sc5_txt, sc5_td_d, sc5_td_f, { easing: 'easingExponentialOut',duration: 50 })
+    sc5td_d = KUTE.fromTo(sc5_txt, sc5_td_f, sc5_td_d, { easing: 'easingExponentialOut',duration: 50 })
 
 
     //masque de selection
@@ -511,6 +594,8 @@ function searchDeploy(){
         sct0_r_o.start()
         sct0_r_i.start()
         sct0_r_n.start()
+        sc0tf_d.start()
+        sc0_txt.style.width = '30px';
         document.querySelector('.search-sc-10').classList.add('clip-sc-10')
     }
 
@@ -520,6 +605,8 @@ function searchDeploy(){
         sct1_r_o.start()
         sct1_r_i.start()
         sct1_r_n.start()
+        sc1tf_d.start()
+        sc1_txt.style.width = '30px';
         document.querySelector('.search-sc-11').classList.add('clip-sc-11')
     }
 
@@ -529,6 +616,8 @@ function searchDeploy(){
         sct2_r_o.start()
         sct2_r_i.start()
         sct2_r_n.start()
+        sc2tf_d.start()
+        sc2_txt.style.width = '20px';
         document.querySelector('.search-sc-12').classList.add('clip-sc-12')
     }
 
@@ -538,6 +627,8 @@ function searchDeploy(){
         sct3_r_o.start()
         sct3_r_i.start()
         sct3_r_n.start()
+        sc3tf_d.start()
+        sc3_txt.style.width = '20px';
         document.querySelector('.search-sc-13').classList.add('clip-sc-13')
     }
 
@@ -547,6 +638,8 @@ function searchDeploy(){
         sct4_r_o.start()
         sct4_r_i.start()
         sct4_r_n.start()
+        sc4tf_d.start()
+        sc4_txt.style.width = '10px';
         document.querySelector('.search-sc-14').classList.add('clip-sc-14')
     }
 
@@ -556,6 +649,8 @@ function searchDeploy(){
         sct5_r_o.start()
         sct5_r_i.start()
         sct5_r_n.start()
+        sc5tf_d.start()
+        sc5_txt.style.width = '10px';
         document.querySelector('.search-sc-15').classList.add('clip-sc-15')
     }
     document.getElementById('search-icon').style.visibility = 'hidden'
@@ -577,6 +672,8 @@ function searchRetract(){
         sct0_e_o.start()
         sct0_e_i.start()
         sct0_e_n.start()
+        sc0tf_f.start()
+        sc0_txt.style.width = '150px';
         document.querySelector('.search-sc-10').classList.remove('clip-sc-10')
     }
 
@@ -586,6 +683,8 @@ function searchRetract(){
         sct1_e_o.start()
         sct1_e_i.start()
         sct1_e_n.start()
+        sc1tf_f.start()
+        sc1_txt.style.width = '150px';
         document.querySelector('.search-sc-11').classList.remove('clip-sc-11')
     }
 
@@ -595,6 +694,8 @@ function searchRetract(){
         sct2_e_o.start()
         sct2_e_i.start()
         sct2_e_n.start()
+        sc2tf_f.start()
+        sc2_txt.style.width = '150px';
         document.querySelector('.search-sc-12').classList.remove('clip-sc-12')
     }
 
@@ -604,6 +705,8 @@ function searchRetract(){
         sct3_e_o.start()
         sct3_e_i.start()
         sct3_e_n.start()
+        sc3tf_f.start()
+        sc3_txt.style.width = '150px';
         document.querySelector('.search-sc-13').classList.remove('clip-sc-13')
     }
 
@@ -613,6 +716,8 @@ function searchRetract(){
         sct4_e_o.start()
         sct4_e_i.start()
         sct4_e_n.start()
+        sc4tf_f.start()
+        sc4_txt.style.width = '150px';
         document.querySelector('.search-sc-14').classList.remove('clip-sc-14')
     }
 
@@ -622,6 +727,8 @@ function searchRetract(){
         sct5_e_o.start()
         sct5_e_i.start()
         sct5_e_n.start()
+        sc5tf_f.start()
+        sc5_txt.style.width = '150px';
         document.querySelector('.search-sc-15').classList.remove('clip-sc-15')
     }
     document.getElementById('search-icon').style.visibility = 'visible'
@@ -764,6 +871,7 @@ function sc0Deploy(){
     scm0_d.start()
     sct0_d.start()
     sctn0_d.start()
+    sc0t_d.start()
     document.getElementById('m0-o-f').style.visibility = 'hidden'
     document.getElementById('m0-o-d').style.visibility = 'visible'
 }
@@ -772,6 +880,7 @@ function sc0Fold(){
     scm0_f.start()
     sct0_f.start()
     sctn0_f.start()
+    sc0t_f.start()
     document.getElementById('m0-o-d').style.visibility = 'hidden'
     document.getElementById('m0-o-f').style.visibility = 'visible'
 }
@@ -780,6 +889,7 @@ function ssc0Deploy(){
     sscm0_d.start()
     ssct0_d.start()
     ssctn0_d.start()
+    sc0td_d.start()
     document.getElementById('ms0-o-f').style.visibility = 'hidden'
     document.getElementById('ms0-o-d').style.visibility = 'visible'
 }
@@ -788,6 +898,7 @@ function ssc0Fold(){
     sscm0_f.start()
     ssct0_f.start()
     ssctn0_f.start()
+    sc0td_f.start()
     document.getElementById('ms0-o-d').style.visibility = 'hidden'
     document.getElementById('ms0-o-f').style.visibility = 'visible'
 }
@@ -796,6 +907,7 @@ function sc1Deploy(){
     scm1_d.start()
     sct1_d.start()
     sctn1_d.start()
+    sc1t_d.start()
     document.getElementById('m1-o-f').style.visibility = 'hidden'
     document.getElementById('m1-o-d').style.visibility = 'visible'
 }
@@ -804,6 +916,7 @@ function sc1Fold(){
     scm1_f.start()
     sct1_f.start()
     sctn1_f.start()
+    sc1t_f.start()
     document.getElementById('m1-o-d').style.visibility = 'hidden'
     document.getElementById('m1-o-f').style.visibility = 'visible'
 }
@@ -812,6 +925,7 @@ function ssc1Deploy(){
     sscm1_d.start()
     ssct1_d.start()
     ssctn1_d.start()
+    sc1td_d.start()
     document.getElementById('ms1-o-f').style.visibility = 'hidden'
     document.getElementById('ms1-o-d').style.visibility = 'visible'
 }
@@ -820,6 +934,7 @@ function ssc1Fold(){
     sscm1_f.start()
     ssct1_f.start()
     ssctn1_f.start()
+    sc1tf_d.start()
     document.getElementById('ms1-o-d').style.visibility = 'hidden'
     document.getElementById('ms1-o-f').style.visibility = 'visible'
 }
@@ -828,6 +943,7 @@ function sc2Deploy(){
     scm2_d.start()
     sct2_d.start()
     sctn2_d.start()
+    sc2t_d.start()
     document.getElementById('m2-o-f').style.visibility = 'hidden'
     document.getElementById('m2-o-d').style.visibility = 'visible'
 }
@@ -836,6 +952,7 @@ function sc2Fold(){
     scm2_f.start()
     sct2_f.start()
     sctn2_f.start()
+    sc2t_f.start()
     document.getElementById('m2-o-d').style.visibility = 'hidden'
     document.getElementById('m2-o-f').style.visibility = 'visible'
 }
@@ -844,6 +961,7 @@ function ssc2Deploy(){
     sscm2_d.start()
     ssct2_d.start()
     ssctn2_d.start()
+    sc2td_d.start()
     document.getElementById('ms2-o-f').style.visibility = 'hidden'
     document.getElementById('ms2-o-d').style.visibility = 'visible'
 }
@@ -852,6 +970,7 @@ function ssc2Fold(){
     sscm2_f.start()
     ssct2_f.start()
     ssctn2_f.start()
+    sc2tf_d.start()
     document.getElementById('ms2-o-d').style.visibility = 'hidden'
     document.getElementById('ms2-o-f').style.visibility = 'visible'
 }
@@ -860,6 +979,7 @@ function sc3Deploy(){
     scm3_d.start()
     sct3_d.start()
     sctn3_d.start()
+    sc3t_d.start()
     document.getElementById('m3-o-f').style.visibility = 'hidden'
     document.getElementById('m3-o-d').style.visibility = 'visible'
 }
@@ -868,6 +988,7 @@ function sc3Fold(){
     scm3_f.start()
     sct3_f.start()
     sctn3_f.start()
+    sc3t_f.start()
     document.getElementById('m3-o-d').style.visibility = 'hidden'
     document.getElementById('m3-o-f').style.visibility = 'visible'
 }
@@ -876,6 +997,7 @@ function ssc3Deploy(){
     sscm3_d.start()
     ssct3_d.start()
     ssctn3_d.start()
+    sc3td_d.start()
     document.getElementById('ms3-o-f').style.visibility = 'hidden'
     document.getElementById('ms3-o-d').style.visibility = 'visible'
 }
@@ -884,6 +1006,7 @@ function ssc3Fold(){
     sscm3_f.start()
     ssct3_f.start()
     ssctn3_f.start()
+    sc3tf_d.start()
     document.getElementById('ms3-o-d').style.visibility = 'hidden'
     document.getElementById('ms3-o-f').style.visibility = 'visible'
 }
@@ -892,6 +1015,7 @@ function sc4Deploy(){
     scm4_d.start()
     sct4_d.start()
     sctn4_d.start()
+    sc4t_d.start()
     document.getElementById('m4-o-f').style.visibility = 'hidden'
     document.getElementById('m4-o-d').style.visibility = 'visible'
 }
@@ -900,6 +1024,7 @@ function sc4Fold(){
     scm4_f.start()
     sct4_f.start()
     sctn4_f.start()
+    sc4t_f.start()
     document.getElementById('m4-o-d').style.visibility = 'hidden'
     document.getElementById('m4-o-f').style.visibility = 'visible'
 }
@@ -908,6 +1033,7 @@ function ssc4Deploy(){
     sscm4_d.start()
     ssct4_d.start()
     ssctn4_d.start()
+    sc4td_d.start()
     document.getElementById('ms4-o-f').style.visibility = 'hidden'
     document.getElementById('ms4-o-d').style.visibility = 'visible'
 }
@@ -916,6 +1042,7 @@ function ssc4Fold(){
     sscm4_f.start()
     ssct4_f.start()
     ssctn4_f.start()
+    sc4tf_d.start()
     document.getElementById('ms4-o-d').style.visibility = 'hidden'
     document.getElementById('ms4-o-f').style.visibility = 'visible'
 }
@@ -924,6 +1051,7 @@ function sc5Deploy(){
     scm5_d.start()
     sct5_d.start()
     sctn5_d.start()
+    sc5t_d.start()
     document.getElementById('m5-o-f').style.visibility = 'hidden'
     document.getElementById('m5-o-d').style.visibility = 'visible'
 }
@@ -932,6 +1060,7 @@ function sc5Fold(){
     scm5_f.start()
     sct5_f.start()
     sctn5_f.start()
+    sc5t_f.start()
     document.getElementById('m5-o-d').style.visibility = 'hidden'
     document.getElementById('m5-o-f').style.visibility = 'visible'
 }
@@ -940,6 +1069,7 @@ function ssc5Deploy(){
     sscm5_d.start()
     ssct5_d.start()
     ssctn5_d.start()
+    sc5td_d.start()
     document.getElementById('ms5-o-f').style.visibility = 'hidden'
     document.getElementById('ms5-o-d').style.visibility = 'visible'
 }
@@ -948,6 +1078,7 @@ function ssc5Fold(){
     sscm5_f.start()
     ssct5_f.start()
     ssctn5_f.start()
+    sc5tf_d.start()
     document.getElementById('ms5-o-d').style.visibility = 'hidden'
     document.getElementById('ms5-o-f').style.visibility = 'visible'
 }

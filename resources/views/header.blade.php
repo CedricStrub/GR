@@ -22,7 +22,7 @@
     <div class="search">
         @if (isset($shortcut[4]))
         <div class="search-sc-14">
-            <p class="sc-text-low" style="left:77px; top:12.5px;">{{$shortcut[4][0]}}</p>
+            <p id="sc4-txt" class="sc-text-low" style="left:77px; top:12.5px;">{{$shortcut[4][0]}}</p>
             <svg id="s-sc-4" width="1440" height="46" viewBox="0 0 1440 46" fill="none" >
             <path id="sc4-o" class="svg-s-o" d="M21.8704 40L1.5 0H206.222L221.5 40H21.8704Z" transform="translate(44, 0)"/>
             <path id="sc4-i" class="svg-s-i" d="M201.5 29.5L193.666 9.5H21.5L31.1211 29.5H201.5Z" transform="translate(44, 0)"/>
@@ -36,7 +36,7 @@
         @endif
         @if (isset($shortcut[2]))
         <div class="search-sc-12">
-            <p class="sc-text-mid" style="left:285px; top:17.5px;">{{$shortcut[2][0]}} un peut long  c'est vraiment un très long nom tu crois pas ?</p>
+            <p id="sc2-txt" class="sc-text-mid" style="left:285px; top:17.5px;">{{$shortcut[2][0]}} un peut long  c'est vraiment un très long nom tu crois pas ?</p>
             <svg id="s-sc-2" width="1440" height="56" viewBox="0 0 1440 56" fill="none" >
             <path id="sc2-o" class="svg-s-o" d="M221 50H20.3465L1 0H204.647L221 50Z" transform="translate(249, 0)"/>
             <path id="sc2-i" class="svg-s-i" d="M201 40.5L190.529 9.5H21L32.2051 40.5H201Z" transform="translate(249, 0)"/>
@@ -50,7 +50,7 @@
         @endif
         @if (isset($shortcut[0]))
         <div class="search-sc-10">
-            <p class="sc-text-high" style="left:485px; top:12.5px;">{{$shortcut[0][0]}} c'est vraiment un très long nom tu crois pas ?</p>
+            <p id="sc0-txt" class="sc-text-high" style="left:485px; top:12.5px;">{{$shortcut[0][0]}} c'est vraiment un très long nom tu crois pas ?</p>
             <svg id="s-sc-0" width="1440" height="66" viewBox="0 0 1440 66" fill="none" >
             <path id="sc0-o" class="svg-s-o" d="M21.2696 60.5L1.5 0.5H204L221.5 60.5H21.2696Z" transform="translate(452, 0)"/>
             <path id="sc0-i" class="svg-s-i" d="M201.5 49.5L188.713 9.5H21.5L34.0916 49.5H201.5Z" transform="translate(452, 0)"/>
@@ -73,7 +73,7 @@
         <path id="search-mask-deploy" d="M20.5 70L1 0H1031L1011 70H20.5Z" transform="translate(200, 0)"/></svg>
         @if (isset($shortcut[1]))
         <div class="search-sc-11">
-            <p class="sc-text-high" style="left:795px; top:12.5px;">{{$shortcut[1][0]}}</p>
+            <p id="sc1-txt" class="sc-text-high" style="left:795px; top:12.5px;">{{$shortcut[1][0]}}</p>
             <svg id="s-sc-1" width="1440" height="66" viewBox="0 0 1440 66" fill="none">
             <path id="sc1-o" class="svg-s-o" d="M204 60.5H3L20.5 0.5H223.5L204 60.5Z" transform="translate(756, 0)" />
             <path id="sc1-i" class="svg-s-i" d="M23 49.5L35.7869 9.5H203L190.408 49.5H23Z" transform="translate(756, 0)" />
@@ -87,7 +87,7 @@
         @endif
         @if (isset($shortcut[3]))
         <div class="search-sc-13">
-            <p class="sc-text-mid" style="left:995px; top:12.5px;">{{$shortcut[3][0]}}</p>
+            <p id="sc3-txt" class="sc-text-mid" style="left:995px; top:12.5px;">{{$shortcut[3][0]}}</p>
             <svg id="s-sc-3" width="1440" height="56" viewBox="0 0 1440 56" fill="none">
             <path id="sc3-o" class="svg-s-o" d="M201 50.5H2.26203L18.5001 0.5H220.5L201 50.5Z" transform="translate(961, 0)" />
             <path id="sc3-i" class="svg-s-i" d="M21.5 40.5L31.9128 9.5H200.5L189.357 40.5H21.5Z" transform="translate(961, 0)" />
@@ -101,7 +101,7 @@
         @endif
         @if (isset($shortcut[5]))
         <div class="search-sc-15">
-            <p class="sc-text-low" style="left:1195px; top:12.5px;">{{$shortcut[5][0]}}</p>
+            <p id="sc5-txt" class="sc-text-low" style="left:1195px; top:12.5px;">{{$shortcut[5][0]}}</p>
             <svg id="s-sc-5" width="1440" height="46" viewBox="0 0 1440 46" fill="none">
             <path id="sc5-o" class="svg-s-o" d="M203.297 40.5H3L18.3076 0.5H223L203.297 40.5Z" transform="translate(1163, 0)" />
             <path id="sc5-i" class="svg-s-i" d="M23 29.5L30.8772 9.5H204L194.325 29.5H23Z" transform="translate(1163, 0)" />

@@ -1,8 +1,9 @@
 import './bootstrap';
 
-import $ from 'jquery'
-import KUTE from 'kute.js'
-import Dropzone from 'dropzone';
-window.jQuery = window.$ = $
+import Alpine from 'alpinejs';
+import focus from '@alpinejs/focus';
+window.Alpine = Alpine;
 
+Alpine.plugin(focus);
 
+Alpine.start();

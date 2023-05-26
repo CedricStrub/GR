@@ -7,10 +7,7 @@
 
     <title>Galaxy-Roads</title>
 
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    @vite(['resources/css/home.css'])
     <!-- Styles -->
     @livewireStyles
 </head>

@@ -43,8 +43,7 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
 
     Route::get('/test', [InterfaceController::class, 'setting']);
 
-    Route::get('image/upload',[FileUploadController::class, 'fileCreate']);
-    Route::post('image/upload/store',[FileUploadController::class, 'fileStore']);
-    Route::post('image/delete',[FileUploadController::class, 'fileDestroy']);
+    Route::post('/upload',[FileUploadController::class, 'fileStore'])->name('upload');
+    Route::post('/image/delete',[FileUploadController::class, 'fileDestroy']);
 
 });

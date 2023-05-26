@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class FileUploadController extends Controller
 {
-    public function fileCreate()
-    {
-        return view('imageupload');
-    }
-
 
     public function fileStore(Request $request)
     {

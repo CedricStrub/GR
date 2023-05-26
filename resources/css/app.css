@@ -1,7 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-.svg{
-    width: 200px;
-    height: 100px;
+[x-cloak] {
+    display: none;
 }
-
-@import "~dropzone/dist/dropzone.css";

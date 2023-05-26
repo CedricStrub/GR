@@ -1,27 +1,19 @@
-
-
-
-<!-- imageupload.blade.php -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Laravel Multiple Images Upload Using Dropzone</title>
-    <meta name="_token" content="{{csrf_token()}}" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-
-</head>
-<body>
-
+@include('header')
 
 <div class="container">
-    <h3 class="jumbotron">Laravel Multiple Images Upload Using Dropzone</h3>
-    <form method="post" action="{{url('image/upload/store')}}" enctype="multipart/form-data" class="dropzone" id="dropzone">
-    @csrf
-</form>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Laravel 9 Drag and Drop File Upload with Dropzone JS - ItSolutionStuff.com</h1>
+            <form action="{{ route('upload') }}" method="post" enctype="multipart/form-data" id="image-upload" class="dropzone">
+                @csrf
+                <div>
+                    <h4>Upload Multiple Image By Click On Box</h4>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-</script src="{{ asset('js/dropzoneTest.js') }}">
+@vite(['resources/js/dropzoneTest.js'])
 
-</body>
-</html>
+@include('footer')

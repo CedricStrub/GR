@@ -1,18 +1,17 @@
 @include('header')
-<link rel="stylesheet" href="{{ asset('css/project.css') }}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/interact.min.js"></script>
 
+@vite(['resources/css/project.css','resources/js/project.js'])
 
-<button onclick="newWidget()">new widget</button>
-<button onclick="newView()">new view</button>
-<button onclick="saveProject()">save project</button>
-<button onclick="loadProject()">load project</button>
+
+<button id="newWidgetButton" >new widget</button>
+<button id="newViewButton" >new view</button>
+<button id="saveProjectButton" >save project</button>
+<button id="loadProjectButton" >load project</button>
 
 
 <div class="page">
 
 </div>
-
-<script src="{{ asset('js/project.js') }}"></script>
 
 @include('footer')

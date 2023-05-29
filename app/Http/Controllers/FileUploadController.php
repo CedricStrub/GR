@@ -12,10 +12,14 @@ class FileUploadController extends Controller
     {
         $image = $request->file('file');
         $imageName = $image->getClientOriginalName();
-        $image->move(public_path('images'),$imageName);
+        $slug = $this->slugify($imageName);
+        
+        $uuid = $this->uuid($imageName);
+        $image->move(public_path('images'),$uuid);
         
         $imageUpload = new File();
-        $imageUpload->filename = $imageName;
+        $imageUpload->original_filename = $slug;
+        $imageUpload->filename = $uuid;
         $imageUpload->save();
         return response()->json(['success'=>$imageName]);
     }

@@ -4,13 +4,15 @@ export function hello(){
     console.log('hello')
 }
 
-export function event(dropzone,element){
-    dropzone.on('dragenter', function() {
-        document.getElementById('#' + element.id).classList.add('dragover');
+export function event(dropzone){
+    dropzone.on('dragenter', function(event) {
+        if(event.target.id != "")
+            document.getElementById(event.target.id).classList.add('dragover');
     });
     
-    dropzone.on('dragleave', function() {
-        document.getElementById('#' + element.id).classList.remove('dragover');
+    dropzone.on('dragleave', function(event) {
+        if(event.target.id != "")
+            document.getElementById(event.target.id).classList.remove('dragover');
     });
 }
 
@@ -61,10 +63,11 @@ function image(widget,event){
     
     img.onload = function() {
         // Adjust the size of the widget here
-        widget.style.width = img.width + 'px';
-        widget.style.height = img.height + 'px';
+        // widget.style.width = img.width + 'px';
+        // widget.style.height = img.height + 'px';
 
         // Add the image to the widget
+        console.log(img)
         widget.style.backgroundImage = `url(${img.src})`;
         widget.style.backgroundSize = 'cover';
         widget.style.backgroundPosition = 'center';

@@ -274,7 +274,7 @@ export function newWidget(widgetObj = null, targetView = selectedView, file = nu
 
 
     // Send the file and the widget to be processed accordingly to the file type
-    fileProcess.event(dropzone,widget)
+    fileProcess.event(dropzone)
     fileProcess.input(dropzone,widget)
     if(file){
         fileProcess.selector(widget,file)
@@ -533,7 +533,7 @@ export function newView(viewObj = null) {
         disablePreviews: true,
     });
 
-    fileProcess.event(dropzone,view)
+    fileProcess.event(dropzone)
 
     dropzone.on("addedfile", function(file) {
         newWidget(null,view,file)
@@ -571,6 +571,7 @@ function extractSizeAndPosition() {
         };
 
         const widgets = view.querySelectorAll(".widget");
+        console.log(widgets)
         for (const widget of widgets) {
             const widgetId = widget.getAttribute("id");
             sizeAndPosition[viewId].widgets.push({
@@ -589,7 +590,6 @@ function extractSizeAndPosition() {
 export function saveProject(){
     const sizeAndPosition = extractSizeAndPosition();
     const serializedData = JSON.stringify(sizeAndPosition);
-    console.log(serializedData);
 
     // Get CSRF token from the meta tag
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;

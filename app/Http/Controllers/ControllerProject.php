@@ -77,6 +77,63 @@ class ControllerProject extends Controller
         ]);
     }
 
+    public function makeProject(Request $request){
+        $nom = $request->nom;
+        $description = $request->description;
+        $miniature = $request->miniature;
+
+        $p = Project::create([
+            'nom' => $nom,
+            'description' => $description,
+            'miniature' => $miniature
+        ]);
+
+        return response()->json(['id' => $p->id], 200);
+    }
+
+    public function makeView(Request $request){
+        $project = $request->project;
+        $view = json_decode($jsonData, true);
+
+        $v = ProjectView::create([
+            'titre' => 'titre view',
+            'haut' => $view['top'],
+            'hauteur' => $view['height'],
+            'css_id' => $view['id'],
+            'project' => $project
+        ]);
+
+        ProjectContent::create([
+            'project' => $project,
+            'view' => $v['id']
+        ]);
+        return response()->json(['id' => $v->id], 200);
+    }
+
+    public function makeWidget(Request $request){
+        $project = $request->project;
+        $view = $request->view;
+        $widget = json_decode($jsonData, true);
+
+        $w =ProjectWidget::create([
+            'titre' => 'titre widget',
+            'haut' => $widget['top'],
+            'gauche' => $widget['left'],
+            'hauteur' => $widget['height'],
+            'largeur' => $widget['width'],
+            'css_id' => $widget['id'],
+            'project' => $project
+        ]);
+        
+        ProjectContent::create([
+            'project' => $project,
+            'view' => $view,
+            'widget' => $w['id']
+        ]);
+
+        return response()->json(['id' => $w->id], 200);
+    }
+
     public function load(Request $request){
         $id = $request->getContent();
         $project = Project::find($id);

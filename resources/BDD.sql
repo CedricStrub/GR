@@ -16,8 +16,8 @@
 
 
 -- Listage de la structure de la base pour laravel
-CREATE DATABASE IF NOT EXISTS `laravel` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `laravel`;
+CREATE DATABASE IF NOT EXISTS `gr` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `gr`;
 
 -- Listage de la structure de table laravel. failed_jobs
 CREATE TABLE IF NOT EXISTS `failed_jobs` (

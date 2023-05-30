@@ -37,8 +37,11 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
         return view('dashboard');
     })->name('dashboard');
 
-    Route::post('/projectSave', [ControllerProject::class, 'save']);
+    Route::post('/makeProject',[ControllerProject::class, 'makeProject']);
+    Route::post('/makeView',[ControllerProject::class, 'makeView']);
+    Route::post('/makeWidget',[ControllerProject::class, 'makeWidget']);
 
+    Route::post('/projectSave', [ControllerProject::class, 'save']);
     Route::post('/projectLoad', [ControllerProject::class, 'load']);
 
     Route::get('/test', [InterfaceController::class, 'setting']);

@@ -268,6 +268,7 @@ export function newWidget(widgetObj = null, targetView = selectedView, file = nu
         acceptedFiles: ".jpeg,.jpg,.png,.gif,.txt,.csv,.rtf",
         clickable: false, // Do not open the file dialog on single click
         autoDiscover: false, // This is needed to prevent Dropzone from automatically discovering this element
+        widgetID: idWidget,
         headers: {'X-CSRF-TOKEN': csrfToken},
         disablePreviews: true,
     });

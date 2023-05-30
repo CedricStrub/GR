@@ -77,23 +77,32 @@ class ControllerProject extends Controller
         ]);
     }
 
+    public function newProject(Request $request){
+
+        $request->uuid = $this->uuid(null);
+
+        $project = $this->makeProject($request);
+        $project = $project->getData()->id;
+
+        return view('project', ['project' => $project]);
+    }
+
     public function makeProject(Request $request){
-        $nom = $request->nom;
-        $description = $request->description;
-        $miniature = $request->miniature;
 
         $p = Project::create([
-            'nom' => $nom,
-            'description' => $description,
-            'miniature' => $miniature
+            'nom' => $request->nom ?? null,
+            'description' => $request->description ?? null,
+            'miniature' => $request->miniature ?? null,
+            'uuid' => $request->uuid
         ]);
 
         return response()->json(['id' => $p->id], 200);
     }
 
     public function makeView(Request $request){
+
         $project = $request->project;
-        $view = json_decode($jsonData, true);
+        $view = $request->view;
 
         $v = ProjectView::create([
             'titre' => 'titre view',
@@ -113,9 +122,9 @@ class ControllerProject extends Controller
     public function makeWidget(Request $request){
         $project = $request->project;
         $view = $request->view;
-        $widget = json_decode($jsonData, true);
+        $widget = $request->widget;
 
-        $w =ProjectWidget::create([
+        $w = ProjectWidget::create([
             'titre' => 'titre widget',
             'haut' => $widget['top'],
             'gauche' => $widget['left'],
@@ -124,10 +133,10 @@ class ControllerProject extends Controller
             'css_id' => $widget['id'],
             'project' => $project
         ]);
-        
+        $v = ProjectView::where('project', '=', $project)->where('css_id','=',$view)->get()[0];
         ProjectContent::create([
             'project' => $project,
-            'view' => $view,
+            'view' => $v['id'],
             'widget' => $w['id']
         ]);
 

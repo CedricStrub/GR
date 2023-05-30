@@ -13,6 +13,7 @@ class Project extends Model
         'nom',
         'description',
         'miniature',
+        'uuid',
         'created_at',
         'updated_at'
     ];

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use Illuminate\Http\Request;
+use App\Models\ProjectWidget;
 
 class FileUploadController extends Controller
 {
@@ -16,7 +17,14 @@ class FileUploadController extends Controller
         
         $uuid = $this->uuid($imageName);
         $image->move(public_path('images'),$uuid);
+
+        dd($request->input('project'));
         
+        $widget = ProjectWidget::where('project','=',$request->project)->where('css_id','=',$request->widget)->get();
+        dd($widget);
+        $widget->content = $uuid;
+        $widget->save();
+
         $imageUpload = new File();
         $imageUpload->original_filename = $slug;
         $imageUpload->filename = $uuid;

@@ -24,9 +24,9 @@ Route::get('/home', function () {
     return view('welcome');
 });
 
-Route::get('/project', function () {
-    return view('project');
-});
+// Route::get('/project', function () {
+//     return view('project');
+// });
 
 Route::get('/dropzone', function () {
     return view('dropzone');
@@ -37,7 +37,7 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
         return view('dashboard');
     })->name('dashboard');
 
-    Route::post('/makeProject',[ControllerProject::class, 'makeProject']);
+    Route::get('/project',[ControllerProject::class, 'newProject']);
     Route::post('/makeView',[ControllerProject::class, 'makeView']);
     Route::post('/makeWidget',[ControllerProject::class, 'makeWidget']);
 

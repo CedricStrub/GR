@@ -5,7 +5,7 @@
 
     <h3>Projet</h3>
 
-    
+    <p>{{ $project }}</p>
 
     </x-slot>
 </x-app-layout>

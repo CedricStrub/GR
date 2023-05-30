@@ -1,5 +1,10 @@
 import Dropzone from 'dropzone'
 import * as fileProcess from './fileProcess'
+import ajax from 'ajax'
+import jQuery from 'jquery'
+
+var jq = jQuery.noConflict();
+const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
 function makeWidget(div) {
     const resizers = div.querySelectorAll(".resizer");
@@ -239,6 +244,8 @@ export function newWidget(widgetObj = null, targetView = selectedView, file = nu
         idWidget += 1;
     }
 
+    
+
     widget.innerHTML = `
         <button class="lock-btn">Lock</button>
         <button class="remove-btn">Remove</button>
@@ -258,34 +265,6 @@ export function newWidget(widgetObj = null, targetView = selectedView, file = nu
     } else {
         alert('No view is selected.');
     }
-
-    console.log(idDropzone)
-
-    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    let dropzone = new Dropzone('#' + idDropzone, {
-        url: 'upload', // Set upload URL here
-        maxFilesize: 1,
-        acceptedFiles: ".jpeg,.jpg,.png,.gif,.txt,.csv,.rtf",
-        clickable: false, // Do not open the file dialog on single click
-        autoDiscover: false, // This is needed to prevent Dropzone from automatically discovering this element
-        widgetID: idWidget,
-        headers: {'X-CSRF-TOKEN': csrfToken},
-        disablePreviews: true,
-    });
-
-
-    // Send the file and the widget to be processed accordingly to the file type
-    fileProcess.event(dropzone)
-    fileProcess.input(dropzone,widget)
-    if(file){
-        fileProcess.selector(widget,file)
-    }
-
-    // Apply the resizable functionality to the new element.
-    makeWidget(widget);
-
-    // Apply the drag functionality to the new element.
-    dragElement(widget, targetView);
 
     if (!widgetObj) {
         widget.style.left = '0px';
@@ -316,6 +295,38 @@ export function newWidget(widgetObj = null, targetView = selectedView, file = nu
             widget.style.top = '0px';
         }
     }
+    makewidget(widget,targetView.id)
+
+    console.log(idDropzone)
+
+    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    let dropzone = new Dropzone('#' + idDropzone, {
+        url: 'upload', // Set upload URL here
+        maxFilesize: 1,
+        acceptedFiles: ".jpeg,.jpg,.png,.gif,.txt,.csv,.rtf",
+        clickable: false, // Do not open the file dialog on single click
+        autoDiscover: false, // This is needed to prevent Dropzone from automatically discovering this element
+        params:{
+            project: project,
+            widget: widget.id
+        },
+        headers: {'X-CSRF-TOKEN': csrfToken},
+        disablePreviews: true,
+    });
+
+
+    // Send the file and the widget to be processed accordingly to the file type
+    fileProcess.event(dropzone)
+    fileProcess.input(dropzone,widget)
+    if(file){
+        fileProcess.selector(widget,file)
+    }
+
+    // Apply the resizable functionality to the new element.
+    makeWidget(widget);
+
+    // Apply the drag functionality to the new element.
+    dragElement(widget, targetView);
 
     // Set the initial lock state.
     toggleLock(widget);
@@ -325,7 +336,44 @@ export function newWidget(widgetObj = null, targetView = selectedView, file = nu
     const lockButton = widget.querySelector('.lock-btn');
     lockButton.addEventListener('click', () => toggleLock(widget));
     
+    
+
     return widget;
+}
+
+function makewidget(widget,view){
+
+    var v = view
+
+    console.log(widget)
+    console.log(widget)
+
+    var w = {
+        id: widget.id,
+        left: widget.offsetLeft,
+        top: widget.offsetTop,
+        width: widget.offsetWidth,
+        height: widget.offsetHeight,
+    }
+
+    console.log(w)
+
+    jq.ajax({
+        url: '/makeWidget',
+        method: 'POST',
+        data: {
+            view: v,
+            widget: w,
+            project: project,
+            _token: csrfToken
+        },
+        success: function(response) {
+            console.log('ID returned: ', response.id);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });
 }
 
 function loadWidgets(jsonData) {
@@ -507,21 +555,27 @@ export function newView(viewObj = null) {
     page.appendChild(view);
     let viewId = null
 
-
+    console.log(viewObj)
     if (viewObj) {
-        view.style.height = viewObj.height + 'px';
-        view.style.left = '0px';
-        view.style.width = '100%';
-        view.setAttribute('id', viewObj.id);
-        viewId = viewObj.id
-        idView += 1;
-    } else {
+        if (viewObj.type != 'click') {
+            view.style.height = viewObj.height + 'px';
+            view.style.left = '0px';
+            view.style.width = '100%';
+            view.setAttribute('id', viewObj.id);
+            viewId = viewObj.id
+            idView += 1;
+        } else {
+            view.setAttribute('id', 'view_' + idView);
+            viewId = 'view_' + idView
+            idView += 1;
+        }
+    }else{
         view.setAttribute('id', 'view_' + idView);
         viewId = 'view_' + idView
-        idView += 1;
+        idView += 1
     }
 
-    console.log(view.id)
+    makeView(view)
 
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     let dropzone = new Dropzone('#' + viewId, {
@@ -544,6 +598,31 @@ export function newView(viewObj = null) {
         selectedView = view;
         view.classList.add('selected');
     }
+}
+
+function makeView(view){
+    console.log(view)
+    var v = {
+            id: view.id,
+            top: view.offsetTop,
+            height: view.offsetHeight
+        }
+
+    jq.ajax({
+        url: '/makeView',
+        method: 'POST',
+        data: {
+            view: v,
+            project: project,
+            _token: csrfToken
+        },
+        success: function(response) {
+            console.log('ID returned: ', response.id);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });
 }
 
 const page = document.querySelector('.page');
@@ -616,7 +695,6 @@ export function saveProject(){
 }
 
 export function loadProject(){
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
     let id = 14
     // Send JSON data to the controller
     fetch('/projectLoad', {

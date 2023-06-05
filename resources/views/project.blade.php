@@ -5,6 +5,16 @@
     var project = @json($project);
 </script>
 
+@if(isset($result))
+<script>
+    var data = @json($result);
+</script>
+@else
+<script>
+    var data = @json(null);
+</script>
+@endif
+
 @vite(['resources/css/project.css','resources/js/project.js'])
 
 

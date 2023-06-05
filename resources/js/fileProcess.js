@@ -16,7 +16,7 @@ export function event(dropzone){
     });
 }
 
-export function input(dropzone,widget){
+export function input(dropzone = null,widget){
     // Create a hidden file input
     let fileInput = document.createElement('input');
     fileInput.type = 'file';
@@ -46,7 +46,7 @@ export function selector(widget,file){
     console.log(file.type)
     if (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/gif') {
         reader.addEventListener("load", function(event) {
-            image(widget,event)
+            image(widget,`url(${event.target.result})`)
         })
     reader.readAsDataURL(file);
     }
@@ -58,22 +58,12 @@ export function selector(widget,file){
     }
 }
 
-function image(widget,event){
-    let img = new Image();
-    
-    img.onload = function() {
-        // Adjust the size of the widget here
-        // widget.style.width = img.width + 'px';
-        // widget.style.height = img.height + 'px';
+export function image(widget,url){
 
-        // Add the image to the widget
-        console.log(img)
-        widget.style.backgroundImage = `url(${img.src})`;
-        widget.style.backgroundSize = 'cover';
-        widget.style.backgroundPosition = 'center';
-    };
+    widget.style.backgroundImage = url;
+    widget.style.backgroundSize = 'cover';
+    widget.style.backgroundPosition = 'center';
 
-    img.src = event.target.result;
 }
 
 function text(widget,event){

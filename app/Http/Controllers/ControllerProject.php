@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use stdClass;
 use App\Models\Project;
+use App\Models\File;
 use App\Models\ProjectView;
 use Illuminate\Http\Request;
 use App\Models\ProjectWidget;
@@ -18,63 +19,44 @@ class ControllerProject extends Controller
         // Decode the JSON data
         $sizeAndPosition = json_decode($jsonData, true);
 
-        // Dump the data for debugging
-        // var_dump($sizeAndPosition);
-        // $data = $sizeAndPosition['view_0']['top'];
-
         $nomP = "projet";
         $descriptionP = "description";
         $miniatureP = "miniature.png";
 
-        $p = Project::create([
-            'nom' => $nomP,
-            'description' => $descriptionP,
-            'miniature' => $miniatureP
-        ]);
-        $i = 0;
+        
+        
+        $project = Project::find($sizeAndPosition['project']);
+        if($project != null){
+            $content = ProjectContent::where('project',$project->id)->orderBy('view', 'asc')->get();
+            $uniqueViews = $content->unique('view');
 
-        foreach($sizeAndPosition as $view){
-            var_dump($p['id']);
-            $pv = ProjectView::create([
-                'titre' => 'titre view',
-                'haut' => $view['top'],
-                'hauteur' => $view['height'],
-                'css_id' => $view['id'],
-                'project' => $p['id']
-            ]);
-            $i += 1;
-            if($view['widgets'] == null){
-                ProjectContent::create([
-                    'project' => $p['id'],
-                    'view' => $pv['id']
-                ]);
-            }else{
-                foreach($view['widgets'] as $widget){
-                    $pw =ProjectWidget::create([
-                        'titre' => 'titre widget',
-                        'haut' => $widget['top'],
-                        'gauche' => $widget['left'],
-                        'hauteur' => $widget['height'],
-                        'largeur' => $widget['width'],
-                        'css_id' => $widget['id'],
-                        'project' => $p['id']
-                    ]);
-                    
-                    ProjectContent::create([
-                        'project' => $p['id'],
-                        'view' => $pv['id'],
-                        'widget' => $pw['id']
-                    ]);
+            foreach($uniqueViews as $view){
+                $Pview = ProjectView::find($view['view']);
+                $temp = $sizeAndPosition['views'][$Pview->css_id];
+                $Pview->titre = 'titre view';
+                $Pview->haut = $temp['top'];
+                $Pview->hauteur = $temp['height'];
+                $Pview->css_id = $temp['id'];
+                $Pview->save();
+
+                $widgetsInThisView = $content->where('view', $view['view']);
+                foreach($widgetsInThisView as $widgetContent){
+                    $widget = ProjectWidget::find($widgetContent['widget']);
+                    foreach($temp['widgets'] as $tempWidget){
+                        if($tempWidget['id'] == $widget->css_id){
+                            $widget->titre = 'titre widget';
+                            $widget->haut = $tempWidget['top'];
+                            $widget->gauche = $tempWidget['left'];
+                            $widget->hauteur = $tempWidget['height'];
+                            $widget->largeur = $tempWidget['width'];
+                            $widget->css_id = $tempWidget['id'];
+                            $widget->save();
+                            break;
+                        }
+                    }
                 }
             }
-        };
-
-        // Return a response to the client
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Data saved successfully',
-            'data' => $view
-        ]);
+        }
     }
 
     public function newProject(Request $request){
@@ -124,68 +106,92 @@ class ControllerProject extends Controller
         $view = $request->view;
         $widget = $request->widget;
 
-        $w = ProjectWidget::create([
-            'titre' => 'titre widget',
-            'haut' => $widget['top'],
-            'gauche' => $widget['left'],
-            'hauteur' => $widget['height'],
-            'largeur' => $widget['width'],
-            'css_id' => $widget['id'],
-            'project' => $project
-        ]);
-        $v = ProjectView::where('project', '=', $project)->where('css_id','=',$view)->get()[0];
-        ProjectContent::create([
-            'project' => $project,
-            'view' => $v['id'],
-            'widget' => $w['id']
-        ]);
+        $w = ProjectWidget::where('css_id',$request->widget['id'])->get()->first();
+        if($w){
+            $w->titre = 'titre widget';
+            $w->haut = $widget['top'];
+            $w->gauche = $widget['left'];
+            $w->hauteur = $widget['height'];
+            $w->largeur = $widget['width'];
+            $w->css_id = $widget['id'];
+            $w->project = $project;
+            $w->content = $request->file;
+            $w->save();
+        }else{
+            $w = ProjectWidget::create([
+                'titre' => 'titre widget',
+                'haut' => $widget['top'],
+                'gauche' => $widget['left'],
+                'hauteur' => $widget['height'],
+                'largeur' => $widget['width'],
+                'css_id' => $widget['id'],
+                'project' => $project,
+                'content' => $request->file
+            ]);
 
+            $v = ProjectView::where('project', '=', $project)->where('css_id','=',$view)->get()[0];
+            $pc = ProjectContent::where('project', '=', $project)->where('view','=',$v['id'])->where('widget','=',null)->get()->first();
+        
+            if($pc){
+                $pc->widget = $w['id'];
+                $pc->save();
+            }else{
+                ProjectContent::create([
+                    'project' => $project,
+                    'view' => $v['id'],
+                    'widget' => $w['id']
+                ]);
+            }
+        }
         return response()->json(['id' => $w->id], 200);
     }
 
-    public function load(Request $request){
-        $id = $request->getContent();
+    public function loadProject($id){
+        $result = $this->load($id);
+
+        return view('project', ['project' => $id,'result' => $result]);
+    }
+
+    public function load($id){
         $project = Project::find($id);
     
         $views = ProjectView::where('project', $id)->get();
-    
-        $result = new stdClass();
+        $result = [];
     
         foreach ($views as $view) {
             $viewId = $view->css_id;
-            $result->$viewId = new stdClass();
-            $result->$viewId->id = $view->css_id;
-            $result->$viewId->top = $view->haut;
-            $result->$viewId->height = $view->hauteur;
-            
+            $result[$viewId] = [];
+            $result[$viewId]['id'] = $view->css_id;
+            $result[$viewId]['top'] = $view->haut;
+            $result[$viewId]['height'] = $view->hauteur;
+    
             // Fetch related content
             $contents = ProjectContent::where('project', $id)->where('view', $view->id)->get();
-    
-            $result->$viewId->widgets = [];
+
+            $result[$viewId]['widgets'] = [];
     
             foreach ($contents as $content) {
                 if ($content->widget !== null) {
                     $widget = ProjectWidget::find($content->widget);
+                    $widgetContent = File::find($widget->content);
     
-                    $widgetObj = new stdClass();
-                    $widgetObj->id = $widget->css_id;
-                    $widgetObj->left = $widget->gauche;
-                    $widgetObj->top = $widget->haut;
-                    $widgetObj->width = $widget->largeur;
-                    $widgetObj->height = $widget->hauteur;
+                    $widgetObj = [];
+                    $widgetObj['view'] = $view->css_id;
+                    $widgetObj['id'] = $widget->css_id;
+                    $widgetObj['left'] = $widget->gauche;
+                    $widgetObj['top'] = $widget->haut;
+                    $widgetObj['width'] = $widget->largeur;
+                    $widgetObj['height'] = $widget->hauteur;
+                    $widgetObj['content'] = $widget->content;
+                    $widgetObj['type'] = $widgetContent->type;
+                    $widgetObj['filename'] = $widgetContent->filename;
     
-                    array_push($result->$viewId->widgets, $widgetObj);
+                    $result[$viewId]['widgets'][] = $widgetObj;
+                    
                 }
             }
         }
-    
-        $jsonResult = json_encode($result, JSON_PRETTY_PRINT);
-    
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Data loaded successfully',
-            'project' => $project,
-            'data' => json_decode($jsonResult)
-        ]);
+        return $result;
     }
+    
 }

@@ -17,6 +17,7 @@ class ProjectWidget extends Model
         'largeur',
         'css_id',
         'project',
+        'content',
         'created_at',
         'updated_at'
     ];

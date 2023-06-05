@@ -58,7 +58,7 @@
     background: rgb(180, 180, 180);
 }
 
-.widget .lock-btn {
+.lock-btn {
     position: absolute;
     top: 5px;
     right: 5px;
@@ -71,11 +71,11 @@
     z-index: 1;
 }
 
-.widget .lock-btn:hover {
+.lock-btn:hover {
     background-color: #2261b7;
 }
 
-.widget .remove-btn {
+.remove-btn {
     position: absolute;
     top: 5px;
     left: 5px;
@@ -88,7 +88,7 @@
     z-index: 1;
 }
 
-.widget .remove-btn:hover {
+.remove-btn:hover {
     background-color: #2261b7;
 }
 
@@ -99,6 +99,24 @@
     position: relative;
     border: 1px solid black;
     box-sizing: border-box;
+}
+
+.view-title{
+    width: 100%;
+    height: 40px;
+    background-color: #2261b7;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.view-title textarea{
+    resize: none;
+    height: 34px;
+    width: 750px;
+    font-size: 28px;
+    text-align: center;
 }
 
 .resizerView {

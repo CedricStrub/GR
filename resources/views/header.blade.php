@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Galaxy-Roads</title>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     @vite(['resources/css/home.css'])
     <!-- Styles -->
     @livewireStyles

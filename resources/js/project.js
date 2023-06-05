@@ -1,10 +1,12 @@
 import Dropzone from 'dropzone'
 import * as fileProcess from './fileProcess'
 import ajax from 'ajax'
-import jQuery from 'jquery'
+import { forEach, result } from 'underscore';
+// import jQuery from 'jquery'
 
 var jq = jQuery.noConflict();
 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+let isDirty = false
 
 function makeWidget(div) {
     const resizers = div.querySelectorAll(".resizer");
@@ -60,7 +62,7 @@ function makeWidget(div) {
                 newLeft = Math.max(0, Math.min(viewRect.width - newWidth, newLeft));
                 newWidth = Math.min(viewRect.width - newLeft, newWidth);
                 newHeight = Math.min(viewRect.height - newTop, newHeight);
-
+ 
                 const newRect = {
                     left: newLeft + viewRect.left,
                     right: newLeft + viewRect.left + newWidth,
@@ -108,6 +110,7 @@ function makeWidget(div) {
             function stopResize() {
                 window.removeEventListener("mousemove", resize);
                 window.removeEventListener("mouseup", stopResize);
+                isDirty = true
             }
         });
     }
@@ -169,6 +172,7 @@ function dragElement(element, selectedView) {
     function onMouseUp() {
         document.onmousemove = null;
         document.onmouseup = null;
+        isDirty = true
     }
 }
 
@@ -220,7 +224,7 @@ function findNearestNonOverlappingPosition(element, newX, newY, selectedView, st
 let idWidget = 0
 let idDropzone = null
 
-export function newWidget(widgetObj = null, targetView = selectedView, file = null) {
+function newWidget(widgetObj = null, targetView = selectedView, file = null) {
     const widget = document.createElement('div');
     widget.classList.add('widget');
     if(widgetObj){
@@ -230,9 +234,11 @@ export function newWidget(widgetObj = null, targetView = selectedView, file = nu
             widget.style.top = widgetObj.top + 'px';
             widget.style.width = widgetObj.width + 'px';
             widget.style.height = widgetObj.height + 'px';
+            if(idWidget <= +widgetObj.id.replace('widget_','')){
+                idWidget = +widgetObj.id.replace('widget_','')
+                idWidget += 1;
+            }
             idDropzone = widgetObj.id
-            idWidget += 1;
-            // set le file ici pour chargement projet
         } else {
             idDropzone = 'widget_' + idWidget 
             widget.setAttribute('id', idDropzone);
@@ -243,9 +249,6 @@ export function newWidget(widgetObj = null, targetView = selectedView, file = nu
         widget.setAttribute('id', idDropzone);
         idWidget += 1;
     }
-
-    
-
     widget.innerHTML = `
         <button class="lock-btn">Lock</button>
         <button class="remove-btn">Remove</button>
@@ -266,16 +269,22 @@ export function newWidget(widgetObj = null, targetView = selectedView, file = nu
         alert('No view is selected.');
     }
 
+    // Apply the resizable functionality to the new element.
+    makeWidget(widget);
+
+    // Apply the drag functionality to the new element.
+    dragElement(widget, targetView);
+
     if (!widgetObj) {
         widget.style.left = '0px';
         widget.style.top = '0px';
     }
 
     const topLeftCornerRect = {
-        left: selectedView.getBoundingClientRect().left,
-        right: selectedView.getBoundingClientRect().left + widget.getBoundingClientRect().width,
-        top: selectedView.getBoundingClientRect().top,
-        bottom: selectedView.getBoundingClientRect().top + widget.getBoundingClientRect().height,
+        left: (+targetView.offsetLeft + +widget.offsetLeft),
+        right: (+targetView.offsetLeft + +widget.offsetLeft + +widget.offsetWidth),
+        top: (+targetView.offsetTop + +widget.offsetTop),
+        bottom: (+targetView.offsetTop + +widget.offsetTop + +widget.offsetHeight),
     };
 
     if (hasCollisionWithOthers(widget, topLeftCornerRect)) {
@@ -295,38 +304,6 @@ export function newWidget(widgetObj = null, targetView = selectedView, file = nu
             widget.style.top = '0px';
         }
     }
-    makewidget(widget,targetView.id)
-
-    console.log(idDropzone)
-
-    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    let dropzone = new Dropzone('#' + idDropzone, {
-        url: 'upload', // Set upload URL here
-        maxFilesize: 1,
-        acceptedFiles: ".jpeg,.jpg,.png,.gif,.txt,.csv,.rtf",
-        clickable: false, // Do not open the file dialog on single click
-        autoDiscover: false, // This is needed to prevent Dropzone from automatically discovering this element
-        params:{
-            project: project,
-            widget: widget.id
-        },
-        headers: {'X-CSRF-TOKEN': csrfToken},
-        disablePreviews: true,
-    });
-
-
-    // Send the file and the widget to be processed accordingly to the file type
-    fileProcess.event(dropzone)
-    fileProcess.input(dropzone,widget)
-    if(file){
-        fileProcess.selector(widget,file)
-    }
-
-    // Apply the resizable functionality to the new element.
-    makeWidget(widget);
-
-    // Apply the drag functionality to the new element.
-    dragElement(widget, targetView);
 
     // Set the initial lock state.
     toggleLock(widget);
@@ -335,19 +312,36 @@ export function newWidget(widgetObj = null, targetView = selectedView, file = nu
     // Add the lock button event listener
     const lockButton = widget.querySelector('.lock-btn');
     lockButton.addEventListener('click', () => toggleLock(widget));
-    
-    
+
+    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    let dropzone = new Dropzone('#' + idDropzone, {
+        url: '/upload', // Set upload URL here
+        maxFilesize: 1,
+        acceptedFiles: ".jpeg,.jpg,.png,.gif,.txt,.csv",
+        clickable: false, // Do not open the file dialog on single click
+        headers: {'X-CSRF-TOKEN': csrfToken},
+        disablePreviews: true,
+    });
+
+    dropzone.on("success", function(response) {
+        console.log('File uploaded successfully');
+        saveWidget(widget,targetView.id,response.xhr.response)
+    });
+
+    // Send the file and the widget to be processed accordingly to the file type
+    fileProcess.event(dropzone)
+    fileProcess.input(dropzone,widget)
+    if(file){
+        dropzone.addFile(file)
+        fileProcess.selector(widget,file)
+    }
 
     return widget;
 }
 
-function makewidget(widget,view){
+function saveWidget(widget,view,idFile){
 
     var v = view
-
-    console.log(widget)
-    console.log(widget)
-
     var w = {
         id: widget.id,
         left: widget.offsetLeft,
@@ -356,8 +350,6 @@ function makewidget(widget,view){
         height: widget.offsetHeight,
     }
 
-    console.log(w)
-
     jq.ajax({
         url: '/makeWidget',
         method: 'POST',
@@ -365,10 +357,12 @@ function makewidget(widget,view){
             view: v,
             widget: w,
             project: project,
+            file: idFile,
             _token: csrfToken
         },
         success: function(response) {
             console.log('ID returned: ', response.id);
+            console.log(idFile)
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(textStatus, errorThrown);
@@ -376,18 +370,27 @@ function makewidget(widget,view){
     });
 }
 
-function loadWidgets(jsonData) {
-    for (const viewKey in jsonData) {
-        if (jsonData.hasOwnProperty(viewKey)) {
-            const viewObj = jsonData[viewKey];
-            const viewElement = document.getElementById(viewObj.id);
-
-            if (viewElement) {
-                for (const widgetObj of viewObj.widgets) {
-                    newWidget(widgetObj, viewElement);
-                }
-            }
-        }
+function loadWidgets(widgetObj) {
+    var viewElement = document.getElementById(widgetObj.view);
+    selectedView = viewElement
+    var widget = newWidget(widgetObj, viewElement)
+    switch (widgetObj.type){
+        case "image/png":
+            fileProcess.image(widget,'url(../images/'+widgetObj.filename+')')
+            break;
+        case "image/jpg":
+            fileProcess.image(widget,'url(../images/'+widgetObj.filename+')')
+            break;
+        case "image/jpeg":
+            fileProcess.image(widget,'url(../images/'+widgetObj.filename+')')
+            break;
+        case "image/gif":
+            fileProcess.image(widget,'url(../images/'+widgetObj.filename+')')
+            break;
+        case "text/plain":
+            break;
+        case "text/csv":
+            break;
     }
 }
 
@@ -434,8 +437,8 @@ function findNonOverlappingPosition(element, selectedView) {
         top: 0,
     };
 
-    for (let y = 0; y <= viewRect.height - elementRect.height; y += 1) {
-        for (let x = 0; x <= viewRect.width - elementRect.width; x += 1) {
+    for (let y = 0; y <= viewRect.height - elementRect.height; y += 5) {
+        for (let x = 0; x <= viewRect.width - elementRect.width; x += 5) {
             newPosition.left = x;
             newPosition.top = y;
             let newPositionRect = {
@@ -495,6 +498,7 @@ function onMouseMove(e) {
 function onMouseUp() {
     window.removeEventListener('mousemove', onMouseMove);
     window.removeEventListener('mouseup', onMouseUp);
+    isDirty = true
 }
 
 
@@ -524,6 +528,7 @@ function createResizableView() {
     const onMouseUp = (onMouseMove) => () => {
         window.removeEventListener('mousemove', onMouseMove);
         window.removeEventListener('mouseup', onMouseUp);
+        isDirty = true
     };
     
     resizer.addEventListener('mousedown', (e) => {
@@ -549,13 +554,24 @@ let selectedView = null;
 let idView = 0;
 
 export function newView(viewObj = null) {
+    let viewId = 0
+   
     const page = document.querySelector('.page');
     const view = createResizableView();
-
+    const title = document.createElement('div');
+    title.className = 'view-title';
+    title.innerHTML = `
+    <div class="view-title">
+    <textarea class="title_`+idView+`"></textarea>
+    <button class="lock-btn">Lock</button>
+    <button class="remove-btn">Remove</button>
+    </div>
+    `;
+    
+    page.appendChild(title);
     page.appendChild(view);
-    let viewId = null
+    
 
-    console.log(viewObj)
     if (viewObj) {
         if (viewObj.type != 'click') {
             view.style.height = viewObj.height + 'px';
@@ -568,6 +584,7 @@ export function newView(viewObj = null) {
             view.setAttribute('id', 'view_' + idView);
             viewId = 'view_' + idView
             idView += 1;
+            makeView(view)
         }
     }else{
         view.setAttribute('id', 'view_' + idView);
@@ -575,17 +592,16 @@ export function newView(viewObj = null) {
         idView += 1
     }
 
-    makeView(view)
-
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     let dropzone = new Dropzone('#' + viewId, {
-        url: 'upload', 
+        url: '/upload', 
         maxFilesize: 1,
         acceptedFiles: ".jpeg,.jpg,.png,.gif,.txt,.csv,.rtf",
         clickable: false, 
         autoDiscover: false, 
         headers: {'X-CSRF-TOKEN': csrfToken},
         disablePreviews: true,
+        autoProcessQueue: false
     });
 
     fileProcess.event(dropzone)
@@ -593,6 +609,10 @@ export function newView(viewObj = null) {
     dropzone.on("addedfile", function(file) {
         newWidget(null,view,file)
     })
+
+    // Apply the remove functionality to the new element.
+    const removeButton = title.querySelector('.remove-btn');
+    removeButton.addEventListener('click', () => removeDiv(view));
 
     if (selectedView === null) {
         selectedView = view;
@@ -635,15 +655,16 @@ function selectView(view) {
     view.classList.add('selected');
 }
 
-newView()
-
 function extractSizeAndPosition() {
     const views = document.querySelectorAll(".view");
-    const sizeAndPosition = {};
+    const sizeAndPosition = {
+        project: project,
+        views:{}
+    };
 
     for (const view of views) {
         const viewId = view.getAttribute("id");
-        sizeAndPosition[viewId] = {
+        sizeAndPosition.views[viewId] = {
             id: viewId,
             top: view.offsetTop,
             height: view.offsetHeight,
@@ -651,10 +672,9 @@ function extractSizeAndPosition() {
         };
 
         const widgets = view.querySelectorAll(".widget");
-        console.log(widgets)
         for (const widget of widgets) {
             const widgetId = widget.getAttribute("id");
-            sizeAndPosition[viewId].widgets.push({
+            sizeAndPosition.views[viewId].widgets.push({
                 id: widgetId,
                 left: widget.offsetLeft,
                 top: widget.offsetTop,
@@ -673,7 +693,7 @@ export function saveProject(){
 
     // Get CSRF token from the meta tag
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-
+    console.log(serializedData)
     
     // Send JSON data to the controller
     fetch('/projectSave', {
@@ -694,52 +714,40 @@ export function saveProject(){
     });
 }
 
-export function loadProject(){
-    let id = 14
-    // Send JSON data to the controller
-    fetch('/projectLoad', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken,
-        },
-        body: id,
-    })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Failed to fetch data');
-            }
-        })
-        .then((data) => {
-            // Handle the response from the controller
-            if (data.status === 'success') {
-                const jsonData = data.data;
-                console.log(jsonData);
-
-                // Remove existing views
-                const existingViews = document.querySelectorAll('.view');
-                existingViews.forEach((view) => view.remove());
-
-                // Create views from jsonData
-                for (const viewKey in jsonData) {
-                    if (jsonData.hasOwnProperty(viewKey)) {
-                        const viewObj = jsonData[viewKey];
-                        newView(viewObj);
-                    }
-                }
-
-                loadWidgets(jsonData);
-            } else {
-                console.error('Error: ' + data.message);
-            }
-        })
-        .catch((error) => {
-            // Handle any errors that occur during the request
-            console.error(error);
-        });
+if(data != null){
+    loadProject()
+}else{
+    newView()
 }
+
+export function loadProject(){
+    // Handle the response from the controlle
+    for(let view in data){
+        newView(data[view])
+        for (let i = 0; i < data[view].widgets.length; i++) {
+            loadWidgets(data[view].widgets[i])
+        }
+    }
+}
+
+setInterval(() => {
+    if (isDirty) {
+        saveProject();
+        isDirty = false
+        console.log("project saved")
+    }
+}, 5000);
+
+
+
+window.addEventListener('beforeunload', function (e) {
+    if (isDirty) { 
+        // These two lines are still required to show the built-in browser prompt
+        e.preventDefault();
+        e.returnValue = '';
+    }
+});
+
 
 document.getElementById('newWidgetButton').onclick = newWidget;
 document.getElementById('newViewButton').onclick = newView;

@@ -33,7 +33,7 @@ class ControllerProject extends Controller
             foreach($uniqueViews as $view){
                 $Pview = ProjectView::find($view['view']);
                 $temp = $sizeAndPosition['views'][$Pview->css_id];
-                $Pview->titre = 'titre view';
+                $Pview->titre = $temp['title'];
                 $Pview->haut = $temp['top'];
                 $Pview->hauteur = $temp['height'];
                 $Pview->css_id = $temp['id'];
@@ -101,12 +101,28 @@ class ControllerProject extends Controller
         return response()->json(['id' => $v->id], 200);
     }
 
+    public function removeView(Request $request){
+        $view = ProjectView::where('project',$request->project)->where('css_id',$request->view['id']);
+        $v = $view->get()->first();
+        
+        $content = ProjectContent::where('project',$request->project)->where('view',$v->id);
+        $c = $content->get();
+        
+        foreach($c as $pc){
+            $pw = ProjectWidget::find($pc->widget);
+            $pw->delete();
+        }
+
+        $content->delete();
+        $view->delete();
+    }
+
     public function makeWidget(Request $request){
         $project = $request->project;
         $view = $request->view;
         $widget = $request->widget;
 
-        $w = ProjectWidget::where('css_id',$request->widget['id'])->get()->first();
+        $w = ProjectWidget::where('project',$project)->where('css_id',$request->widget['id'])->get()->first();
         if($w){
             $w->titre = 'titre widget';
             $w->haut = $widget['top'];
@@ -129,9 +145,8 @@ class ControllerProject extends Controller
                 'content' => $request->file
             ]);
 
-            $v = ProjectView::where('project', '=', $project)->where('css_id','=',$view)->get()[0];
+            $v = ProjectView::where('project', '=', $project)->where('css_id','=',$view)->get()->first();
             $pc = ProjectContent::where('project', '=', $project)->where('view','=',$v['id'])->where('widget','=',null)->get()->first();
-        
             if($pc){
                 $pc->widget = $w['id'];
                 $pc->save();
@@ -146,10 +161,15 @@ class ControllerProject extends Controller
         return response()->json(['id' => $w->id], 200);
     }
 
+    public function removeWidget(Request $request){
+        $widget = ProjectWidget::where('project',$request->project)->where('css_id',$request->widget['id']);
+        $widget->delete();
+    }
+
     public function loadProject($id){
         $result = $this->load($id);
 
-        return view('project', ['project' => $id,'result' => $result]);
+        return view('project', ['project' => $id,'result' => $result,'isDirty' => false]);
     }
 
     public function load($id){
@@ -161,6 +181,7 @@ class ControllerProject extends Controller
         foreach ($views as $view) {
             $viewId = $view->css_id;
             $result[$viewId] = [];
+            $result[$viewId]['title'] = $view->titre;
             $result[$viewId]['id'] = $view->css_id;
             $result[$viewId]['top'] = $view->haut;
             $result[$viewId]['height'] = $view->hauteur;

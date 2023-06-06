@@ -41,6 +41,9 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
     Route::get('/loadProject/{id}',[ControllerProject::class, 'loadProject']);
     Route::post('/makeView',[ControllerProject::class, 'makeView']);
     Route::post('/makeWidget',[ControllerProject::class, 'makeWidget']);
+    Route::delete('/removeWidget',[ControllerProject::class,'removeWidget']);
+    Route::delete('/removeView',[ControllerProject::class,'removeView']);
+
 
     Route::post('/projectSave', [ControllerProject::class, 'save']);
     Route::post('/projectLoad', [ControllerProject::class, 'load']);
@@ -49,5 +52,5 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
 
     Route::post('/upload',[FileUploadController::class, 'fileStore']);
     Route::post('/image/delete',[FileUploadController::class, 'fileDestroy']);
-
+    Route::post('/file/update',[FileUploadController::class, 'fileUpdate']);
 });

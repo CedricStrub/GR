@@ -1,0 +1,5 @@
+Ceci est un fichier de test pour mon projet 
+
+il contient plusieurs lignes
+
+afin de verifier qu tout fonctionne bien.

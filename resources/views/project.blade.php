@@ -3,6 +3,7 @@
 
 <script>
     var project = @json($project);
+    var isDirty = @json($isDirty);
 </script>
 
 @if(isset($result))
@@ -15,7 +16,7 @@
 </script>
 @endif
 
-@vite(['resources/css/project.css','resources/js/project.js'])
+@vite(['resources/js/fileProcess.js','resources/css/project.css','resources/js/project.js'])
 
 
 <button id="newWidgetButton" >new widget</button>

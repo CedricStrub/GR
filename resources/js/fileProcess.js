@@ -1,4 +1,4 @@
-import tinymce from 'tinymce'
+import tinymce from 'tinymce/tinymce';
 
 export function hello(){
     console.log('hello')
@@ -66,26 +66,27 @@ export function image(widget,url){
 
 }
 
-function text(widget,event){
+export function text(widget,event,file = null){
     // Create a new textarea element
     const textarea = document.createElement('textarea');
+    textarea.classList.add('tinyMCE')
     widget.appendChild(textarea);
 
     // Load the file contents into the textarea
-    textarea.textContent = event.target.result;
+    if(file){
+        fetch(file)
+        .then(response => response.text())
+        .then((data) => {
+            console.log(data)
+            textarea.textContent = data;
+            initTinyMce(widget)
+        })
+    }else{
+        textarea.textContent = event.target.result;
+        initTinyMce(widget)
+    }
 
-    // Initialize TinyMCE on the textarea
-    tinymce.init({
-        selector: 'textarea',
-        menubar: false,
-        branding: false,
-        toolbar: 'formatselect | fontselect | undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent',
-        base_url: '/tinymce', // Root location of TinyMCE assets in your public directory
-        suffix: '.min', // Suffix for minified files
-        width: '100%',
-        height: '100%',
-        resize: false,
-    });
+    
 
     const lockButton = widget.querySelector('.lock-btn');
     lockButton.addEventListener('click', () => {
@@ -101,3 +102,25 @@ function text(widget,event){
     });
 }
 
+function initTinyMce(widget){
+    tinymce.init({
+        selector: 'textarea.tinyMCE',
+        menubar: false,
+        branding: false,
+        toolbar: 'formatselect | fontselect | undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent',
+        base_url: '/tinymce', // Root location of TinyMCE assets in your public directory
+        suffix: '.min', // Suffix for minified files
+        width: '100%',
+        height: '100%',
+        resize: false,
+        setup: function (editor) {
+            editor.on('Change', function (e) {
+                console.log(editor)
+                var content = editor.getContent();
+                if (content != '') {
+                    
+                }
+            });
+        }
+    });
+}

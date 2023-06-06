@@ -114,4 +114,15 @@ class FileUploadController extends Controller
         }
         return $filename;  
     }
+
+    public function fileUpdate(Request $request){
+        $data = $request->data;
+        $f = File::where('uuid',$request->uuid);
+
+        $name = '/texte/'.$f->filename;
+        $handle = fopen($name, 'w') or die('Cannot open file:  '.$name);
+
+        fwrite($handle, $data);
+        fclose($handle);
+    }
 }

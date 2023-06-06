@@ -6,7 +6,6 @@ import { forEach, result } from 'underscore';
 
 var jq = jQuery.noConflict();
 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-let isDirty = false
 
 function makeWidget(div) {
     const resizers = div.querySelectorAll(".resizer");
@@ -260,7 +259,7 @@ function newWidget(widgetObj = null, targetView = selectedView, file = null) {
 
     // Apply the remove functionality to the new element.
     const removeButton = widget.querySelector('.remove-btn');
-    removeButton.addEventListener('click', () => removeDiv(widget));
+    removeButton.addEventListener('click', () => removeWidget(widget));
 
     // Append the widget to the body or a container of your choice.
     if (targetView) {
@@ -339,6 +338,27 @@ function newWidget(widgetObj = null, targetView = selectedView, file = null) {
     return widget;
 }
 
+function removeWidget(widget){
+    widget.parentElement.removeChild(widget);
+    var w = {
+        id: widget.id,
+        left: widget.offsetLeft,
+        top: widget.offsetTop,
+        width: widget.offsetWidth,
+        height: widget.offsetHeight,
+    }
+    jq.ajax({
+        url: '/removeWidget',
+        method: 'DELETE',
+        data: {
+            widget: w,
+            project: project,
+            _token: csrfToken
+        },
+    });
+    isDirty = true
+}
+
 function saveWidget(widget,view,idFile){
 
     var v = view
@@ -388,15 +408,12 @@ function loadWidgets(widgetObj) {
             fileProcess.image(widget,'url(../images/'+widgetObj.filename+')')
             break;
         case "text/plain":
+            fileProcess.text(widget,null,'../texte/'+widgetObj.filename)
             break;
         case "text/csv":
             break;
     }
 }
-
-
-
-
 
 function toggleLock(element) {
     element.locked = !element.locked; // Toggle the locked state
@@ -567,10 +584,9 @@ export function newView(viewObj = null) {
     <button class="remove-btn">Remove</button>
     </div>
     `;
-    
+
     page.appendChild(title);
     page.appendChild(view);
-    
 
     if (viewObj) {
         if (viewObj.type != 'click') {
@@ -579,7 +595,13 @@ export function newView(viewObj = null) {
             view.style.width = '100%';
             view.setAttribute('id', viewObj.id);
             viewId = viewObj.id
-            idView += 1;
+            document.querySelector('.title_'+idView).innerText = viewObj.title
+            if(idView <= +viewObj.id.replace('view_','')){
+                idView = +viewObj.id.replace('view_','')
+                idView += 1;
+            }else{
+                idView += 1;
+            }
         } else {
             view.setAttribute('id', 'view_' + idView);
             viewId = 'view_' + idView
@@ -592,6 +614,8 @@ export function newView(viewObj = null) {
         idView += 1
     }
 
+    
+    console.log(viewId)
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     let dropzone = new Dropzone('#' + viewId, {
         url: '/upload', 
@@ -612,12 +636,32 @@ export function newView(viewObj = null) {
 
     // Apply the remove functionality to the new element.
     const removeButton = title.querySelector('.remove-btn');
-    removeButton.addEventListener('click', () => removeDiv(view));
+    removeButton.addEventListener('click', () => removeView(view,title));
 
     if (selectedView === null) {
         selectedView = view;
         view.classList.add('selected');
     }
+}
+
+function removeView(view,title){
+    view.parentElement.removeChild(view);
+    title.parentElement.removeChild(title);
+    var w = {
+        id: view.id,
+        top: view.offsetTop,
+        height: view.offsetHeight,
+    }
+    jq.ajax({
+        url: '/removeView',
+        method: 'DELETE',
+        data: {
+            view: w,
+            project: project,
+            _token: csrfToken
+        },
+    });
+    isDirty = true
 }
 
 function makeView(view){
@@ -662,9 +706,14 @@ function extractSizeAndPosition() {
         views:{}
     };
 
+    var tID = 0
     for (const view of views) {
+        console.log(view)
+        var t = document.querySelector('.title_'+tID)
+        tID += 1
         const viewId = view.getAttribute("id");
         sizeAndPosition.views[viewId] = {
+            title: t.value,
             id: viewId,
             top: view.offsetTop,
             height: view.offsetHeight,
@@ -720,14 +769,19 @@ if(data != null){
     newView()
 }
 
-export function loadProject(){
+function loadProject(){
     // Handle the response from the controlle
+    console.log(data)
     for(let view in data){
         newView(data[view])
         for (let i = 0; i < data[view].widgets.length; i++) {
             loadWidgets(data[view].widgets[i])
         }
     }
+}
+
+export function saveFile(content){
+    isDirty = true
 }
 
 setInterval(() => {
@@ -742,7 +796,6 @@ setInterval(() => {
 
 window.addEventListener('beforeunload', function (e) {
     if (isDirty) { 
-        // These two lines are still required to show the built-in browser prompt
         e.preventDefault();
         e.returnValue = '';
     }

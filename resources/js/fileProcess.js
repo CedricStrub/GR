@@ -69,7 +69,7 @@ export function image(widget,url){
 export function text(widget,event,file = null){
     // Create a new textarea element
     const textarea = document.createElement('textarea');
-    textarea.classList.add('tinyMCE')
+    textarea.classList.add('tinyMCE'+widget.id)
     widget.appendChild(textarea);
 
     // Load the file contents into the textarea
@@ -77,7 +77,6 @@ export function text(widget,event,file = null){
         fetch(file)
         .then(response => response.text())
         .then((data) => {
-            console.log(data)
             textarea.textContent = data;
             initTinyMce(widget)
         })
@@ -103,8 +102,9 @@ export function text(widget,event,file = null){
 }
 
 function initTinyMce(widget){
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
     tinymce.init({
-        selector: 'textarea.tinyMCE',
+        selector: 'textarea.tinyMCE'+widget.id,
         menubar: false,
         branding: false,
         toolbar: 'formatselect | fontselect | undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent',
@@ -114,13 +114,61 @@ function initTinyMce(widget){
         height: '100%',
         resize: false,
         setup: function (editor) {
-            editor.on('Change', function (e) {
-                console.log(editor)
-                var content = editor.getContent();
-                if (content != '') {
-                    
-                }
+            editor.on('dragover drop', function(e) {
+                e.preventDefault();
+                let element = document.getElementById(widget.id);
+                document.getElementById(widget.id).classList.add('dragover');
+            
+                // Clear any existing timeout
+                clearTimeout(element.dataset.dragoverTimeout);
+            
+                // Set a timeout to remove the class after 1 second of inactivity
+                element.dataset.dragoverTimeout = setTimeout(function() {
+                    document.getElementById(widget.id).classList.remove('dragover');
+                }, 100);
+            
+                return false;
             });
+
+            let previous = ''
+            const save = () => {
+                let content = editor.getContent()
+                if(previous != content){
+                    var file = ''
+                    if (content != '') {
+                        for(let view in data){
+                            for (let i = 0; i < data[view].widgets.length; i++) {
+                                if(data[view].widgets[i].id == widget.id){
+                                    file = data[view].widgets[i].filename
+                                    break;
+                                }
+                            }
+                            if(file != ''){
+                                break;
+                            }
+                        }
+                        var d = {
+                            file: file,
+                            content: content
+                        }
+                        d = JSON.stringify(d)
+                        fetch('/file/update',{
+                            method: 'POST',
+                            headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken
+                            },
+                            body: d
+                        })
+                    }
+                }
+                previous = content
+            };
+            // Save when the editor's content is changed
+            editor.on('change', save);
+
+            // Also save every 5 seconds (5000 milliseconds)
+            setInterval(save, 5000);
         }
     });
 }

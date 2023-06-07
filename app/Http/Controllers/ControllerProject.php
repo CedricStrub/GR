@@ -108,9 +108,11 @@ class ControllerProject extends Controller
         $content = ProjectContent::where('project',$request->project)->where('view',$v->id);
         $c = $content->get();
         
-        foreach($c as $pc){
-            $pw = ProjectWidget::find($pc->widget);
-            $pw->delete();
+        if($c[0]->widget != null){
+            foreach($c as $pc){
+                $pw = ProjectWidget::find($pc->widget);
+                $pw->delete();
+            }
         }
 
         $content->delete();

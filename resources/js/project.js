@@ -427,8 +427,6 @@ function toggleLock(element) {
     });
 }
 
-// element.querySelector
-
 function isRectanglesOverlapping(rect1, rect2) {
     return (
         rect1.left < rect2.right &&
@@ -579,7 +577,7 @@ export function newView(viewObj = null) {
     title.className = 'view-title';
     title.innerHTML = `
     <div class="view-title">
-    <textarea class="title_`+idView+`"></textarea>
+    <textarea class="title_`+idView+`" id="title_`+idView+`"></textarea>
     <button class="lock-btn">Lock</button>
     <button class="remove-btn">Remove</button>
     </div>
@@ -587,6 +585,29 @@ export function newView(viewObj = null) {
 
     page.appendChild(title);
     page.appendChild(view);
+
+
+    // Retrieve the textarea using its id
+    let textarea = document.getElementById('title_'+idView)
+    let intervalId 
+    
+    // Attach focus and blur event listeners to the textarea
+    textarea.addEventListener('focus', function() {
+        var previous = ''
+        intervalId = setInterval(function() {
+            if(previous != textarea.value){
+                previous = textarea.value
+                saveProject()
+                isDirty = false
+            }
+        }, 5000); 
+    });
+
+    textarea.addEventListener('blur', function() {
+        clearInterval(intervalId);
+        saveProject()
+        isDirty = false
+    });
 
     if (viewObj) {
         if (viewObj.type != 'click') {
@@ -614,8 +635,6 @@ export function newView(viewObj = null) {
         idView += 1
     }
 
-    
-    console.log(viewId)
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     let dropzone = new Dropzone('#' + viewId, {
         url: '/upload', 
@@ -665,7 +684,6 @@ function removeView(view,title){
 }
 
 function makeView(view){
-    console.log(view)
     var v = {
             id: view.id,
             top: view.offsetTop,
@@ -737,12 +755,11 @@ function extractSizeAndPosition() {
 }
 
 export function saveProject(){
-    const sizeAndPosition = extractSizeAndPosition();
-    const serializedData = JSON.stringify(sizeAndPosition);
+    var sizeAndPosition = extractSizeAndPosition();
+    var serializedData = JSON.stringify(sizeAndPosition);
 
     // Get CSRF token from the meta tag
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-    console.log(serializedData)
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
     
     // Send JSON data to the controller
     fetch('/projectSave', {
@@ -770,8 +787,7 @@ if(data != null){
 }
 
 function loadProject(){
-    // Handle the response from the controlle
-    console.log(data)
+    // Handle the response from the controller
     for(let view in data){
         newView(data[view])
         for (let i = 0; i < data[view].widgets.length; i++) {
@@ -788,7 +804,6 @@ setInterval(() => {
     if (isDirty) {
         saveProject();
         isDirty = false
-        console.log("project saved")
     }
 }, 5000);
 

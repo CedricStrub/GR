@@ -1,0 +1,3 @@
+<p>Ceci est un test de fichier text simple pour dropzone</p>
+<p>&nbsp;</p>
+<p>ou si ca marche pas</p>

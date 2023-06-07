@@ -133,3 +133,8 @@
     border: 3px dashed #f00 !important; 
     background-color: #f8f8f8 !important;
 }
+
+.dragover {
+    border: 3px dashed #f00 !important; 
+    background-color: #f8f8f8 !important;
+}

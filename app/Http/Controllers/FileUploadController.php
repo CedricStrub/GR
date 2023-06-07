@@ -116,13 +116,12 @@ class FileUploadController extends Controller
     }
 
     public function fileUpdate(Request $request){
-        $data = $request->data;
-        $f = File::where('uuid',$request->uuid);
+        $data = $request->getContent();
+        $data = json_decode($data, true);
 
-        $name = '/texte/'.$f->filename;
+        $name = './texte/'.$data['file'];
         $handle = fopen($name, 'w') or die('Cannot open file:  '.$name);
-
-        fwrite($handle, $data);
+        fwrite($handle, $data['content']);
         fclose($handle);
     }
 }

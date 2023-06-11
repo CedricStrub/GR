@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('hauteur');
             $table->string('largeur');
             $table->string('css_id');
+            $table->string('type')->nullable();
             $table->unsignedBigInteger('content')->nullable();
             $table->foreign('content')->references('id')->on('files')->onDelete('set null');
             $table->unsignedBigInteger('project');

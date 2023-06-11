@@ -14,6 +14,11 @@ export function event(dropzone){
         if(event.target.id != "")
             document.getElementById(event.target.id).classList.remove('dragover');
     });
+
+    dropzone.on('drop', function(event) {
+        if(event.target.id != "")
+            document.getElementById(event.target.id).classList.remove('dragover');
+    });
 }
 
 export function input(dropzone = null,widget){
@@ -44,7 +49,13 @@ export function input(dropzone = null,widget){
 export function selector(widget,file){
     let reader = new FileReader();
     console.log(file.type)
+    widget.setAttribute('data-type',file.type)
     if (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/gif') {
+        try{
+            tinymce.remove('textarea.tinyMCE'+widget.id)
+        }catch(err){
+            console.log(err)
+        }
         reader.addEventListener("load", function(event) {
             image(widget,`url(${event.target.result})`)
         })
@@ -71,6 +82,7 @@ export function text(widget,event,file = null){
     const textarea = document.createElement('textarea');
     textarea.classList.add('tinyMCE'+widget.id)
     widget.appendChild(textarea);
+    var id = +widget.id.replace('widget_','')
 
     // Load the file contents into the textarea
     if(file){
@@ -87,7 +99,7 @@ export function text(widget,event,file = null){
 
     
 
-    const lockButton = widget.querySelector('.lock-btn');
+    const lockButton = widget.querySelector('#lock_w'+id);
     lockButton.addEventListener('click', () => {
         if (tinymce) {
             if(tinymce.EditorManager.activeEditor.mode.get() === 'design'){
@@ -167,8 +179,8 @@ function initTinyMce(widget){
             // Save when the editor's content is changed
             editor.on('change', save);
 
-            // Also save every 5 seconds (5000 milliseconds)
-            setInterval(save, 5000);
+            // Also save every 1 seconds (1000 milliseconds)
+            setInterval(save, 1000);
         }
     });
 }

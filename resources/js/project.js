@@ -1,7 +1,5 @@
 import Dropzone from 'dropzone'
 import * as fileProcess from './fileProcess'
-import ajax from 'ajax'
-import { forEach, result } from 'underscore';
 // import jQuery from 'jquery'
 
 var jq = jQuery.noConflict();
@@ -226,6 +224,20 @@ let idDropzone = null
 function newWidget(widgetObj = null, targetView = selectedView, file = null) {
     const widget = document.createElement('div');
     widget.classList.add('widget');
+    var id = idWidget
+    if(widgetObj){
+        if (widgetObj.type != 'click') {
+            id = +widgetObj.id.replace('widget_','')
+        }
+    }
+        widget.innerHTML = `
+        <div class="deleteW" id="delete_w`+id+`"><img src="../images/TitleDelW.png"></img></div>
+        <div class="lock" id="lock_w`+id+`"><img src="../images/TitleLock.png"></img></div>
+        <div class="resizer top-left"></div>
+        <div class="resizer top-right"></div>
+        <div class="resizer bottom-left"></div>
+        <div class="resizer bottom-right"></div>
+    `;
     if(widgetObj){
         if (widgetObj.type != 'click') {
             widget.setAttribute('id', widgetObj.id);
@@ -248,17 +260,9 @@ function newWidget(widgetObj = null, targetView = selectedView, file = null) {
         widget.setAttribute('id', idDropzone);
         idWidget += 1;
     }
-    widget.innerHTML = `
-        <button class="lock-btn">Lock</button>
-        <button class="remove-btn">Remove</button>
-        <div class="resizer top-left"></div>
-        <div class="resizer top-right"></div>
-        <div class="resizer bottom-left"></div>
-        <div class="resizer bottom-right"></div>
-    `;
 
     // Apply the remove functionality to the new element.
-    const removeButton = widget.querySelector('.remove-btn');
+    const removeButton = widget.querySelector('#delete_w'+id);
     removeButton.addEventListener('click', () => removeWidget(widget));
 
     // Append the widget to the body or a container of your choice.
@@ -309,7 +313,7 @@ function newWidget(widgetObj = null, targetView = selectedView, file = null) {
     toggleLock(widget);
 
     // Add the lock button event listener
-    const lockButton = widget.querySelector('.lock-btn');
+    const lockButton = widget.querySelector('#lock_w'+id);
     lockButton.addEventListener('click', () => toggleLock(widget));
 
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -362,12 +366,14 @@ function removeWidget(widget){
 function saveWidget(widget,view,idFile){
 
     var v = view
+    console.log(widget.getAttribute('data-type'))
     var w = {
         id: widget.id,
         left: widget.offsetLeft,
         top: widget.offsetTop,
         width: widget.offsetWidth,
         height: widget.offsetHeight,
+        type: widget.getAttribute('data-type'),
     }
 
     jq.ajax({
@@ -417,8 +423,13 @@ function loadWidgets(widgetObj) {
 
 function toggleLock(element) {
     element.locked = !element.locked; // Toggle the locked state
-    const lockButton = element.querySelector(".lock-btn");
-    lockButton.innerText = element.locked ? "Unlock" : "Lock";
+    var id = +element.id.replace('widget_','')
+    const lockButton = element.querySelector("#lock_w"+id);
+    if(element.locked == true){
+        lockButton.children[0].src = "../images/TitleUnlock.png"
+    }else{
+        lockButton.children[0].src = "../images/TitleLock.png"
+    }
 
     // Show or hide resizers based on the locked state
     const resizers = element.querySelectorAll(".resizer");
@@ -520,6 +531,7 @@ function onMouseUp() {
 function createResizableView() {
     const view = document.createElement('div');
     view.className = 'view';
+    view.dataset.locked = 'true'
 
     const resizer = document.createElement('div');
     resizer.className = 'resizerView';
@@ -547,13 +559,15 @@ function createResizableView() {
     };
     
     resizer.addEventListener('mousedown', (e) => {
-        const startY = e.clientY;
-        const scrollTop = document.documentElement.scrollTop;
-        const startHeight = parseInt(document.defaultView.getComputedStyle(resizer.parentElement).height, 10);
-        const boundOnMouseMove = onMouseMove(startY, startHeight, scrollTop);
-        const boundOnMouseUp = onMouseUp(boundOnMouseMove);
-        window.addEventListener('mousemove', boundOnMouseMove);
-        window.addEventListener('mouseup', boundOnMouseUp);
+        if (resizer.parentElement.dataset.locked === 'true') {
+            const startY = e.clientY;
+            const scrollTop = document.documentElement.scrollTop;
+            const startHeight = parseInt(document.defaultView.getComputedStyle(resizer.parentElement).height, 10);
+            const boundOnMouseMove = onMouseMove(startY, startHeight, scrollTop);
+            const boundOnMouseUp = onMouseUp(boundOnMouseMove);
+            window.addEventListener('mousemove', boundOnMouseMove);
+            window.addEventListener('mouseup', boundOnMouseUp);
+        }
     });
 
     view.addEventListener('click', (e) => {
@@ -570,27 +584,72 @@ let idView = 0;
 
 export function newView(viewObj = null) {
     let viewId = 0
-   
+    if (viewObj) {
+        if (viewObj.type != 'click') {
+            idView = +viewObj.id.replace('view_','')
+        }
+    }
     const page = document.querySelector('.page');
     const view = createResizableView();
     const title = document.createElement('div');
     title.className = 'view-title';
     title.innerHTML = `
-    <div class="view-title">
-    <textarea class="title_`+idView+`" id="title_`+idView+`"></textarea>
-    <button class="lock-btn">Lock</button>
-    <button class="remove-btn">Remove</button>
+    <div class="user"><img src="../images/TitleUser.png"></img></div>
+    <div class="title-filler-l" id="tfl_`+idView+`"><img src="../images/TitleFillerLeft.png"></img></div>
+    <div class="title">
+        <textarea class="title_`+idView+`" id="title_`+idView+`"></textarea>
     </div>
+    <div class="title-filler-r" id="tfr_`+idView+`"><img src="../images/TitleFillerRight.png"></img></div>
+    <div class="delete" id="delete_`+idView+`"><img src="../images/TitleDel.png"></img></div>
+    <div class="lock" id="lock_`+idView+`"><img src="../images/TitleLock.png"></img></div>
     `;
 
     page.appendChild(title);
     page.appendChild(view);
 
+    const removeButton = title.querySelector('#delete_'+idView);
+    removeButton.addEventListener('click', () => removeView(view,title));
+
+    // Find the lock button inside the title element
+    const lockBtn = title.querySelector('#lock_'+idView);
+
+    // Add a click event listener to the lock button
+    lockBtn.addEventListener('click', () => {
+        // Toggle the locked state
+        if (view.dataset.locked === 'false') {
+            view.dataset.locked = 'true';
+            lockBtn.children[0].src = "../images/TitleLock.png"
+        } else {
+            view.dataset.locked = 'false'; 
+            lockBtn.children[0].src = "../images/TitleUnlock.png"
+        }
+    });
 
     // Retrieve the textarea using its id
     let textarea = document.getElementById('title_'+idView)
+    let fillerL = document.getElementById('tfl_'+idView)
+    let fillerR = document.getElementById('tfr_'+idView)
     let intervalId 
+
+    function titleEnter(){
+        textarea.parentElement.classList.add('title-hover')
+        fillerL.classList.add('title-hover')
+        fillerR.classList.add('title-hover')
+    }
+
+    function titleLeave(){
+        textarea.parentElement.classList.remove('title-hover')
+        fillerL.classList.remove('title-hover')
+        fillerR.classList.remove('title-hover')
+    }
     
+    textarea.addEventListener('mouseenter', titleEnter)
+    textarea.addEventListener('mouseleave', titleLeave)
+    fillerL.addEventListener('mouseenter', titleEnter)
+    fillerL.addEventListener('mouseleave', titleLeave)
+    fillerR.addEventListener('mouseenter', titleEnter)
+    fillerR.addEventListener('mouseleave', titleLeave)
+
     // Attach focus and blur event listeners to the textarea
     textarea.addEventListener('focus', function() {
         var previous = ''
@@ -617,12 +676,8 @@ export function newView(viewObj = null) {
             view.setAttribute('id', viewObj.id);
             viewId = viewObj.id
             document.querySelector('.title_'+idView).innerText = viewObj.title
-            if(idView <= +viewObj.id.replace('view_','')){
-                idView = +viewObj.id.replace('view_','')
-                idView += 1;
-            }else{
-                idView += 1;
-            }
+            idView += 1;
+
         } else {
             view.setAttribute('id', 'view_' + idView);
             viewId = 'view_' + idView
@@ -652,10 +707,6 @@ export function newView(viewObj = null) {
     dropzone.on("addedfile", function(file) {
         newWidget(null,view,file)
     })
-
-    // Apply the remove functionality to the new element.
-    const removeButton = title.querySelector('.remove-btn');
-    removeButton.addEventListener('click', () => removeView(view,title));
 
     if (selectedView === null) {
         selectedView = view;
@@ -724,11 +775,11 @@ function extractSizeAndPosition() {
         views:{}
     };
 
-    var tID = 0
+    
     for (const view of views) {
         console.log(view)
+        var tID = view.id.replace('view_','')
         var t = document.querySelector('.title_'+tID)
-        tID += 1
         const viewId = view.getAttribute("id");
         sizeAndPosition.views[viewId] = {
             title: t.value,
@@ -747,6 +798,7 @@ function extractSizeAndPosition() {
                 top: widget.offsetTop,
                 width: widget.offsetWidth,
                 height: widget.offsetHeight,
+                type: widget.getAttribute('data-type'),
             });
         }
     }

@@ -38,26 +38,43 @@ class ControllerProject extends Controller
                 $Pview->hauteur = $temp['height'];
                 $Pview->css_id = $temp['id'];
                 $Pview->save();
-
-                $widgetsInThisView = $content->where('view', $view['view']);
-                foreach($widgetsInThisView as $widgetContent){
-                    $widget = ProjectWidget::find($widgetContent['widget']);
-                    foreach($temp['widgets'] as $tempWidget){
-                        if($tempWidget['id'] == $widget->css_id){
-                            $widget->titre = 'titre widget';
-                            $widget->haut = $tempWidget['top'];
-                            $widget->gauche = $tempWidget['left'];
-                            $widget->hauteur = $tempWidget['height'];
-                            $widget->largeur = $tempWidget['width'];
-                            $widget->css_id = $tempWidget['id'];
-                            $widget->save();
-                            break;
+                if($temp['widgets']){
+                    $widgetsInThisView = $content->where('view', $view['view']);
+                    foreach($widgetsInThisView as $widgetContent){
+                        $widget = ProjectWidget::find($widgetContent['widget']);
+                        if($widget){
+                            foreach($temp['widgets'] as $tempWidget){
+                                if($tempWidget['id'] == $widget->css_id){
+                                    $widget->titre = 'titre widget';
+                                    $widget->haut = $tempWidget['top'];
+                                    $widget->gauche = $tempWidget['left'];
+                                    $widget->hauteur = $tempWidget['height'];
+                                    $widget->largeur = $tempWidget['width'];
+                                    $widget->css_id = $tempWidget['id'];
+                                    $widget->type = $tempWidget['type'];
+                                    $widget->save();
+                                    break;
+                                }
+                            }
+                        }else{
+                            foreach($temp['widgets'] as $tempWidget){
+                                ProjectWidget::create([
+                                'titre' => 'titre widget',
+                                'haut' => $tempWidget['top'],
+                                'gauche' => $tempWidget['left'],
+                                'hauteur' => $tempWidget['height'],
+                                'largeur' => $tempWidget['width'],
+                                'css_id' => $tempWidget['id'],
+                                'type' => $tempWidget['type'],
+                                ]);
+                            }
                         }
                     }
                 }
             }
         }
     }
+
 
     public function newProject(Request $request){
 
@@ -66,7 +83,7 @@ class ControllerProject extends Controller
         $project = $this->makeProject($request);
         $project = $project->getData()->id;
 
-        return view('project', ['project' => $project]);
+        return view('project', ['project' => $project, 'isDirty' => false]);
     }
 
     public function makeProject(Request $request){
@@ -132,6 +149,7 @@ class ControllerProject extends Controller
             $w->hauteur = $widget['height'];
             $w->largeur = $widget['width'];
             $w->css_id = $widget['id'];
+            $w->type = $widget['type'];
             $w->project = $project;
             $w->content = $request->file;
             $w->save();
@@ -143,8 +161,9 @@ class ControllerProject extends Controller
                 'hauteur' => $widget['height'],
                 'largeur' => $widget['width'],
                 'css_id' => $widget['id'],
+                'type' => $widget['type'],
                 'project' => $project,
-                'content' => $request->file
+                'content' => $request->file,
             ]);
 
             $v = ProjectView::where('project', '=', $project)->where('css_id','=',$view)->get()->first();

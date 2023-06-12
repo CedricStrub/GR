@@ -7,8 +7,8 @@ const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
 function makeWidget(div) {
     const resizers = div.querySelectorAll(".resizer");
-    const minHeight = 50;
-    const minWidth = 200;
+    const minHeight = 200;
+    const minWidth = 400;
     
     for (let resizer of resizers) {
         resizer.addEventListener("mousedown", function (e) {
@@ -116,7 +116,6 @@ function makeWidget(div) {
 
 function hasCollisionWithOthers(element, newRect) {
     const resizableElements = Array.from(selectedView.querySelectorAll('.widget')).filter((el) => el !== element);
-
     for (const existingElement of resizableElements) {
         if (isRectanglesOverlapping(newRect, existingElement.getBoundingClientRect())) {
             return true;
@@ -218,132 +217,150 @@ function findNearestNonOverlappingPosition(element, newX, newY, selectedView, st
     return { x: parseFloat(element.style.left || 0), y: parseFloat(element.style.top || 0) };
 }
 
+//Globales necessaire a newWidget
 let idWidget = 0
 let idDropzone = null
 
 function newWidget(widgetObj = null, targetView = selectedView, file = null) {
-    const widget = document.createElement('div');
-    widget.classList.add('widget');
+    //Création du widget et ajout de sa class
+    const widget = document.createElement('div')
+    widget.classList.add('widget')
+    //Definition de l'id pour assignation dynamique des class sur les diferents elements
     var id = idWidget
+    //Détermine le cas de figure présent (creation de widget vide ou avec un fichier, chargement des widgets depuis la base de donnée)
     if(widgetObj){
         if (widgetObj.type != 'click') {
-            id = +widgetObj.id.replace('widget_','')
+            //Definitions des attributs au chargement des widgets depuis la BDD
+            widget.setAttribute('id', widgetObj.id)
+            widget.style.left = widgetObj.left + 'px'
+            widget.style.top = widgetObj.top + 'px'
+            widget.style.width = widgetObj.width + 'px'
+            widget.style.height = widgetObj.height + 'px'
+            if(idWidget <= +widgetObj.id.replace('widget_','')){
+                idWidget = +widgetObj.id.replace('widget_','')
+                id = idWidget
+                idWidget += 1
+            }else{
+                id = +widgetObj.id.replace('widget_','')
+            }
+            idDropzone = widgetObj.id
+        } else {
+            //Definition des attribut pour nouveau widget vide
+            idDropzone = 'widget_' + idWidget 
+            widget.setAttribute('id', idDropzone)
+            idWidget += 1
         }
+    }else{
+        //Definition des attribut pour nouveau widget vide
+        idDropzone = 'widget_' + idWidget 
+        widget.setAttribute('id', idDropzone)
+        idWidget += 1
     }
-        widget.innerHTML = `
-        <div class="deleteW" id="delete_w`+id+`"><img src="../images/TitleDelW.png"></img></div>
-        <div class="lock" id="lock_w`+id+`"><img src="../images/TitleLock.png"></img></div>
+    //Definition du contenu par default des widgets 
+    widget.innerHTML = `
         <div class="resizer top-left"></div>
         <div class="resizer top-right"></div>
         <div class="resizer bottom-left"></div>
         <div class="resizer bottom-right"></div>
-    `;
-    if(widgetObj){
-        if (widgetObj.type != 'click') {
-            widget.setAttribute('id', widgetObj.id);
-            widget.style.left = widgetObj.left + 'px';
-            widget.style.top = widgetObj.top + 'px';
-            widget.style.width = widgetObj.width + 'px';
-            widget.style.height = widgetObj.height + 'px';
-            if(idWidget <= +widgetObj.id.replace('widget_','')){
-                idWidget = +widgetObj.id.replace('widget_','')
-                idWidget += 1;
-            }
-            idDropzone = widgetObj.id
-        } else {
-            idDropzone = 'widget_' + idWidget 
-            widget.setAttribute('id', idDropzone);
-            idWidget += 1;
-        }
-    }else{
-        idDropzone = 'widget_' + idWidget 
-        widget.setAttribute('id', idDropzone);
-        idWidget += 1;
-    }
+        <div class="deleteW" id="delete_w`+id+`"><img src="../images/TitleDelW.png"></img></div>
+        <div class="lock" id="lock_w`+id+`"><img src="../images/TitleLock.png"></img></div>
+        `
 
-    // Apply the remove functionality to the new element.
-    const removeButton = widget.querySelector('#delete_w'+id);
-    removeButton.addEventListener('click', () => removeWidget(widget));
-
-    // Append the widget to the body or a container of your choice.
+    // Ajoute l'event listener au bouton delete 
+    const removeButton = widget.querySelector('#delete_w'+id)
+    removeButton.addEventListener('click', () => removeWidget(widget))
+    // Ajoute l'event listener au bouton lock 
+    const lockButton = widget.querySelector('#lock_w'+id)
+    lockButton.addEventListener('click', () => toggleLock(widget))
+    // Ajoute le widget a la view
     if (targetView) {
-        targetView.appendChild(widget);
+        targetView.appendChild(widget)
     } else {
-        alert('No view is selected.');
+        alert('No view is selected.')
     }
 
-    // Apply the resizable functionality to the new element.
-    makeWidget(widget);
+    // Ajoute les elements et evenements utilisées pour resize le widget
+    makeWidget(widget)
 
-    // Apply the drag functionality to the new element.
-    dragElement(widget, targetView);
+    // Ajoute les evenements necessaire pour deplacer le widget
+    dragElement(widget, targetView)
 
+    // Positionnement par default
     if (!widgetObj) {
-        widget.style.left = '0px';
-        widget.style.top = '0px';
+        widget.style.width = '400px';
+        widget.style.height = '200px';
+        widget.style.left = '0px'
+        widget.style.top = '0px'
     }
 
+    // Definis les bordures du widget
     const topLeftCornerRect = {
-        left: (+targetView.offsetLeft + +widget.offsetLeft),
-        right: (+targetView.offsetLeft + +widget.offsetLeft + +widget.offsetWidth),
-        top: (+targetView.offsetTop + +widget.offsetTop),
-        bottom: (+targetView.offsetTop + +widget.offsetTop + +widget.offsetHeight),
+        left:  +widget.offsetLeft,
+        right: +targetView.offsetLeft + +widget.offsetWidth,
+        top:  +widget.offsetTop,
+        bottom: +targetView.offsetTop + +widget.offsetHeight,
     };
+    console.log(topLeftCornerRect)
 
+    // Verifie que le widget ne se supperpose pas aux autres et trouve la meilleur position pour l'ajouter
     if (hasCollisionWithOthers(widget, topLeftCornerRect)) {
-        const newPosition = findNonOverlappingPosition(widget, selectedView);
-
+        const newPosition = findNonOverlappingPosition(widget, selectedView)
+        // Si aucune position ne peut être trouvée renvois une alerte
         if (newPosition === null) {
-            alert('There is no space for another div.');
-            selectedView.removeChild(widget);
+            alert('Pas assez de place pour un nouveau widget')
+            selectedView.removeChild(widget)
             return;
         }
+        console.log(newPosition)
 
-        widget.style.left = newPosition.left + 'px';
-        widget.style.top = newPosition.top + 'px';
+        widget.style.left = newPosition.left + 'px'
+        widget.style.top = newPosition.top + 'px'
     } else {
+        
+        // Par default positionne le widget en haut a gauche
         if (!widgetObj) {
-            widget.style.left = '0px';
-            widget.style.top = '0px';
+            widget.style.left = '0px'
+            widget.style.top = '0px'
         }
     }
 
-    // Set the initial lock state.
-    toggleLock(widget);
-    toggleLock(widget);
+    // Definis le status Lock 
+    toggleLock(widget)
+    toggleLock(widget)
 
-    // Add the lock button event listener
-    const lockButton = widget.querySelector('#lock_w'+id);
-    lockButton.addEventListener('click', () => toggleLock(widget));
-
-    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    //Récupère le token csrf
+    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    //Definis les paramètres de la dropzone
     let dropzone = new Dropzone('#' + idDropzone, {
-        url: '/upload', // Set upload URL here
-        maxFilesize: 1,
-        acceptedFiles: ".jpeg,.jpg,.png,.gif,.txt,.csv",
-        clickable: false, // Do not open the file dialog on single click
-        headers: {'X-CSRF-TOKEN': csrfToken},
-        disablePreviews: true,
+        url: '/upload', // definis la route
+        maxFilesize: 1, // definis la taille max des fichiers
+        acceptedFiles: ".jpeg,.jpg,.png,.gif,.txt,.csv", // definis les types de fichiers
+        clickable: false, // Empèche l'ouverture de la fenètre de dialogue sur simple click
+        headers: {'X-CSRF-TOKEN': csrfToken}, // ajoute le token dans le header
+        disablePreviews: true, // désactive les preview 
     });
-
+    //Ajoute l'évènement de sauvegarde au telechargement du fichier
     dropzone.on("success", function(response) {
-        console.log('File uploaded successfully');
+        console.log('Fichier sauvegardé')
         saveWidget(widget,targetView.id,response.xhr.response)
     });
 
-    // Send the file and the widget to be processed accordingly to the file type
+    //Ajoute les évènements au survol 
     fileProcess.event(dropzone)
+    //Envois le fichier pour être traité en fonction de son type
     fileProcess.input(dropzone,widget)
     if(file){
         dropzone.addFile(file)
         fileProcess.selector(widget,file)
     }
 
-    return widget;
+    return widget
 }
 
 function removeWidget(widget){
+    //Supprime l'element de la page html
     widget.parentElement.removeChild(widget);
+    //Récupère les informations necessaires a la suppression
     var w = {
         id: widget.id,
         left: widget.offsetLeft,
@@ -351,6 +368,7 @@ function removeWidget(widget){
         width: widget.offsetWidth,
         height: widget.offsetHeight,
     }
+    //Envois une requète au serveur pour supprimer le widget de la BDD
     jq.ajax({
         url: '/removeWidget',
         method: 'DELETE',
@@ -360,13 +378,13 @@ function removeWidget(widget){
             _token: csrfToken
         },
     });
+    //Change l'éat de isDirty pour lancer la sauvegarde automatique
     isDirty = true
 }
 
 function saveWidget(widget,view,idFile){
-
+    //Definis les variables pour la sauvegarde des widgets
     var v = view
-    console.log(widget.getAttribute('data-type'))
     var w = {
         id: widget.id,
         left: widget.offsetLeft,
@@ -375,7 +393,7 @@ function saveWidget(widget,view,idFile){
         height: widget.offsetHeight,
         type: widget.getAttribute('data-type'),
     }
-
+    //Envois la requète au serveur pour crée le widget
     jq.ajax({
         url: '/makeWidget',
         method: 'POST',
@@ -397,9 +415,12 @@ function saveWidget(widget,view,idFile){
 }
 
 function loadWidgets(widgetObj) {
+    //Récupère l'element view
     var viewElement = document.getElementById(widgetObj.view);
     selectedView = viewElement
+    //Appel la fonction newWidget pour ajouter un widget a la view
     var widget = newWidget(widgetObj, viewElement)
+    //Selection de l'operation a effectuer selon le contenu du widget
     switch (widgetObj.type){
         case "image/png":
             fileProcess.image(widget,'url(../images/'+widgetObj.filename+')')
@@ -422,16 +443,20 @@ function loadWidgets(widgetObj) {
 }
 
 function toggleLock(element) {
-    element.locked = !element.locked; // Toggle the locked state
+    //Definis l'etat (Lock / Unlock) du widget 
+    element.locked = !element.locked; 
+    //Récupère l'id original du widget
     var id = +element.id.replace('widget_','')
+    //Récupère le bouton lock du widget grace a son id original
     const lockButton = element.querySelector("#lock_w"+id);
+    //change le visuel en fonction de l'etat
     if(element.locked == true){
         lockButton.children[0].src = "../images/TitleUnlock.png"
     }else{
         lockButton.children[0].src = "../images/TitleLock.png"
     }
 
-    // Show or hide resizers based on the locked state
+    // Montre ou cache les resizer selon le cas de figure
     const resizers = element.querySelectorAll(".resizer");
     resizers.forEach((resizer) => {
         resizer.style.display = element.locked ? "none" : "block";
@@ -439,6 +464,7 @@ function toggleLock(element) {
 }
 
 function isRectanglesOverlapping(rect1, rect2) {
+    //compare deux rectangles pour voir si ils se supperposent
     return (
         rect1.left < rect2.right &&
         rect1.right > rect2.left &&
@@ -448,21 +474,24 @@ function isRectanglesOverlapping(rect1, rect2) {
 }
 
 function findNonOverlappingPosition(element, selectedView) {
+    // Récupère l'ensemble des elements necessaire pour trouver une place libre suffisament grande pour l'element en paramètre
     const elementRect = element.getBoundingClientRect();
     const viewRect = selectedView.getBoundingClientRect();
     const resizableElements = Array.from(selectedView.querySelectorAll('.widget'));
-
-    // Add the resizer of the selectedView to the resizableElements array
+    console.log(resizableElements)
+    // Ajoute aux element resizable le resizer de la view
     const resizerView = selectedView.querySelector('.resizerView');
     if (resizerView) {
         resizableElements.push(resizerView);
     }
 
+    // Definis la position par default
     let newPosition = {
         left: 0,
         top: 0,
     };
 
+    // Parcours l'ensemble des elements en fonction de celui envoyé pour determiner une position sans supperposition
     for (let y = 0; y <= viewRect.height - elementRect.height; y += 5) {
         for (let x = 0; x <= viewRect.width - elementRect.width; x += 5) {
             newPosition.left = x;
@@ -491,27 +520,22 @@ function findNonOverlappingPosition(element, selectedView) {
     return null;
 }
 
-
-function removeDiv(element) {
-    element.parentElement.removeChild(element);
-}
-
-
 function growPageOnScroll() {
-
+    //récupère les information sur la taille de la page
     const page = document.querySelector(".page");
     const pageHeight = parseInt(getComputedStyle(page).getPropertyValue("height"));
 
     if (
         page.offsetHeight - window.scrollY <= window.innerHeight
     ) {
-      // Increase the height of the page by 100vh when the user scrolls to the bottom
+      // augmente la taille de la page de 100vh quand l'utilisateur approche de la fin de la page
         page.style.height = pageHeight + window.innerHeight + "px";
     }}
 
-  // Attach the growPageOnScroll function to the window's scroll event
+  // Ajoute l'évènement pour agrandir la page
 window.addEventListener("scroll", growPageOnScroll);
 
+// Definis les globales necessaire pour suivre le mouvement de la souris
 let startY;
 let startHeight;
 
@@ -760,7 +784,7 @@ function makeView(view){
 
 const page = document.querySelector('.page');
 
-function selectView(view) {
+export function selectView(view) {
     if (selectedView) {
         selectedView.classList.remove('selected');
     }
@@ -832,12 +856,6 @@ export function saveProject(){
     });
 }
 
-if(data != null){
-    loadProject()
-}else{
-    newView()
-}
-
 function loadProject(){
     // Handle the response from the controller
     for(let view in data){
@@ -852,14 +870,21 @@ export function saveFile(content){
     isDirty = true
 }
 
+if(data !== null){
+    loadProject()
+    data = null
+}else if(data === null){
+    data = null
+}else{
+    newView()
+}
+
 setInterval(() => {
     if (isDirty) {
         saveProject();
         isDirty = false
     }
 }, 5000);
-
-
 
 window.addEventListener('beforeunload', function (e) {
     if (isDirty) { 

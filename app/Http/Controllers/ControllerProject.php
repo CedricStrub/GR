@@ -165,25 +165,42 @@ class ControllerProject extends Controller
                 'project' => $project,
                 'content' => $request->file,
             ]);
-
-            $v = ProjectView::where('project', '=', $project)->where('css_id','=',$view)->get()->first();
-            $pc = ProjectContent::where('project', '=', $project)->where('view','=',$v['id'])->where('widget','=',null)->get()->first();
-            if($pc){
-                $pc->widget = $w['id'];
-                $pc->save();
-            }else{
-                ProjectContent::create([
-                    'project' => $project,
-                    'view' => $v['id'],
-                    'widget' => $w['id']
-                ]);
-            }
         }
+
+        $v = ProjectView::where('project', '=', $project)->where('css_id','=',$view)->get()->first();
+        $pc = ProjectContent::where('project', '=', $project)->where('view','=',$v['id'])->where('widget','=',null)->get()->first();
+        if($pc){
+            $pc->widget = $w['id'];
+            $pc->save();
+        }else{
+            ProjectContent::create([
+                'project' => $project,
+                'view' => $v['id'],
+                'widget' => $w['id']
+            ]);
+        }
+        
         return response()->json(['id' => $w->id], 200);
     }
 
     public function removeWidget(Request $request){
         $widget = ProjectWidget::where('project',$request->project)->where('css_id',$request->widget['id']);
+        $w = $widget->get()->first()->content;
+        $file = File::find($w);
+        $path = '../public/images/' . $file->filename;
+        $msg = '';
+
+        if (file_exists($path)) {
+            if (unlink($path)) {
+                $msg = 'File deleted successfully';
+            } else {
+                $msg = 'An error occurred while trying to delete the file';
+            }
+        } else {
+            $msg = 'File not found';
+        }
+        echo $msg;
+        $file->delete();
         $widget->delete();
     }
 

@@ -1,4 +1,5 @@
 import tinymce from 'tinymce/tinymce';
+import { selectView } from './project';
 
 export function hello(){
     console.log('hello')
@@ -7,6 +8,11 @@ export function hello(){
 export function event(dropzone){
     dropzone.on('dragenter', function(event) {
         if(event.target.id != "")
+            var txt = event.target.id
+            console.log(txt)
+            if(txt.includes('view')){
+                selectView(event.target)
+            }
             document.getElementById(event.target.id).classList.add('dragover');
     });
     
@@ -41,9 +47,9 @@ export function input(dropzone = null,widget){
         fileInput.click();
     });
 
-    dropzone.on("addedfile", function(file) {
-        selector(widget,file)
-    });
+    // dropzone.on("addedfile", function(file) {
+    //     selector(widget,file)
+    // });
 }
 
 export function selector(widget,file){

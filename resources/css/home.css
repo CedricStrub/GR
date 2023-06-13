@@ -413,3 +413,23 @@ input:focus {
     overflow: hidden;
     pointer-events: none;
 }
+
+.mc-login{
+    position: absolute;
+    top: 0px;
+    left: 250px;
+    text-decoration: none;
+    color: black;
+    font-size: 30px;
+    line-height: 45px;
+}
+
+.mc-register{
+    position: absolute;
+    top: 0px;
+    left: 50px;
+    text-decoration: none;
+    color: black;
+    font-size: 25px;
+    line-height: 40px;
+}

@@ -4,6 +4,8 @@
 <script>
     var project = @json($project);
     var isDirty = @json($isDirty);
+    var init = @json(false);
+    var idView = @json(0);
 </script>
 
 @if(isset($result))

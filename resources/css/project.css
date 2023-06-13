@@ -59,41 +59,46 @@
 }
 
 .resizer {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%; /*magic to turn square into circle*/
-    background: white;
-    border: 3px solid #4286f4;
+    width: 48px;
+    height: 48px;
     position: absolute;
-    pointer-events: auto; /* Enable pointer events on resizers */
+    pointer-events: auto;
 }
 
 .resizer.top-left {
-    left: -5px;
-    top: -5px;
-    cursor: nwse-resize; /*resizer cursor*/
-    z-index: 2;
+    left: 0px;
+    top: 0px;
+    cursor: nwse-resize; 
+    background-image: url('data:image/svg+xml,<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M40.4616 6.53847H6.53847L6.53847 40.4615L1 46L1 1L46 1L40.4616 6.53847Z" fill="%23B4B4B4" stroke="black" stroke-dasharray="5 5"/></svg>');
+    clip-path: polygon(0 100%, 0 0, 100% 0, 85% 15%, 15% 20%, 15% 85%);
+    z-index: 4;
 }
 
 .resizer.top-right {
-    right: -5px;
-    top: -5px;
+    right: 0px;
+    top: 0px;
     cursor: nesw-resize;
-    z-index: 2;
+    background-image: url('data:image/svg+xml,<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M41.4615 40.4616L41.4615 6.53847L7.53847 6.53847L2 1L47 1L47 46L41.4615 40.4616Z" fill="%23B4B4B4" stroke="black" stroke-dasharray="5 5"/></svg>');
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 85% 85%, 85% 15%, 15% 20%);
+    z-index: 4;
 }
 
 .resizer.bottom-left {
-    left: -5px;
-    bottom: -5px;
+    left: 0px;
+    bottom: 0px;
     cursor: nesw-resize;
-    z-index: 2;
+    background-image: url('data:image/svg+xml,<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.53847 7.53842L6.53847 41.4615L40.4615 41.4615L46 47L1 47L1 1.99995L6.53847 7.53842Z" fill="%23B4B4B4" stroke="black" stroke-dasharray="5 5"/></svg>');
+    clip-path: polygon(100% 100%, 0 100%, 0 0, 20% 15%, 15% 85%, 85% 85%);
+    z-index: 4;
 }
 
 .resizer.bottom-right {
-    right: -5px;
-    bottom: -5px;
+    right: 0px;
+    bottom: 0px;
     cursor: nwse-resize;
-    z-index: 2;
+    background-image: url('data:image/svg+xml,<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.53842 41.4615L41.4615 41.4615L41.4615 7.53847L47 2L47 47L1.99995 47L7.53842 41.4615Z" fill="%23B4B4B4" stroke="black" stroke-dasharray="5 5"/></svg>');
+    clip-path: polygon(100% 0, 100% 100%, 0 100%, 15% 85%, 85% 85%, 85% 15%);
+    z-index: 4;
 }
 
 .page{

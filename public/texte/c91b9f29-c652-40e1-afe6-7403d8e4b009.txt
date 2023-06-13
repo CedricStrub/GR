@@ -1,5 +1,1 @@
-Ceci est un fichier de test pour mon projet 
-
-il contient plusieurs lignes
-
-afin de verifier qu tout fonctionne bien.
+<p>Ceci est un fichier de test pour mon projet il contient plusieurs lignes afin de verifier qu tout fonctionne bien. Test si je rajoute du texte il se passe quoi ? Et&nbsp; si je le fais sans vider le cache du navigateur</p>

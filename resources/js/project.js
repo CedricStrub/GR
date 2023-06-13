@@ -351,7 +351,7 @@ function newWidget(widgetObj = null, targetView = selectedView, file = null) {
     fileProcess.input(dropzone,widget)
     if(file){
         dropzone.addFile(file)
-        fileProcess.selector(widget,file)
+        //fileProcess.selector(widget,file)
     }
 
     return widget
@@ -604,7 +604,7 @@ function createResizableView() {
 }
 
 let selectedView = null;
-let idView = 0;
+
 
 export function newView(viewObj = null) {
     let viewId = 0
@@ -713,6 +713,8 @@ export function newView(viewObj = null) {
         viewId = 'view_' + idView
         idView += 1
     }
+
+    console.log(viewId)
 
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     let dropzone = new Dropzone('#' + viewId, {
@@ -871,10 +873,10 @@ export function saveFile(content){
 }
 
 if(data !== null){
-    loadProject()
-    data = null
-}else if(data === null){
-    data = null
+    if(init === false){
+        loadProject()
+        init = true
+    }
 }else{
     newView()
 }

@@ -47,9 +47,9 @@ export function input(dropzone = null,widget){
         fileInput.click();
     });
 
-    // dropzone.on("addedfile", function(file) {
-    //     selector(widget,file)
-    // });
+    dropzone.on("addedfile", function(file) {
+        selector(widget,file)
+    });
 }
 
 export function selector(widget,file){

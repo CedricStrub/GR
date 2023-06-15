@@ -17,6 +17,9 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('miniature')->nullable();
             $table->string('uuid');
+            $table->unsignedBigInteger('vues')->nullable();
+            $table->unsignedBigInteger('author');
+            $table->foreign('author')->references('id')->on('users')->onDelete('cascade');
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
         });

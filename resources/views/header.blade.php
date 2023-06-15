@@ -7,7 +7,7 @@
 
     <title>Galaxy-Roads</title>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    @vite(['resources/css/home.css'])
+    @vite(['resources/css/home.css','resources/js/app.js'])
     <!-- Styles -->
     @livewireStyles
 </head>

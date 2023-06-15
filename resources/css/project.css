@@ -103,7 +103,7 @@
 
 .page{
     margin: 30px;
-    margin-top: 70px;
+    margin-top: 10px;
     width: calc(100vw - 80px);
     height: 100vh;
     background: 
@@ -164,6 +164,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 5px;
+    margin-top: 8px;
 }
 
 .view-title textarea{
@@ -189,7 +191,7 @@
     height: 8px;
     background-color: #aaa;
     position: absolute;
-    bottom: 0;
+    bottom: -8px;
     left: 0;
     cursor: ns-resize;
 }
@@ -251,6 +253,9 @@
     background-origin: content-box;
     z-index: 2;
     background: var(--title-bg);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .title:hover{
@@ -355,3 +360,52 @@
     
 }
 
+.card-form{
+    width: 80vw;
+    height: 150px;
+    display: flex;
+    flex-direction: row;
+    padding: 30px;
+    margin-top: 20px;
+}
+
+.cf-left{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cf-left label{
+    margin: 10px;
+}
+
+.cf-input{
+    width: 80%;
+}
+
+.cf-description{
+    width: 80%;
+    height: 50%;
+    resize: none;
+}
+
+.cf-right{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cf-right label{
+    margin: 10px;
+}
+
+.cf-dropzone{
+    width: 100%;
+    height: 110px;
+    border: 1px solid var(--grid);
+    border-radius: 3px;
+}

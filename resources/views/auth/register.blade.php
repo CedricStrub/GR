@@ -1,5 +1,3 @@
-<x-guest-layout>
-<x-validation-errors class="mb-4" />
 
 <form method="POST" action="{{ route('register') }}">
     @csrf
@@ -51,4 +49,3 @@
         </x-button>
     </div>
 </form>
-</x-guest-layout>

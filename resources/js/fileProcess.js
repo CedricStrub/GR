@@ -9,11 +9,12 @@ export function event(dropzone){
     dropzone.on('dragenter', function(event) {
         if(event.target.id != "")
             var txt = event.target.id
-            console.log(txt)
-            if(txt.includes('view')){
-                selectView(event.target)
+            if(txt){
+                if(txt.includes('view')){
+                    selectView(event.target)
+                    document.getElementById(event.target.id).classList.add('dragover');
+                }
             }
-            document.getElementById(event.target.id).classList.add('dragover');
     });
     
     dropzone.on('dragleave', function(event) {

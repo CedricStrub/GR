@@ -26,7 +26,18 @@
 <button id="saveProjectButton" >save project</button>
 <button id="loadProjectButton" >load project</button>
 
-
+<div class="card-form">
+    <div class="cf-left">
+        <label>Titre du Projet</label>
+        <input class="cf-input"></input>
+        <label>Description du projet</label>
+        <textarea class="cf-description"></textarea>
+    </div>
+    <div class="cf-right">
+        <label>Image en Miniature</label>
+        <div class="cf-dropzone" id="cf-dropzone"></div>
+    </div>
+</div>
 <div class="page">
 
 </div>

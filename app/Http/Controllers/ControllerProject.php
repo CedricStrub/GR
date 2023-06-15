@@ -9,6 +9,7 @@ use App\Models\ProjectView;
 use Illuminate\Http\Request;
 use App\Models\ProjectWidget;
 use App\Models\ProjectContent;
+use Illuminate\Support\Facades\Auth;
 
 class ControllerProject extends Controller
 {
@@ -26,6 +27,11 @@ class ControllerProject extends Controller
         
         
         $project = Project::find($sizeAndPosition['project']);
+        $project->nom = $sizeAndPosition['nom'];
+        $project->description = $sizeAndPosition['description'];
+        $project->miniature = $sizeAndPosition['miniature'];
+        $project->save();
+
         if($project != null){
             $content = ProjectContent::where('project',$project->id)->orderBy('view', 'asc')->get();
             $uniqueViews = $content->unique('view');
@@ -88,11 +94,14 @@ class ControllerProject extends Controller
 
     public function makeProject(Request $request){
 
+        $user = Auth::user()->id;
+
         $p = Project::create([
             'nom' => $request->nom ?? null,
             'description' => $request->description ?? null,
             'miniature' => $request->miniature ?? null,
-            'uuid' => $request->uuid
+            'uuid' => $request->uuid,
+            'author' => $user
         ]);
 
         return response()->json(['id' => $p->id], 200);
@@ -214,7 +223,16 @@ class ControllerProject extends Controller
         $project = Project::find($id);
     
         $views = ProjectView::where('project', $id)->get();
+        $min = File::find($project->miniature);
         $result = [];
+        $p = [
+            'project' => $project->id,
+            'nom' => $project->nom,
+            'description' => $project->description,
+            'miniature' => $project->miniature,  
+            'URLminiature' => $min->filename
+        ];
+        $result []= $p;
     
         foreach ($views as $view) {
             $viewId = $view->css_id;

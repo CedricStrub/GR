@@ -333,7 +333,7 @@ function newWidget(widgetObj = null, targetView = selectedView, file = null) {
     //Definis les paramètres de la dropzone
     let dropzone = new Dropzone('#' + idDropzone, {
         url: '/upload', // definis la route
-        maxFilesize: 1, // definis la taille max des fichiers
+        maxFilesize: 5, // definis la taille max des fichiers
         acceptedFiles: ".jpeg,.jpg,.png,.gif,.txt,.csv", // definis les types de fichiers
         clickable: false, // Empèche l'ouverture de la fenètre de dialogue sur simple click
         headers: {'X-CSRF-TOKEN': csrfToken}, // ajoute le token dans le header
@@ -712,14 +712,13 @@ export function newView(viewObj = null) {
         view.setAttribute('id', 'view_' + idView);
         viewId = 'view_' + idView
         idView += 1
+        makeView(view)
     }
-
-    console.log(viewId)
 
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     let dropzone = new Dropzone('#' + viewId, {
         url: '/upload', 
-        maxFilesize: 1,
+        maxFilesize: 5,
         acceptedFiles: ".jpeg,.jpg,.png,.gif,.txt,.csv,.rtf",
         clickable: false, 
         autoDiscover: false, 
@@ -796,8 +795,15 @@ export function selectView(view) {
 
 function extractSizeAndPosition() {
     const views = document.querySelectorAll(".view");
+    var nom = document.querySelector('.cf-input').value
+    var description = document.querySelector('.cf-description').value
+    var miniature = document.querySelector('.cf-dropzone').imgID
+
     const sizeAndPosition = {
         project: project,
+        nom: nom,
+        description: description,
+        miniature: miniature,
         views:{}
     };
 
@@ -860,6 +866,19 @@ export function saveProject(){
 
 function loadProject(){
     // Handle the response from the controller
+    var firstObject = data[0];
+    delete data[0];
+    document.querySelector('.cf-input').value = firstObject['nom']
+    document.querySelector('.cf-description').value = firstObject['description']
+    
+    var dz = document.querySelector('.cf-dropzone') 
+    var urlM = '../images/'+firstObject['URLminiature']
+    dz.style.backgroundImage = 'url('+urlM+')' 
+    dz.style.backgroundSize = 'cover'
+    dz.style.backgroundPosition = 'center'
+    dz.imgID = firstObject['miniature']
+    console.log(dz)
+
     for(let view in data){
         newView(data[view])
         for (let i = 0; i < data[view].widgets.length; i++) {
@@ -872,13 +891,37 @@ export function saveFile(content){
     isDirty = true
 }
 
-if(data !== null){
-    if(init === false){
-        loadProject()
-        init = true
+if(init === false){
+    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    let dropzone = new Dropzone('#cf-dropzone', {
+        url: '/upload', 
+        maxFilesize: 5,
+        acceptedFiles: ".jpeg,.jpg,.png,.gif,.txt,.csv,.rtf",
+        clickable: false, 
+        autoDiscover: false, 
+        headers: {'X-CSRF-TOKEN': csrfToken},
+        disablePreviews: true,
+        autoProcessQueue: true
+    });
+
+    dropzone.on("success", function (response) {
+        var dz = document.querySelector('#cf-dropzone')
+        dz.imgID = response.xhr.response
+        console.log(dz.imgID)
+    });
+
+    fileProcess.event(dropzone)
+    var widget = document.querySelector('#cf-dropzone')
+    fileProcess.input(dropzone,widget)
+
+
+    if(data !== null){
+        loadProject()       
     }
-}else{
-    newView()
+    else{
+        newView()
+    }
+    init = true
 }
 
 setInterval(() => {

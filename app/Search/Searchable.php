@@ -2,7 +2,7 @@
 
 namespace App\Search;
 
-use Elasticsearch\Client;
+use Elastic\Elasticsearch\Client;
 
 trait Searchable
 {
@@ -15,20 +15,21 @@ trait Searchable
 
     public function elasticsearchIndex(Client $elasticsearchClient)
     {
-        $elasticsearchClient->index([
-            'index' => $this->getTable(),
-            'type' => '_doc',
-            'id' => $this->getKey(),
-            'body' => $this->toElasticsearchDocumentArray(),
-        ]);
+        $parameters = [
+            'index' => 'projects',
+            'id'    => $this->getKey(),
+            'body'  => ['doc' => $this->toElasticsearchDocumentArray()],
+        ];  
+        
+        // Debugging parameters
+        $elasticsearchClient->index($parameters);
     }
 
     public function elasticsearchDelete(Client $elasticsearchClient)
     {
         $elasticsearchClient->delete([
-            'index' => $this->getTable(),
-            'type' => '_doc',
-            'id' => $this->getKey(),
+            'index' => 'projects',
+            'id' => (string)$this->getKey(),
         ]);
     }
 

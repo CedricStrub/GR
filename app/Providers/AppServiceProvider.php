@@ -6,7 +6,11 @@ use Illuminate\Support\ServiceProvider;
 use App\Projects\SearchRepository;
 use App\Projects\EloquentSearchRepository;
 use App\Projects\ElasticsearchRepository;
-use Elasticsearch\Client;
+use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientBuilder;
+use Symfony\Component\HttpClient\Psr18Client;
+use Elastic\Transport\NodePool\NodePoolInterface;
+use Elastic\Transport\NodePool\StaticNodePool;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,6 +33,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->bindSearchClient();
+
+        // Bind an instance of Symfony\Component\HttpClient\Psr18Client to the Psr\Http\Client\ClientInterface
+        $this->app->singleton(\Psr\Http\Client\ClientInterface::class, function ($app) {
+            return new Psr18Client();
+        });
     }
 
     private function bindSearchClient()
@@ -45,6 +54,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
     }
 }

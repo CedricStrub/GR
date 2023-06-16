@@ -2,8 +2,8 @@
 
 namespace App\Projects;
 
-use App\Project;
-use Elasticsearch\Client;
+use App\Models\Project;
+use Elastic\Elasticsearch\Client;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -28,9 +28,8 @@ class ElasticsearchRepository implements SearchRepository
     {
         $model = new Project;
 
-        $items = $this->elasticsearch->search([
-            'index' => $model->getSearchIndex(),
-            'type' => $model->getSearchType(),
+        $response = $this->elasticsearch->search([
+            'index' => 'projects',
             'body' => [
                 'query' => [
                     'multi_match' => [
@@ -41,7 +40,19 @@ class ElasticsearchRepository implements SearchRepository
             ],
         ]);
 
-        return $items;
+        // Get the response body as a string
+        $responseBody = $response->getBody();
+
+        // Decode the response JSON string into an associative array
+        $responseData = json_decode($responseBody, true);
+
+        // Access the desired data from the response array
+        $items = $responseData['hits']['hits'];
+
+        // dd($items);
+        // Return the items
+        return $responseData;
+
     }
 
     private function buildCollection(array $items): Collection

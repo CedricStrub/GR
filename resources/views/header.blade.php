@@ -60,8 +60,15 @@
         </div>
         @endif
         <div class="search-icon" id="search-icon"></div>
-        <form>
-            <input type="text" class="search-input"></input>
+        <form action="{{ route('search') }}" method="get">
+            <!-- <input type="text" class="search-input"></input> -->
+            <x-input
+                type="text"
+                name="q"
+                class="search-input"
+                placeholder="Search..."
+                value="{{ request('q') }}"
+            />
         </form>
         <svg id="search-bar" width="1440" height="71" viewBox="0 0 1440 71" fill="none" >
         <path id="search-outer" class="svg-s-o" d="M556.665 70.5H476.335L456.5 0.5H576.5L556.665 70.5Z" transform="translate(200, 0)"/>

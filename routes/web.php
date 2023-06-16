@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControllerProject;
 use App\Http\Controllers\InterfaceController;
 use App\Http\Controllers\FileUploadController;
+use App\Projects\SearchRepository;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,14 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('welcome');
 });
+
+Route::get('search', function (SearchRepository $searchRepository) {
+    return view('welcome', [
+        'articles' => request()->has('q')
+            ? $searchRepository->search(request('q'))
+            : App\Models\Project::all(),
+    ]);
+})->name('search');
 
 // Route::get('/project', function () {
 //     return view('project');

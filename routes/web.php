@@ -26,11 +26,14 @@ Route::get('/home', function () {
 });
 
 Route::get('search', function (SearchRepository $searchRepository) {
-    return view('welcome', [
-        'articles' => request()->has('q')
-            ? $searchRepository->search(request('q'))
-            : App\Models\Project::all(),
-    ]);
+    return view('welcome'
+    // Décommenter pour utiliser la recherche Eloquent plutôt qu'elasticsearch
+    // , [
+    //     'articles' => request()->has('q')
+    //         ? $searchRepository->search(request('q'))
+    //         : App\Models\Project::all(),
+    // ]
+);
 })->name('search');
 
 // Route::get('/project', function () {

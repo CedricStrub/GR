@@ -28,8 +28,11 @@ class Project extends Model
     public function toElasticsearchDocumentArray(): array
     {
         return [
+            'id' => $this->id,
             'nom' => $this->nom,
-            'description' => $this->description
+            'description' => $this->description,
+            'miniature' => $this->miniature,
+            'author' => $this->author
             // include any other fields you want to be searchable
         ];
     }

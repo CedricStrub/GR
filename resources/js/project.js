@@ -213,7 +213,6 @@ function findNearestNonOverlappingPosition(element, newX, newY, selectedView, st
         }
     }
 
-    // If no non-overlapping position is found, return the original position
     return { x: parseFloat(element.style.left || 0), y: parseFloat(element.style.top || 0) };
 }
 

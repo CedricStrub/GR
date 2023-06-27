@@ -49,7 +49,6 @@ class ElasticsearchRepository implements SearchRepository
         // Access the desired data from the response array
         $items = $responseData['hits']['hits'];
 
-        // dd($items);
         // Return the items
         return $responseData;
 

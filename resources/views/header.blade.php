@@ -147,12 +147,6 @@
             </svg>
             
         @else
-            <a href="{{ route('login') }}" class="login">
-                <p class="mc-login">Connexion</p>
-                <svg width="216" height="51" viewBox="0 0 216 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20.4548 50L1 0H215.501L216 50H20.4548Z" fill="#979797" stroke="black"/>
-                </svg>
-            </a>
             @if (Route::has('register'))
                 <a href="{{ route('register') }}" class="register">
                     <p class="mc-register">Inscription</p>
@@ -161,6 +155,14 @@
                     </svg>
                 </a>
             @endif
+            
+            <a href="{{ route('login') }}" class="login">
+                <p class="mc-login">Connexion</p>
+                <svg width="216" height="51" viewBox="0 0 216 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20.4548 50L1 0H215.501L216 50H20.4548Z" fill="#979797" stroke="black"/>
+                </svg>
+            </a>
+            
         @endauth
     </div>
     @endif

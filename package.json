@@ -28,6 +28,7 @@
         "jQuery": "^1.7.4",
         "kute": "^1.0.0",
         "kute.js": "^2.2.4",
+        "tarteaucitronjs": "^1.12.0",
         "tinymce": "^6.4.2"
     }
 }

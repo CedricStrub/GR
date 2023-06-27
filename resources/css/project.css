@@ -3,6 +3,7 @@
     --bg-sec: #B4B4B4;
     --brd: black;
     --grid: #00000050;
+    --bg-grid: #eeeeee;
     --title-bg: rgba(165, 165, 165, 0.5);
     --title-hover: rgba(224, 224, 224, 0.5);
 }
@@ -109,7 +110,7 @@
     background: 
         linear-gradient(0deg, transparent 24px, var(--grid) 25px, var(--grid) 26px, transparent 27px),
         linear-gradient(90deg, transparent 24px, var(--grid) 25px, var(--grid) 26px, transparent 27px),
-        var(--bg-pri);
+        var(--bg-grid);
     background-size: 25px 25px;
 }
 
@@ -408,4 +409,123 @@
     height: 110px;
     border: 1px solid var(--grid);
     border-radius: 3px;
+}
+
+.cm{
+    position: fixed;
+    bottom: 0px;
+    left: calc(50% - 217px);
+    width: 434px;
+    height: 100px;
+    z-index: 5;
+}
+
+.cm-video{
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    
+}
+
+.cm-icon-video{
+    background-image: url('../image/cm-video.png');
+    position: absolute;
+    left: 28px;
+    bottom: 5px;
+    width: 40px;
+    height: 40px;
+    z-index: 7;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.cm-image{
+    position: absolute;
+    left: 78px;
+    bottom: 0px;
+}
+
+.cm-icon-image{
+    background-image: url('../image/cm-image.png');
+    position: absolute;
+    left: 102px;
+    bottom: 5px;
+    width: 50px;
+    height: 50px;
+    z-index: 7;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.cm-vue{
+    position: absolute;
+    left: 176px;
+    bottom: 80px;
+}
+
+
+.cm-icon-vue{
+    background-image: url('../image/cm-vue.png');
+    position: absolute;
+    left: 205px;
+    bottom: 80px;
+    width: 20px;
+    height: 20px;
+    z-index: 7;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.cm-txt{
+    position: absolute;
+    left: 155px;
+    bottom: 0px;
+}
+
+.cm-icon-txt{
+    background-image: url('../image/cm-txt.png');
+    position: absolute;
+    left: 192px;
+    bottom: 10px;
+    width: 50px;
+    height: 50px;
+    z-index: 7;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.cm-table{
+    position: absolute;
+    left: 259px;
+    bottom: 0px;
+}
+
+.cm-icon-table{
+    background-image: url('../image/cm-table.png');
+    position: absolute;
+    left: 285px;
+    bottom: 10px;
+    width: 40px;
+    height: 40px;
+    z-index: 7;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.cm-3d{
+    position: absolute;
+    left: 338px;
+    bottom: 0px;
+}
+
+.cm-icon-3d{
+    background-image: url('../image/cm-3d.png');
+    position: absolute;
+    left: 365px;
+    bottom: 5px;
+    width: 40px;
+    height: 40px;
+    z-index: 7;
+    background-size: cover;
+    background-repeat: no-repeat;
 }

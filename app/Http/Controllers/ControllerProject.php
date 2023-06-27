@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\ProjectWidget;
 use App\Models\ProjectContent;
 use Illuminate\Support\Facades\Auth;
+use Elasticsearch\Client;
 
 class ControllerProject extends Controller
 {

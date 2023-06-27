@@ -1,5 +1,6 @@
 <div class="container">
     <div class="c-spacer"></div>
+    
     @foreach($datas as $data)
 
     <div class="card" x-data @click="if (!$event.target.closest('a')) window.location.href = '{{ url('loadProject/'.$data['id']) }}'">

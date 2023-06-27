@@ -14,6 +14,7 @@ export default defineConfig({
                 'resources/js/context.js',
                 'resources/js/search.js',
                 'resources/js/fileProcess.js',
+                'resources/js/tarteaucitron.js',
             ],
             refresh: [
                 ...refreshPaths,

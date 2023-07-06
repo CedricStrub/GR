@@ -5,3 +5,8 @@
 [x-cloak] {
     display: none;
 }
+
+.spacer-tnav{
+    width: 100%;
+    height: 70px;
+}

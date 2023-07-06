@@ -21,11 +21,6 @@
 @vite(['resources/js/fileProcess.js','resources/css/project.css','resources/js/project.js'])
 
 
-<button id="newWidgetButton" >new widget</button>
-<button id="newViewButton" >new view</button>
-<button id="saveProjectButton" >save project</button>
-<button id="loadProjectButton" >load project</button>
-
 <div class="card-form">
     <div class="cf-left">
         <label>Titre du Projet</label>
@@ -49,20 +44,26 @@
         <path d="M20 1L1 50.5H79L94.7974 1H20Z" fill="#D9D9D9" stroke="black"/>
     </svg>
     <!-- ajouter image -->
-    <div id="cm-icon-image" class="cm-icon-image"></div>
-    <svg class="cm-image" width="96" height="61" viewBox="0 0 96 61" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20 1L1 60.5H78L95.1726 1H20Z" fill="#D9D9D9" stroke="black"/>
-    </svg>
+    <div id="cm-icon-image">
+        <div class="cm-icon-image"></div>
+        <svg class="cm-image" width="96" height="61" viewBox="0 0 96 61" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 1L1 60.5H78L95.1726 1H20Z" fill="#D9D9D9" stroke="black"/>
+        </svg>
+    </div>
     <!-- ajouter une vue -->
-    <div id="cm-icon-vue" class="cm-icon-vue"></div>
-    <svg class="cm-vue" width="81" height="20" viewBox="0 0 81 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="1" y="0.5" width="79" height="19" fill="#D9D9D9" stroke="black"/>
-    </svg>
+    <div id="cm-icon-vue">
+        <div class="cm-icon-vue"></div>
+        <svg class="cm-vue" width="81" height="20" viewBox="0 0 81 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="0.5" width="79" height="19" fill="#D9D9D9" stroke="black"/>
+        </svg>
+    </div>
     <!-- ajouter texte -->
-    <div id="cm-icon-txt" class="cm-icon-txt"></div>
-    <svg class="cm-txt" width="123" height="71" viewBox="0 0 123 71" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M21 1L1 70.5H122L102 1H21Z" fill="#D9D9D9" stroke="black"/>
-    </svg>
+    <div id="cm-icon-txt">
+        <div class="cm-icon-txt"></div>
+        <svg class="cm-txt" width="123" height="71" viewBox="0 0 123 71" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 1L1 70.5H122L102 1H21Z" fill="#D9D9D9" stroke="black"/>
+        </svg>
+    </div>
     <!-- ajouter tableur -->
     <div id="cm-icon-table" class="cm-icon-table"></div>
     <svg class="cm-table" width="97" height="61" viewBox="0 0 97 61" fill="none" xmlns="http://www.w3.org/2000/svg">

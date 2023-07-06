@@ -14,7 +14,10 @@
 <body>
 <nav class="top-nav">
     <a href="{{ url('/') }}">
-        logo
+        <div class="logo"></div>
+        <svg width="182" height="71" viewBox="0 0 182 71" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M161.1 70L181 0H6.10352e-05V70H161.1Z" fill="#D9D9D9" stroke="black"/>
+        </svg>
     </a>
     <div class="search">
         @if (isset($shortcut[4]))
@@ -131,7 +134,7 @@
                 <path id="p-b1-d" d="M21 50.5L1 1H67L86.5 50.5H21Z" />
                 <path id="p-b2-d" d="M41 100L21 50.5H87.3L106.8 100H41Z" />
                 <path id="p-d" d="M112.5 114.5L67 1H206V114.5H112.5Z" />
-                <a href="{{ url('/project') }}" class="profil">
+                <a href="{{ url('/newProject') }}" class="profil">
                     <path id="p-b1-f" class="svg-p invisible" d="M26 50.5L6 1H67L86.706 50.5H26Z" transform="translate(63, 0)"/>
                 </a>
                 <a href="{{ url('/dashboard') }}" class="profil">
@@ -148,21 +151,23 @@
             
         @else
             @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="register">
+                <div class='register'>
+                <a href="{{ route('register') }}" >
                     <p class="mc-register">Inscription</p>
                     <svg width="217" height="40" viewBox="0 0 217 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M20.4548 39L1 0H215.501L216 39H20.4548Z" fill="#979797" stroke="black"/>
                     </svg>
                 </a>
+                </div>
             @endif
-            
-            <a href="{{ route('login') }}" class="login">
+            <div class='login'>
+            <a href="{{ route('login') }}">
                 <p class="mc-login">Connexion</p>
                 <svg width="216" height="51" viewBox="0 0 216 51" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20.4548 50L1 0H215.501L216 50H20.4548Z" fill="#979797" stroke="black"/>
                 </svg>
             </a>
-            
+            </div>
         @endauth
     </div>
     @endif

@@ -19,6 +19,7 @@
     width: calc(100vw - 20px);
     display: flex;
     position: fixed;
+    top: 0px;
     z-index: 5;
 }
 
@@ -318,13 +319,18 @@ input:focus {
     right: 0px;
 }
 
+
+
 .login{
-    order: 2;
-    margin-left: -17px;
+    left: -200px;
+    position: absolute;
+    z-index: 2;
 }
 
 .register{
-    order: 1;
+    left: -400px;
+    position: absolute;
+    z-index: 1;
 }
 
 .profil-icon{
@@ -387,6 +393,18 @@ input:focus {
     opacity: 0;
 }
 
+.logo{
+    width: 150px;
+    height: 50px;
+    background-image: url('../image/GR_LOGO.png');
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    top: 10px;
+    left: 5px;
+    pointer-events: none;
+}
+
 .sc-text-high{
     width: 150px;
     height: 35px;
@@ -409,6 +427,7 @@ input:focus {
     pointer-events: none;
 }
 
+
 .sc-text-low{
     width: 150px;
     height: 15px;
@@ -423,7 +442,7 @@ input:focus {
 .mc-login{
     position: absolute;
     top: 0px;
-    left: 250px;
+    left: 40px;
     text-decoration: none;
     color: black;
     font-size: 30px;

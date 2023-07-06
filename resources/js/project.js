@@ -299,7 +299,6 @@ function newWidget(widgetObj = null, targetView = selectedView, file = null) {
         top:  +widget.offsetTop,
         bottom: +targetView.offsetTop + +widget.offsetHeight,
     };
-    console.log(topLeftCornerRect)
 
     // Verifie que le widget ne se supperpose pas aux autres et trouve la meilleur position pour l'ajouter
     if (hasCollisionWithOthers(widget, topLeftCornerRect)) {
@@ -790,6 +789,7 @@ export function selectView(view) {
     }
     selectedView = view;
     view.classList.add('selected');
+    document.getElementById('cm-icon-txt').onclick = newWidget;
 }
 
 function extractSizeAndPosition() {
@@ -938,7 +938,7 @@ window.addEventListener('beforeunload', function (e) {
 });
 
 
-document.getElementById('newWidgetButton').onclick = newWidget;
-document.getElementById('newViewButton').onclick = newView;
-document.getElementById('saveProjectButton').onclick = saveProject;
-document.getElementById('loadProjectButton').onclick = loadProject;
+
+document.getElementById('cm-icon-vue').onclick = newView;
+// document.getElementById('saveProjectButton').onclick = saveProject;
+// document.getElementById('loadProjectButton').onclick = loadProject;

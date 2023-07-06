@@ -18,6 +18,7 @@
         @livewireStyles
     </head>
     <body class="font-sans antialiased">
+        <div class="spacer-tnav"></div>
         <x-banner />
 
         <div class="min-h-screen bg-gray-100">

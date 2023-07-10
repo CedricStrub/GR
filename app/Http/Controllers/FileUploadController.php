@@ -119,6 +119,8 @@ class FileUploadController extends Controller
         $data = $request->getContent();
         $data = json_decode($data, true);
 
+        // dd($data['file']);
+
         $name = './texte/'.$data['file'];
         $handle = fopen($name, 'w') or die('Cannot open file:  '.$name);
         fwrite($handle, $data['content']);

@@ -190,7 +190,7 @@ class ControllerProject extends Controller
             ]);
         }
         
-        return response()->json(['id' => $w->id], 200);
+        return response()->json(['id' => $w->id, 'widget' => $w, 'view' => $v], 200);
     }
 
     public function removeWidget(Request $request){

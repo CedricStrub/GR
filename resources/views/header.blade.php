@@ -7,6 +7,9 @@
 
     <title>Galaxy-Roads</title>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap');
+    </style> 
     @vite(['resources/css/home.css','resources/js/app.js'])
     <!-- Styles -->
     @livewireStyles
@@ -127,26 +130,40 @@
         @auth
             
             <div id="profil-icon" class="profil-icon"></div>
-            <div id="project-icon" class="project-icon"></div>
-            <div id="dark-icon" class="dark-icon"></div>
+            @if(isset($result))
+                <div id="project-icon" class="publish-icon"></div>
+                <div id="dark-icon" class="save-icon"></div>
+            @else
+                <div id="project-icon" class="project-icon"></div>
+                <div id="dark-icon" class="dark-icon"></div>
+            @endif
             <div id="settings-icon" class="settings-icon"></div>
             <svg width="207" height="171" viewBox="0 0 207 171" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path id="p-b1-d" d="M21 50.5L1 1H67L86.5 50.5H21Z" />
                 <path id="p-b2-d" d="M41 100L21 50.5H87.3L106.8 100H41Z" />
                 <path id="p-d" d="M112.5 114.5L67 1H206V114.5H112.5Z" />
-                <a href="{{ url('/newProject') }}" class="profil">
-                    <path id="p-b1-f" class="svg-p invisible" d="M26 50.5L6 1H67L86.706 50.5H26Z" transform="translate(63, 0)"/>
-                </a>
-                <a href="{{ url('/dashboard') }}" class="profil">
-                    <path id="p-b2-f" class="svg-p invisible" d="M45.7226 100L26 50.5H86.805L106.5 100H45.7226Z" transform="translate(63, 0)"/>
-                </a>
-                <a href="{{ url('/dashboard') }}" class="profil">
-                    <path id="p-b3-d" d="M206 170.5V114.5H126L149.781 170.5H206Z" />
-                </a>
-                <path id="p-b3-f" class="svg-p invisible" d="M205.983 160.5V114.5H130.25L149.764 160.5H205.983Z" transform="translate(0,-50)"/>
-                <a href="{{ url('/dashboard') }}" class="profil">
-                    <path id="p-f" class="svg-p" d="M129 70.5L101.5 1H206V70.5H129Z" />
-                </a>
+                @if(isset($result))
+                    <a id="publish" class="profil">
+                        <path id="p-b1-f" class="svg-p invisible" d="M26 50.5L6 1H67L86.706 50.5H26Z" transform="translate(63, 0)"/>
+                    </a>
+                    <a class="profil" id="saveProject">
+                        <path id="p-b2-f" class="svg-p invisible" d="M45.7226 100L26 50.5H86.805L106.5 100H45.7226Z" transform="translate(63, 0)"/>
+                    </a>
+                @else
+                    <a href="{{ url('/newProject') }}" class="profil">
+                        <path id="p-b1-f" class="svg-p invisible" d="M26 50.5L6 1H67L86.706 50.5H26Z" transform="translate(63, 0)"/>
+                    </a>
+                    <a href="{{ url('/dashboard') }}" class="profil">
+                        <path id="p-b2-f" class="svg-p invisible" d="M45.7226 100L26 50.5H86.805L106.5 100H45.7226Z" transform="translate(63, 0)"/>
+                    </a>
+                @endif
+                    <a href="{{ url('/dashboard') }}" class="profil">
+                        <path id="p-b3-d" d="M206 170.5V114.5H126L149.781 170.5H206Z" />
+                    </a>
+                    <path id="p-b3-f" class="svg-p invisible" d="M205.983 160.5V114.5H130.25L149.764 160.5H205.983Z" transform="translate(0,-50)"/>
+                    <a href="{{ url('/dashboard') }}" class="profil">
+                        <path id="p-f" class="svg-p" d="M129 70.5L101.5 1H206V70.5H129Z" />
+                    </a>
             </svg>
             
         @else

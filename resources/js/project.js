@@ -403,8 +403,11 @@ function saveWidget(widget,view,idFile){
             _token: csrfToken
         },
         success: function(response) {
+            console.log(response.widget)
+            console.log(response.view)
             console.log('ID returned: ', response.id);
             console.log(idFile)
+            console.log(data)
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(textStatus, errorThrown);
@@ -616,7 +619,7 @@ export function newView(viewObj = null) {
     const title = document.createElement('div');
     title.className = 'view-title';
     title.innerHTML = `
-    <div class="user"><img src="../images/TitleUser.png"></img></div>
+    <div class="user" id="permission-btn"><img src="../images/TitleUser.png"></img></div>
     <div class="title-filler-l" id="tfl_`+idView+`"><img src="../images/TitleFillerLeft.png"></img></div>
     <div class="title">
         <textarea class="title_`+idView+`" id="title_`+idView+`"></textarea>
@@ -909,6 +912,16 @@ if(init === false){
         console.log(dz.imgID)
     });
 
+    
+    dropzone.on('addedfile', function(file) {
+        let reader = new FileReader();
+        reader.onloadend = function() {
+            let img = document.querySelector('#c-miniature');
+            img.src = reader.result;
+        }
+        reader.readAsDataURL(file);
+    });
+
     fileProcess.event(dropzone)
     var widget = document.querySelector('#cf-dropzone')
     fileProcess.input(dropzone,widget)
@@ -937,8 +950,45 @@ window.addEventListener('beforeunload', function (e) {
     }
 });
 
+function openNav(element) {
+    document.getElementById(element).style.width = "100%";
+
+    var inputT = document.getElementById('c-title')
+    var outputT = document.getElementById('cf-input')
+    inputT.innerText = outputT.value
+    var inputD = document.getElementById('c-description')
+    var outputD = document.getElementById('cf-description')
+    inputD.innerText = outputD.value
+
+    outputT.oninput = function(){
+        inputT.innerText = outputT.value
+    }
+    outputD.oninput = function(){
+        inputD.innerText = outputD.value
+    }
+
+}
+  
+function closeNav(element) {
+    document.getElementById(element).style.width = "0%";
+}
+
+
+document.getElementById('cf-h-right').onclick = function(){
+    closeNav('publication')
+};
+document.getElementById('cf-h-left').onclick = function(){
+    saveProject()
+    closeNav('publication')
+};
+document.getElementById('publish').onclick = function(){
+    openNav('publication')
+};
+
+document.getElementById('permission-btn').onclick = function(){
+    openNav('permission')
+};
 
 
 document.getElementById('cm-icon-vue').onclick = newView;
-// document.getElementById('saveProjectButton').onclick = saveProject;
-// document.getElementById('loadProjectButton').onclick = loadProject;
+document.getElementById('saveProject').onclick = saveProject;

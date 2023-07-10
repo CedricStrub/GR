@@ -1,6 +1,7 @@
 *{
     margin: 0px;
     padding: 0px;
+    font-family: 'Kiwi Maru', serif;
 }
 
 :root{
@@ -367,10 +368,36 @@ input:focus {
     opacity: 0;
 }
 
+.publish-icon{
+    width: 40px;
+    height: 40px;
+    background-image: url('../image/publier.png');
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    right: 137.5px;
+    top: 5px;
+    pointer-events: none;
+    opacity: 0;
+}
+
 .dark-icon{
     width: 40px;
     height: 40px;
     background-image: url('../image/dark.png');
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    right: 117.5px;
+    top: 55px;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.save-icon{
+    width: 40px;
+    height: 40px;
+    background-image: url('../image/sauvegarder.png');
     position: absolute;
     background-size: cover;
     background-repeat: no-repeat;
@@ -567,7 +594,7 @@ input:focus {
 }
 
 .card{
-    width: calc((100% / 6) - 20px);
+    width: 295px;
     height: 400px;
     background-color: var(--txt-high);
     margin: 10px;
@@ -597,7 +624,7 @@ a{
 
 .c-title{
     text-align: center;
-    font-size: 20px;
+    font-size: 16px;
     margin: 10px;
     color: var(--black);
     overflow: hidden;
@@ -638,6 +665,7 @@ a{
     height: calc(40% - 20px);
     background-color: var(--bg-ter);
     padding: 10px;
+    font-size: 13px;
     color: var(--txt-high);
     overflow: hidden;
     display: -webkit-box;

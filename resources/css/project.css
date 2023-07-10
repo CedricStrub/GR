@@ -3,6 +3,7 @@
     --bg-sec: #B4B4B4;
     --brd: black;
     --grid: #00000050;
+    --grid-n: #ffffff20;
     --bg-grid: #eeeeee;
     --title-bg: rgba(165, 165, 165, 0.5);
     --title-hover: rgba(224, 224, 224, 0.5);
@@ -104,7 +105,7 @@
 
 .page{
     margin: 30px;
-    margin-top: 10px;
+    margin-top: 105px;
     width: calc(100vw - 80px);
     height: 100vh;
     background: 
@@ -114,39 +115,6 @@
     background-size: 25px 25px;
 }
 
-.lock-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: #4286f4;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    padding: 5px 10px;
-    cursor: pointer;
-    z-index: 2;
-}
-
-.lock-btn:hover {
-    background-color: #2261b7;
-}
-
-.remove-btn {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    background-color: #4286f4;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    padding: 5px 10px;
-    cursor: pointer;
-    z-index: 2;
-}
-
-.remove-btn:hover {
-    background-color: #2261b7;
-}
 
 .view {
     width: 100%;
@@ -361,54 +329,80 @@
     
 }
 
-.card-form{
-    width: 80vw;
-    height: 150px;
-    display: flex;
-    flex-direction: row;
-    padding: 30px;
-    margin-top: 20px;
-}
+
 
 .cf-left{
-    width: 50%;
-    height: 100%;
+    width: 20.8%;
+    height: 570px;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.cf-left label{
-    margin: 10px;
+    margin: 30px;
 }
 
 .cf-input{
-    width: 80%;
+    width: 45%;
+    height: 80px;
+    position: absolute;
+    left: 30px;
+    top: 120px;
+    text-align: center; 
+    font-size: 16px;
+    resize: none;
+    z-index: 8;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
 }
 
 .cf-description{
-    width: 80%;
-    height: 50%;
+    width: 45%;
+    height: 260px;
     resize: none;
+    position: absolute;
+    left: 30px;
+    top: 260px;
+    text-align: center;
+    z-index: 8;
+}
+
+.cf-l-title{
+    position: absolute;
+    color: var(--bg-pri);
+    line-height: 50px;
+    font-size: 40px;
+    letter-spacing: 5px;
+}
+
+.cf-r-title{
+    position: absolute;
+    color: var(--bg-pri);
+    line-height: 50px;
+    font-size: 40px;
+    letter-spacing: 2px;
 }
 
 .cf-right{
-    width: 40%;
-    height: 100%;
+    width: 67.7%;
+    height: 570px;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.cf-right label{
-    margin: 10px;
+    position: relative;
+    margin: 70px;
 }
 
 .cf-dropzone{
-    width: 100%;
-    height: 110px;
+    right: 30px;
+    top: 120px;
+    position: absolute;
+    width: 45%;
+    height: 400px;
     border: 1px solid var(--grid);
     border-radius: 3px;
+    z-index: 8;
 }
 
 .cm{
@@ -538,4 +532,197 @@
     z-index: 7;
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 7;
+    top: 0;
+    left: 0;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.9);
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+  
+.overlay-content {
+    position: relative;
+    top: 10%;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+  
+.overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+}
+  
+.overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+}
+  
+@media screen and (max-height: 450px) {
+    .overlay a {font-size: 20px}
+    .overlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+    }
+}
+
+.card-form{
+    width: 1880px;
+    height: 690px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    background: 
+        linear-gradient(0deg, transparent 24px, var(--grid-n) 25px, var(--grid-n) 26px, transparent 27px),
+        linear-gradient(90deg, transparent 24px, var(--grid-n) 25px, var(--grid-n) 26px, transparent 27px),
+        #353535;
+    background-size: 25px 25px;
+    z-index: 6;
+}
+
+.cf-head{
+    width: 1880px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.cf-h-left{
+    width: 70px;
+    height: 60px;
+    background-image: url('../image/cf_left.png');
+    z-index: 7;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.cf-h-right{
+    width: 70px;
+    height: 60px;
+    background-image: url('../image/cf_right.png');
+    z-index: 7;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.cf-title{
+    color: var(--bg-pri);
+    font-size: 35px;
+    line-height: 60px;
+    letter-spacing: 10px;
+    font-family: 'Kiwi Maru', serif;
+}
+
+.cf-h-center{
+    height: 60px;
+    width: 1740px;
+    --border-color: var(--bg-sec);
+    --border-weight: 3px;
+    --dash-size: 15px;
+    --gap-size: 15px;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    clip-path: polygon(0.01% 0, 99.99% 0, 99.99% 92%, 0.01% 92%);
+    z-index: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cf-h-center:after {
+    transition: all .6s ease;
+    content:'';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(90deg, var(--border-color) 100%, transparent 100%) top left no-repeat,
+        linear-gradient(90deg, transparent calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2 + var(--dash-size)), transparent calc(var(--gap-size) / 2 + var(--dash-size))) top center repeat-x,
+        linear-gradient(90deg, var(--border-color) 100%, transparent 100%) top right no-repeat,
+        
+        linear-gradient(0deg, var(--border-color) 100%, transparent 100%) top left no-repeat,
+        linear-gradient(0deg, transparent calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2 + var(--dash-size)), transparent calc(var(--gap-size) / 2 + var(--dash-size))) center left repeat-y,
+        linear-gradient(0deg, var(--border-color) 100%, transparent 100%) bottom left no-repeat,
+        
+        linear-gradient(90deg, var(--border-color) 100%, transparent 100%) bottom left no-repeat,
+        linear-gradient(90deg, transparent calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2 + var(--dash-size)), transparent calc(var(--gap-size) / 2 + var(--dash-size))) bottom center repeat-x,
+        linear-gradient(90deg, var(--border-color) 100%, transparent 100%) bottom right no-repeat,
+        
+        linear-gradient(0deg, var(--border-color) 100%, transparent 100%) top right no-repeat,
+        linear-gradient(0deg, transparent calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2 + var(--dash-size)), transparent calc(var(--gap-size) / 2 + var(--dash-size))) center right repeat-y,
+        linear-gradient(0deg, var(--border-color) 100%, transparent 100%) bottom right no-repeat;
+    background-size: var(--dash-size) var(--border-weight), calc(var(--dash-size) + var(--gap-size)) var(--border-weight), var(--dash-size) var(--border-weight), var(--border-weight) var(--dash-size), var(--border-weight) calc(var(--dash-size) + var(--gap-size)), var(--border-weight) var(--dash-size);
+}
+
+.cf-body{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    width: 1880px;
+    height: 630px;
+    --border-color: var(--bg-sec);
+    --border-weight: 3px;
+    --dash-size: 15px;
+    --gap-size: 15px;
+    padding: 30px;
+    margin-top: 56px;
+    position: absolute;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    z-index: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    clip-path: polygon(70px 0%, calc(100% - 70px) 0%, calc(100% - 70px) 0.5%, 100% 0.5%, 100% 100%, 0 100%, 0 0.5%, 70px 0.5%);
+}
+
+.cf-body:after {
+    transition: all .6s ease;
+    content:'';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(90deg, var(--border-color) 100%, transparent 100%) top left no-repeat,
+        linear-gradient(90deg, transparent calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2 + var(--dash-size)), transparent calc(var(--gap-size) / 2 + var(--dash-size))) top center repeat-x,
+        linear-gradient(90deg, var(--border-color) 100%, transparent 100%) top right no-repeat,
+        
+        linear-gradient(0deg, var(--border-color) 100%, transparent 100%) top left no-repeat,
+        linear-gradient(0deg, transparent calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2 + var(--dash-size)), transparent calc(var(--gap-size) / 2 + var(--dash-size))) center left repeat-y,
+        linear-gradient(0deg, var(--border-color) 100%, transparent 100%) bottom left no-repeat,
+        
+        linear-gradient(90deg, var(--border-color) 100%, transparent 100%) bottom left no-repeat,
+        linear-gradient(90deg, transparent calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2 + var(--dash-size)), transparent calc(var(--gap-size) / 2 + var(--dash-size))) bottom center repeat-x,
+        linear-gradient(90deg, var(--border-color) 100%, transparent 100%) bottom right no-repeat,
+        
+        linear-gradient(0deg, var(--border-color) 100%, transparent 100%) top right no-repeat,
+        linear-gradient(0deg, transparent calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2), var(--border-color) calc(var(--gap-size) / 2 + var(--dash-size)), transparent calc(var(--gap-size) / 2 + var(--dash-size))) center right repeat-y,
+        linear-gradient(0deg, var(--border-color) 100%, transparent 100%) bottom right no-repeat;
+    background-size: var(--dash-size) var(--border-weight), calc(var(--dash-size) + var(--gap-size)) var(--border-weight), var(--dash-size) var(--border-weight), var(--border-weight) var(--dash-size), var(--border-weight) calc(var(--dash-size) + var(--gap-size)), var(--border-weight) var(--dash-size);
+}
+
+#c-description {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
 }

@@ -19,7 +19,7 @@ let pf_b2_f = document.querySelector('#p-b2-f')
 let pf_b3_f = document.querySelector('#p-b3-f')
 
 let pf_m_d = KUTE.fromTo(pf_f, { path: p_f }, { path: p_d }, { easing: 'easingExponentialOut',duration: 30 })
-let pf_m_f = KUTE.fromTo(pf_f, { path: p_d }, { path: p_f }, { easing: 'easingExponentialOut',duration: 30 , delay: 101})
+let pf_m_f = KUTE.fromTo(pf_f, { path: p_d }, { path: p_f }, { easing: 'easingExponentialOut',duration: 30 , delay: 31})
 let pf_mb1_d = KUTE.fromTo(pf_b1_f, { path: p_b1_f }, { path: p_b1_d }, { easing: 'easingExponentialOut',duration: 30 })
 let pf_mb1_f = KUTE.fromTo(pf_b1_f, { path: p_b1_d }, { path: p_b1_f }, { easing: 'easingExponentialOut',duration: 30 })
 let pf_mb2_d = KUTE.fromTo(pf_b2_f, { path: p_b2_f }, { path: p_b2_d }, { easing: 'easingExponentialOut',duration: 30 })
@@ -40,12 +40,12 @@ let pf_b2_ico = document.querySelector('#dark-icon')
 let pf_b3_ico = document.querySelector('#settings-icon')
 
 
-const b1_ico_i = KUTE.fromTo(pf_b1_ico, {opacity: 1}, {opacity: 0}, { duration: 100})
-const b1_ico_v = KUTE.fromTo(pf_b1_ico, {opacity: 0}, {opacity: 1}, { duration: 50 , delay: 200})
-const b2_ico_i = KUTE.fromTo(pf_b2_ico, {opacity: 1}, {opacity: 0}, { duration: 100})
-const b2_ico_v = KUTE.fromTo(pf_b2_ico, {opacity: 0}, {opacity: 1}, { duration: 50 , delay: 200})
-const b3_ico_i = KUTE.fromTo(pf_b3_ico, {opacity: 1}, {opacity: 0}, { duration: 100})
-const b3_ico_v = KUTE.fromTo(pf_b3_ico, {opacity: 0}, {opacity: 1}, { duration: 50 , delay: 200})
+const b1_ico_i = KUTE.fromTo(pf_b1_ico, {opacity: 1}, {opacity: 0}, { duration: 50})
+const b1_ico_v = KUTE.fromTo(pf_b1_ico, {opacity: 0}, {opacity: 1}, { duration: 50 , delay: 30})
+const b2_ico_i = KUTE.fromTo(pf_b2_ico, {opacity: 1}, {opacity: 0}, { duration: 50})
+const b2_ico_v = KUTE.fromTo(pf_b2_ico, {opacity: 0}, {opacity: 1}, { duration: 50 , delay: 30})
+const b3_ico_i = KUTE.fromTo(pf_b3_ico, {opacity: 1}, {opacity: 0}, { duration: 50})
+const b3_ico_v = KUTE.fromTo(pf_b3_ico, {opacity: 0}, {opacity: 1}, { duration: 50 , delay: 30})
 
 const tp_b1_d = { translateX: 63, translateY: 0 }
 const tp_b1_f = { translateX: 0, translateY: 0 }
@@ -61,19 +61,19 @@ const b2_ico_f = { translateX: 0, translateY: 0 }
 const b3_ico_d = { translateX: -1, translateY: 4 }
 const b3_ico_f = { translateX: 0, translateY: 0 }
 
-const tp_d_b1 = KUTE.fromTo(pf_b1_f, tp_b1_d, tp_b1_f, { easing: 'easingExponentialOut',duration: 100 , delay: 31})
-const tp_f_b1 = KUTE.fromTo(pf_b1_f, tp_b1_f, tp_b1_d, { easing: 'easingExponentialOut',duration: 100 })
-const tp_d_b2 = KUTE.fromTo(pf_b2_f, tp_b2_d, tp_b2_f, { easing: 'easingExponentialOut',duration: 100 , delay: 31})
-const tp_f_b2 = KUTE.fromTo(pf_b2_f, tp_b2_f, tp_b2_d, { easing: 'easingExponentialOut',duration: 100 })
-const tp_d_b3 = KUTE.fromTo(pf_b3_f, tp_b3_d, tp_b3_f, { easing: 'easingExponentialOut',duration: 100 , delay: 31})
-const tp_f_b3 = KUTE.fromTo(pf_b3_f, tp_b3_f, tp_b3_d, { easing: 'easingExponentialOut',duration: 100 })
+const tp_d_b1 = KUTE.fromTo(pf_b1_f, tp_b1_d, tp_b1_f, { easing: 'easingExponentialOut',duration: 30 , delay: 31})
+const tp_f_b1 = KUTE.fromTo(pf_b1_f, tp_b1_f, tp_b1_d, { easing: 'easingExponentialOut',duration: 30 })
+const tp_d_b2 = KUTE.fromTo(pf_b2_f, tp_b2_d, tp_b2_f, { easing: 'easingExponentialOut',duration: 30 , delay: 31})
+const tp_f_b2 = KUTE.fromTo(pf_b2_f, tp_b2_f, tp_b2_d, { easing: 'easingExponentialOut',duration: 30 })
+const tp_d_b3 = KUTE.fromTo(pf_b3_f, tp_b3_d, tp_b3_f, { easing: 'easingExponentialOut',duration: 30 , delay: 31})
+const tp_f_b3 = KUTE.fromTo(pf_b3_f, tp_b3_f, tp_b3_d, { easing: 'easingExponentialOut',duration: 30 })
 
-const ico_b1_d = KUTE.fromTo(pf_b1_ico, b1_ico_f, b1_ico_d, { easing: 'easingExponentialOut',duration: 100 , delay: 31})
-const ico_b1_f = KUTE.fromTo(pf_b1_ico, b1_ico_d, b1_ico_f, { easing: 'easingExponentialOut',duration: 100 , delay: 31})
-const ico_b2_d = KUTE.fromTo(pf_b2_ico, b2_ico_f, b2_ico_d, { easing: 'easingExponentialOut',duration: 100 , delay: 31})
-const ico_b2_f = KUTE.fromTo(pf_b2_ico, b2_ico_d, b2_ico_f, { easing: 'easingExponentialOut',duration: 100 , delay: 31})
-const ico_b3_d = KUTE.fromTo(pf_b3_ico, b3_ico_f, b3_ico_d, { easing: 'easingExponentialOut',duration: 100 , delay: 31})
-const ico_b3_f = KUTE.fromTo(pf_b3_ico, b3_ico_d, b3_ico_f, { easing: 'easingExponentialOut',duration: 100 , delay: 31})
+const ico_b1_d = KUTE.fromTo(pf_b1_ico, b1_ico_f, b1_ico_d, { easing: 'easingExponentialOut',duration: 30 , delay: 31})
+const ico_b1_f = KUTE.fromTo(pf_b1_ico, b1_ico_d, b1_ico_f, { easing: 'easingExponentialOut',duration: 30 , delay: 31})
+const ico_b2_d = KUTE.fromTo(pf_b2_ico, b2_ico_f, b2_ico_d, { easing: 'easingExponentialOut',duration: 30 , delay: 31})
+const ico_b2_f = KUTE.fromTo(pf_b2_ico, b2_ico_d, b2_ico_f, { easing: 'easingExponentialOut',duration: 30 , delay: 31})
+const ico_b3_d = KUTE.fromTo(pf_b3_ico, b3_ico_f, b3_ico_d, { easing: 'easingExponentialOut',duration: 30 , delay: 31})
+const ico_b3_f = KUTE.fromTo(pf_b3_ico, b3_ico_d, b3_ico_f, { easing: 'easingExponentialOut',duration: 30 , delay: 31})
 
 
 pf_f.addEventListener('mouseenter',pDeploy)
@@ -89,8 +89,8 @@ pf_b3_f.addEventListener('mouseleave',b3Fold)
 
 let imageElement = document.getElementById('profil-icon');
 
-let pf_i_d = KUTE.to(imageElement, { width: 95, height: 95 }, { duration: 100 });
-let pf_i_f = KUTE.to(imageElement, { width: 70, height: 70 }, { duration: 100 , delay: 100});
+let pf_i_d = KUTE.to(imageElement, { width: 95, height: 95 }, { duration: 30 });
+let pf_i_f = KUTE.to(imageElement, { width: 70, height: 70 }, { duration: 30 , delay: 30});
 
 function pDeploy(){
     

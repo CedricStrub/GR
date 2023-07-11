@@ -1,21 +1,3 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>Galaxy-Roads</title>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap');
-    </style> 
-    @vite(['resources/css/home.css','resources/css/homeR.css','resources/js/responsive.js','resources/js/app.js'])
-    <!-- Styles -->
-    @livewireStyles
-</head>
-<body>
-<nav class="top-nav" id="top-nav">
 <a href="{{ url('/') }}">
     <div class="logo"></div>
     <svg width="182" height="71" viewBox="0 0 182 71" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -188,6 +170,3 @@
     @endauth
 </div>
 @endif
-
-</nav>
-

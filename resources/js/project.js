@@ -988,7 +988,12 @@ document.getElementById('publish').onclick = function(){
 document.getElementById('permission-btn').onclick = function(){
     openNav('permission')
 };
-
+document.getElementById('af-h-left').onclick = function(){
+    closeNav('permission')
+};
+document.getElementById('af-h-right').onclick = function(){
+    closeNav('permission')
+};
 
 document.getElementById('cm-icon-vue').onclick = newView;
 document.getElementById('saveProject').onclick = saveProject;

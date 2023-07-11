@@ -44,6 +44,23 @@ Route::get('/dropzone', function () {
     return view('dropzone');
 });
 
+Route::get('/loadLandscapeHeader', function(){
+    return view('landscapeHeader');
+});
+
+Route::get('/loadPortraitHeader', function(){
+    return view('portraitHeader');
+});
+
+Route::get('/loadLandscapeFooter', function(){
+    return view('landscapeFooter');
+});
+
+Route::get('/loadPortraitFooter', function(){
+    return view('portraitFooter');
+});
+
+
 Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');

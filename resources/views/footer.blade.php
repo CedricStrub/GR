@@ -48,7 +48,7 @@ tarteaucitron.init({
 });
 </script>
 
-<div class="footer">
+<div class="footer" id="footer">
     <p class="f-info">Informations</p>
     <svg class="f-svg" width="216" height="41" viewBox="0 0 216 41" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M20.5 1L1 40.5H216L216.5 1H20.5Z" fill="#979797" stroke="black"/>

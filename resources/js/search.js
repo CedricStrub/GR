@@ -569,6 +569,15 @@ const si_h_v = KUTE.fromTo(s_icon, {opacity: 0}, {opacity: 1}, { duration: 100 }
 let sm_e_f = document.querySelector('#search-mask')
 let sm_e_d = document.querySelector('#search-mask-deploy')
 
+// context.js
+export function setup() {
+    sm_e_f.addEventListener('mouseenter',searchDeploy)
+    s_icon.addEventListener('mouseenter',searchDeploy)
+    sm_e_d.addEventListener('mouseleave',searchRetract)
+    sm_e_d.addEventListener('click',focus)
+    s_icon.addEventListener('click',focus)
+}
+
 //ajouter les event listener 
 sm_e_f.addEventListener('mouseenter',searchDeploy)
 s_icon.addEventListener('mouseenter',searchDeploy)

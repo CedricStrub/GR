@@ -94,6 +94,31 @@
                 <div id="af-h-right" class="cf-h-right"></div>
             </div>
             <div class="cf-body">
+                <div class="af-left">
+                    <div class="af-menu1">
+                        <svg width="595" height="542" viewBox="0 0 595 542" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0.5 56.5V541.5H594.5V55L552.5 0.5H321L275.5 56L0.5 56.5Z" fill="#1E1E1E" stroke="#979797" stroke-width="3" stroke-dasharray="15 15"/>
+                        </svg>
+                    </div>
+                    <div class="af-menu2">
+                        <svg width="595" height="542" viewBox="0 0 595 542" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0.5 55.5V541.5H594.412V56H319L274.5 0.5H47.5L0.5 55.5Z" fill="#1E1E1E" stroke="#979797" stroke-width="3" stroke-dasharray="15 15"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="af-right">
+                    <div class="af-menu3">
+                        <svg width="1179" height="543" viewBox="0 0 1179 543" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M285.5 57.5H0.5V542.5H1177.5L1177.53 57.5H630.5L585.5 0.5H329L285.5 57.5Z" fill="#1E1E1E" stroke="#979797" stroke-width="3" stroke-dasharray="15 15"/>
+                        </svg>
+                    </div>    
+                    <div class="af-menu4">
+                        <svg width="1178" height="543" viewBox="0 0 1178 543" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0.5 56.5V540.5L1177.5 542.5V57.5H329.5L284.5 0.5H48.5L0.5 56.5Z" fill="#1E1E1E" stroke="#979797" stroke-width="3" stroke-dasharray="15 15"/>
+                        </svg>
+                    </div>
+                    
+                </div>
             </div>
         </div>
     </div>

@@ -726,3 +726,31 @@
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
 }
+
+.af-left{
+    top: -270px;
+    left: -900px;
+    position: relative;
+}
+
+.af-right{
+    top: -270px;
+    left: -270px;
+    position: relative;
+}
+
+.af-menu1{
+    position: absolute;
+}
+
+.af-menu2{
+    position: absolute;
+}
+
+.af-menu3{
+    position: absolute;
+}
+
+.af-menu4{
+    position: absolute;
+}

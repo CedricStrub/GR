@@ -87,6 +87,19 @@ pf_b2_f.addEventListener('mouseleave',b2Fold)
 pf_b3_f.addEventListener('mouseenter',b3Deploy)
 pf_b3_f.addEventListener('mouseleave',b3Fold)
 
+export function setup() {
+    pf_f.addEventListener('mouseenter',pDeploy)
+    pf_f.addEventListener('mouseleave',pFold)
+    // pf_icon.addEventListener('mouseenter',pDeploy)
+    // pf_icon.addEventListener('mouseleave',pFold)
+    pf_b1_f.addEventListener('mouseenter',b1Deploy)
+    pf_b1_f.addEventListener('mouseleave',b1Fold)
+    pf_b2_f.addEventListener('mouseenter',b2Deploy)
+    pf_b2_f.addEventListener('mouseleave',b2Fold)
+    pf_b3_f.addEventListener('mouseenter',b3Deploy)
+    pf_b3_f.addEventListener('mouseleave',b3Fold)    
+}
+
 let imageElement = document.getElementById('profil-icon');
 
 let pf_i_d = KUTE.to(imageElement, { width: 95, height: 95 }, { duration: 30 });

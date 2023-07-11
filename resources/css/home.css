@@ -323,13 +323,13 @@ input:focus {
 
 
 .login{
-    left: -200px;
+    left: -210px;
     position: absolute;
     z-index: 2;
 }
 
 .register{
-    left: -400px;
+    left: -410px;
     position: absolute;
     z-index: 1;
 }
@@ -568,7 +568,7 @@ input:focus {
 .f-info{
     position: absolute;
     top: -41px;
-    right: 30px;
+    right: 20px;
     color: var(--black);
     font-size: 25px;
     line-height: 40px;

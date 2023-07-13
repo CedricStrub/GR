@@ -358,7 +358,7 @@ input:focus {
 .project-icon{
     width: 40px;
     height: 40px;
-    background-image: url('../image/project.png');
+    background-image: url('../image/new-doc.png');
     position: absolute;
     background-size: cover;
     background-repeat: no-repeat;

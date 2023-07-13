@@ -98,6 +98,7 @@ export function setup() {
     pf_b2_f.addEventListener('mouseleave',b2Fold)
     pf_b3_f.addEventListener('mouseenter',b3Deploy)
     pf_b3_f.addEventListener('mouseleave',b3Fold)    
+    console.log('context init')
 }
 
 let imageElement = document.getElementById('profil-icon');

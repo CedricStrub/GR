@@ -18,16 +18,23 @@ async function resize() {
     last = format
 
     await loadComponent(headerComponent, 'top-nav');
-    await loadComponent(footerComponent, 'footer');
+    await loadComponent(footerComponent, 'footer-ctn');
 
     if (headerComponent == '/loadLandscapeHeader') {
-        const { setup: setupContext } = await import('/resources/js/context.js');
-        const { setup: setupSearch } = await import('/resources/js/search.js');
+        // Wait for both modules to load
+        const [{ setup: setupContext }, { setup: setupSearch }] = await Promise.all([
+            import('/resources/js/context.js'),
+            import('/resources/js/search.js'),
+        ]);
+        document.removeEventListener('click', checkClickOutside);
 
         setupContext();
         setupSearch();
+    }else{
+        document.addEventListener('click', checkClickOutside);
     }
 }
+
 
 function debounceResize(){
     aspectRatio = window.innerWidth / window.innerHeight;
@@ -44,19 +51,22 @@ debounceResize()
 window.menuMobile = function() {
     
     var x = document.getElementById("menuM");
-    console.log(x)
     if (x.style.display === "block") {
       x.style.display = "none";
     } else {
       x.style.display = "block";
     }
-  }
+}
 
-document.addEventListener('click', function(event) {
+function checkClickOutside(event) {
     var x = document.getElementById("menuM");
     var menu = document.querySelector('.s-mc');
 
-    if (!menu.contains(event.target)) { 
+    if (!menu.contains(event.target)) {
         x.style.display = "none";
     }
-});
+}
+
+if(format == 'portrait'){
+    document.addEventListener('click', checkClickOutside);
+}

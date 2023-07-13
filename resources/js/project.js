@@ -453,8 +453,12 @@ function toggleLock(element) {
     //change le visuel en fonction de l'etat
     if(element.locked == true){
         lockButton.children[0].src = "../images/TitleUnlock.png"
+        element.classList.remove("widget")
+        element.classList.add("widgetL")
     }else{
         lockButton.children[0].src = "../images/TitleLock.png"
+        element.classList.remove("widgetL")
+        element.classList.add("widget")
     }
 
     // Montre ou cache les resizer selon le cas de figure
@@ -926,9 +930,14 @@ if(init === false){
     var widget = document.querySelector('#cf-dropzone')
     fileProcess.input(dropzone,widget)
 
-
     if(data !== null){
-        loadProject()       
+        if(data != true){
+            console.log('project loading')
+            console.log(data)
+            loadProject()
+        }else{
+            newView()    
+        }
     }
     else{
         newView()

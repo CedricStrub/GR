@@ -28,9 +28,9 @@ class ControllerProject extends Controller
         
         
         $project = Project::find($sizeAndPosition['project']);
-        $project->nom = $sizeAndPosition['nom'];
-        $project->description = $sizeAndPosition['description'];
-        $project->miniature = $sizeAndPosition['miniature'];
+        $project->nom = $sizeAndPosition['nom'] ?? null;
+        $project->description = $sizeAndPosition['description'] ?? null;
+        $project->miniature = $sizeAndPosition['miniature'] ?? null;
         $project->save();
 
         if($project != null){
@@ -82,16 +82,43 @@ class ControllerProject extends Controller
         }
     }
 
+    public function createNewProject(Request $request) {
+        $uuid = $this->uuid(null);
+        $request->session()->put('project_uuid', $uuid);
+        $request->uuid = $uuid;
+        
+        $project = $this->makeProject($request);
+        $projectId = $project->getData()->id;
+        
+        return redirect()->route('project', ['id' => $projectId]);
+    }
 
-    public function newProject(Request $request){
+    public function checkProject(Request $request) {
+        if($request->session()->has('project_uuid')){
+            $uuid = $request->session()->get('project_uuid');
+            $id = Project::where('uuid',$uuid)->get()->first()->id;
+            return $this->loadProject($id);
+        } else {
+            return $this->createNewProject($request);
+        }
+    }
 
-        $request->uuid = $this->uuid(null);
+    public function newProject(Request $request,$uuid){
+
+        $request->uuid = $uuid;
 
         $project = $this->makeProject($request);
         $project = $project->getData()->id;
 
-        return view('project', ['project' => $project, 'isDirty' => false]);
+        return view('project', ['project' => $project,'result' => true, 'isDirty' => false]);
     }
+
+    public function loadProject($id){
+        $result = $this->load($id);
+
+        return view('project', ['project' => $id,'result' => $result,'isDirty' => false]);
+    }
+
 
     public function makeProject(Request $request){
 
@@ -214,12 +241,6 @@ class ControllerProject extends Controller
         $widget->delete();
     }
 
-    public function loadProject($id){
-        $result = $this->load($id);
-
-        return view('project', ['project' => $id,'result' => $result,'isDirty' => false]);
-    }
-
     public function load($id){
         $project = Project::find($id);
     
@@ -231,9 +252,12 @@ class ControllerProject extends Controller
             'nom' => $project->nom,
             'description' => $project->description,
             'miniature' => $project->miniature,  
-            'URLminiature' => $min->filename
+            'URLminiature' => $min->filename ?? 'cm-image.png'
         ];
         $result []= $p;
+        if($views->isEmpty() == true){
+            return true;
+        }
     
         foreach ($views as $view) {
             $viewId = $view->css_id;

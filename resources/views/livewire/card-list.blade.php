@@ -1,9 +1,11 @@
 <div class="container">
     <div class="c-spacer"></div>
-    
+    @if(empty($datas))
+    <h2>Aucun résultat, essayer en utilisant d'autres mot clef</h2>
+    @else
     @foreach($datas as $data)
 
-    <div class="card" x-data @click="if (!$event.target.closest('a')) window.location.href = '{{ url('loadProject/'.$data['id']) }}'">
+    <div class="card" x-data @click="if (!$event.target.closest('a')) window.location.href = '{{ url('project/'.$data['id']) }}'">
      <div class="c-head">
         <div class="c-t-left">
             <p class="c-title">{{ $data['nom'] }}</p>  
@@ -28,8 +30,8 @@
         </div>
     </div>
 </div>
-
     @endforeach
+    @endif
 
 
     @if($projects->hasMorePages())

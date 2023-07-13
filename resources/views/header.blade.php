@@ -150,7 +150,7 @@
                     <path id="p-b2-f" class="svg-p invisible" d="M45.7226 100L26 50.5H86.805L106.5 100H45.7226Z" transform="translate(63, 0)"/>
                 </a>
             @else
-                <a href="{{ url('/newProject') }}" class="profil">
+                <a href="{{ url('/createProject') }}" class="profil">
                     <path id="p-b1-f" class="svg-p invisible" d="M26 50.5L6 1H67L86.706 50.5H26Z" transform="translate(63, 0)"/>
                 </a>
                 <a href="{{ url('/dashboard') }}" class="profil">

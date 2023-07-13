@@ -576,6 +576,7 @@ export function setup() {
     sm_e_d.addEventListener('mouseleave',searchRetract)
     sm_e_d.addEventListener('click',focus)
     s_icon.addEventListener('click',focus)
+    console.log('search init')
 }
 
 //ajouter les event listener 

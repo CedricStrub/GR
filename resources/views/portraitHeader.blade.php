@@ -21,13 +21,24 @@
 </div>
 <div class="burger">
     <div id="menuM">
-        <a class="menuM-l1" href="{{ route('login') }}">Connexion</a>
-        <a class="menuM-l2" href="{{ route('register') }}">Inscription</a>
+    @auth
+        <a class="menuM-l1" style="right: 115px;" href="{{ url('/dashboard') }}">Compte</a>
+        <a class="menuM-l2" href="{{ url('/logout') }}">Deconnexion</a>
+        <a class="menuM-l3" href="{{ url('/newProject') }}">Nouveau Projet</a>
         <svg width="213" height="151" viewBox="0 0 213 151" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M43.5 150L1 1H212V150H43.5Z" fill="#D9D9D9" stroke="black"/>
-        <path d="M29 100H159" stroke="black"/>
-        <path d="M15 51H145" stroke="black"/>
-        </svg>
+        <path d="M29 100H159" stroke="darkgrey"/>
+        <path d="M15 51H145" stroke="darkgrey"/>
+        </svg> 
+    @else
+        <a class="menuM-l1" href="{{ route('/login') }}">Connexion</a>
+        <a class="menuM-l2" href="{{ route('/register') }}">Inscription</a>
+        <svg width="213" height="151" viewBox="0 0 213 151" fill="none" xmlns="http://www.w3.org/2000/svg" transform="translate(0, -50)">
+        <path d="M43.5 150L1 1H212V150H43.5Z" fill="#D9D9D9" stroke="black"/>
+        <path d="M29 100H159" stroke="darkgrey"/>
+        <path d="M15 51H145" stroke="darkgrey"/>
+        </svg> 
+    @endauth  
     </div>
 </div>
 <div class="s-mc">

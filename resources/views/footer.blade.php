@@ -47,7 +47,7 @@ tarteaucitron.init({
     "mandatoryCta": true /* Show the disabled accept button when mandatory on */
 });
 </script>
-
+<div id="footer-ctn">
 <div class="footer" id="footer">
     <p class="f-info">Informations</p>
     <svg class="f-svg" width="216" height="41" viewBox="0 0 216 41" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -75,6 +75,7 @@ tarteaucitron.init({
         <a href="" class="f-link">Conditions d'utilisation</a>
     </div>
 </div>
+<div>
 
 
 

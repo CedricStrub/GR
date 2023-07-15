@@ -1,4 +1,5 @@
 import Dropzone from 'dropzone'
+import tinymce from 'tinymce/tinymce';
 import * as fileProcess from './fileProcess'
 // import jQuery from 'jquery'
 
@@ -324,7 +325,6 @@ function newWidget(widgetObj = null, targetView = selectedView, file = null) {
 
     // Definis le status Lock 
     toggleLock(widget)
-    toggleLock(widget)
 
     //Récupère le token csrf
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -337,6 +337,7 @@ function newWidget(widgetObj = null, targetView = selectedView, file = null) {
         headers: {'X-CSRF-TOKEN': csrfToken}, // ajoute le token dans le header
         disablePreviews: true, // désactive les preview 
     });
+
     //Ajoute l'évènement de sauvegarde au telechargement du fichier
     dropzone.on("success", function(response) {
         console.log('Fichier sauvegardé')
@@ -406,8 +407,11 @@ function saveWidget(widget,view,idFile){
             console.log(response.widget)
             console.log(response.view)
             console.log('ID returned: ', response.id);
-            console.log(idFile)
+            console.log(response.view.css_id)
+            
+            data[response.view.css_id]['widgets'].push(response.widget)
             console.log(data)
+            fileProcess.initTinyMce(widget)
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(textStatus, errorThrown);
@@ -448,17 +452,22 @@ function toggleLock(element) {
     element.locked = !element.locked; 
     //Récupère l'id original du widget
     var id = +element.id.replace('widget_','')
-    //Récupère le bouton lock du widget grace a son id original
+    //Récupère le bouton lock et delete du widget grace a son id original
     const lockButton = element.querySelector("#lock_w"+id);
+    const deleteButton = element.querySelector("#delete_w"+id);
     //change le visuel en fonction de l'etat
     if(element.locked == true){
         lockButton.children[0].src = "../images/TitleUnlock.png"
         element.classList.remove("widget")
         element.classList.add("widgetL")
+        lockButton.style.visibility = 'hidden'
+        deleteButton.style.visibility = 'hidden'
     }else{
         lockButton.children[0].src = "../images/TitleLock.png"
         element.classList.remove("widgetL")
         element.classList.add("widget")
+        lockButton.style.visibility = 'visible'
+        deleteButton.style.visibility = 'visible'
     }
 
     // Montre ou cache les resizer selon le cas de figure
@@ -560,7 +569,7 @@ function onMouseUp() {
 function createResizableView() {
     const view = document.createElement('div');
     view.className = 'view';
-    view.dataset.locked = 'true'
+    view.dataset.locked = 'false'
 
     const resizer = document.createElement('div');
     resizer.className = 'resizerView';
@@ -621,81 +630,12 @@ export function newView(viewObj = null) {
     const page = document.querySelector('.page');
     const view = createResizableView();
     const title = document.createElement('div');
-    title.className = 'view-title';
-    title.innerHTML = `
-    <div class="user" id="permission-btn"><img src="../images/TitleUser.png"></img></div>
-    <div class="title-filler-l" id="tfl_`+idView+`"><img src="../images/TitleFillerLeft.png"></img></div>
-    <div class="title">
-        <textarea class="title_`+idView+`" id="title_`+idView+`"></textarea>
-    </div>
-    <div class="title-filler-r" id="tfr_`+idView+`"><img src="../images/TitleFillerRight.png"></img></div>
-    <div class="delete" id="delete_`+idView+`"><img src="../images/TitleDel.png"></img></div>
-    <div class="lock" id="lock_`+idView+`"><img src="../images/TitleLock.png"></img></div>
-    `;
-
-    page.appendChild(title);
-    page.appendChild(view);
-
-    const removeButton = title.querySelector('#delete_'+idView);
-    removeButton.addEventListener('click', () => removeView(view,title));
-
-    // Find the lock button inside the title element
-    const lockBtn = title.querySelector('#lock_'+idView);
-
-    // Add a click event listener to the lock button
-    lockBtn.addEventListener('click', () => {
-        // Toggle the locked state
-        if (view.dataset.locked === 'false') {
-            view.dataset.locked = 'true';
-            lockBtn.children[0].src = "../images/TitleLock.png"
-        } else {
-            view.dataset.locked = 'false'; 
-            lockBtn.children[0].src = "../images/TitleUnlock.png"
-        }
-    });
-
-    // Retrieve the textarea using its id
-    let textarea = document.getElementById('title_'+idView)
-    let fillerL = document.getElementById('tfl_'+idView)
-    let fillerR = document.getElementById('tfr_'+idView)
-    let intervalId 
-
-    function titleEnter(){
-        textarea.parentElement.classList.add('title-hover')
-        fillerL.classList.add('title-hover')
-        fillerR.classList.add('title-hover')
-    }
-
-    function titleLeave(){
-        textarea.parentElement.classList.remove('title-hover')
-        fillerL.classList.remove('title-hover')
-        fillerR.classList.remove('title-hover')
-    }
+    title.className = 'view-title title-border title_'+idView
+    ;
+    title.innerHTML = viewObj.title
     
-    textarea.addEventListener('mouseenter', titleEnter)
-    textarea.addEventListener('mouseleave', titleLeave)
-    fillerL.addEventListener('mouseenter', titleEnter)
-    fillerL.addEventListener('mouseleave', titleLeave)
-    fillerR.addEventListener('mouseenter', titleEnter)
-    fillerR.addEventListener('mouseleave', titleLeave)
-
-    // Attach focus and blur event listeners to the textarea
-    textarea.addEventListener('focus', function() {
-        var previous = ''
-        intervalId = setInterval(function() {
-            if(previous != textarea.value){
-                previous = textarea.value
-                saveProject()
-                isDirty = false
-            }
-        }, 5000); 
-    });
-
-    textarea.addEventListener('blur', function() {
-        clearInterval(intervalId);
-        saveProject()
-        isDirty = false
-    });
+    page.appendChild(title);
+    page.appendChild(view); 
 
     if (viewObj) {
         if (viewObj.type != 'click') {
@@ -704,7 +644,6 @@ export function newView(viewObj = null) {
             view.style.width = '100%';
             view.setAttribute('id', viewObj.id);
             viewId = viewObj.id
-            document.querySelector('.title_'+idView).innerText = viewObj.title
             idView += 1;
 
         } else {
@@ -815,12 +754,16 @@ function extractSizeAndPosition() {
 
     
     for (const view of views) {
-        console.log(view)
         var tID = view.id.replace('view_','')
-        var t = document.querySelector('.title_'+tID)
+        var t = document.querySelector('#title-'+tID)
+        if(t == null){
+            t = document.querySelector('.title_'+tID).innerHTML
+        }else{
+            t = t.value
+        }
         const viewId = view.getAttribute("id");
         sizeAndPosition.views[viewId] = {
-            title: t.value,
+            title: t,
             id: viewId,
             top: view.offsetTop,
             height: view.offsetHeight,
@@ -883,7 +826,6 @@ function loadProject(){
     dz.style.backgroundSize = 'cover'
     dz.style.backgroundPosition = 'center'
     dz.imgID = firstObject['miniature']
-    console.log(dz)
 
     for(let view in data){
         newView(data[view])
@@ -891,6 +833,7 @@ function loadProject(){
             loadWidgets(data[view].widgets[i])
         }
     }
+    
 }
 
 export function saveFile(content){
@@ -932,7 +875,6 @@ if(init === false){
 
     if(data !== null){
         if(data != true){
-            console.log('project loading')
             console.log(data)
             loadProject()
         }else{
@@ -991,12 +933,9 @@ document.getElementById('cf-h-left').onclick = function(){
     closeNav('publication')
 };
 document.getElementById('publish').onclick = function(){
-    openNav('publication')
+    toggleEdit()
 };
 
-document.getElementById('permission-btn').onclick = function(){
-    openNav('permission')
-};
 document.getElementById('af-h-left').onclick = function(){
     closeNav('permission')
 };
@@ -1006,3 +945,141 @@ document.getElementById('af-h-right').onclick = function(){
 
 document.getElementById('cm-icon-vue').onclick = newView;
 document.getElementById('saveProject').onclick = saveProject;
+
+function toggleEdit(){
+    var menu = document.querySelector('.cm')
+    if(menu.style.visibility == 'hidden'){
+        menu.style.visibility = 'visible'
+    }else{
+        menu.style.visibility = 'hidden'
+    }
+    for(let view in data){
+        idView = +data[view].id.replace('view_','')
+        var el = document.querySelector('.title_'+idView)
+        var v = document.querySelector('#'+data[view].id)
+        if(data[view].state == 'unloked'){
+            data[view].state = ['locked']
+            el.classList.add('title-border')
+            el.innerHTML = data[view].title
+            v.dataset.locked = 'false'
+        }else{
+            data[view].state = 'unloked'
+            el.classList.remove('title-border')
+            el.innerHTML = `
+            <div class="user" id="permission-btn-`+idView+`"><img src="../images/TitleUser.png"></img></div>
+            <div class="title-filler-l" id="tfl_`+idView+`"><img src="../images/TitleFillerLeft.png"></img></div>
+            <div class="title">
+                <textarea class="title_`+idView+`" id="title-`+idView+`"></textarea>
+            </div>
+            <div class="title-filler-r" id="tfr_`+idView+`"><img src="../images/TitleFillerRight.png"></img></div>
+            <div class="delete" id="delete_`+idView+`"><img src="../images/TitleDel.png"></img></div>
+            <div class="lock" id="lock_`+idView+`"><img src="../images/TitleLock.png"></img></div>
+            `;
+            addViewEvent(idView,data[view])
+            v.dataset.locked = 'true'
+        }
+    
+        for (let i = 0; i < data[view].widgets.length; i++) {
+            var w = document.querySelector('#'+data[view].widgets[i].id)
+            if(data[view].widgets[i].state == 'unloked'){
+                console.log('lock')
+                data[view].widgets[i].state = 'locked'
+                toggleLock(w)
+                if(w.querySelector('.tox') != null){
+                    w.querySelector('.tox-tinymce').remove()
+                    w.querySelector('.tinyMCE'+data[view].widgets[i].id).remove()
+                    var c = document.createElement('div')
+                    c.classList.add('tmce-display')
+                    c.innerHTML = localStorage.getItem('tinymce_content_'+data[view].widgets[i].id)
+                    w.appendChild(c)
+                }
+            }else{
+                console.log('unlock')
+                data[view].widgets[i].state = 'unloked'
+                toggleLock(w)
+                if(w.querySelector('.tmce-display')){
+                    w.querySelector('.tmce-display').remove()
+                    const textarea = document.createElement('textarea');
+                    textarea.classList.add('tinyMCE'+data[view].widgets[i].id)
+                    w.appendChild(textarea);
+                    textarea.textContent = localStorage.getItem('tinymce_content_'+data[view].widgets[i].id)
+                    fileProcess.initTinyMce(data[view].widgets[i])  // Initialize TinyMCE on the widget instance, not the parent element
+                }
+            }
+        }
+    }
+}
+
+function addViewEvent(idView,viewObj){
+    var title = document.querySelector('.title_'+idView)
+    var view = document.querySelector('#view_'+idView)
+    const removeButton = title.querySelector('#delete_'+idView);
+    removeButton.addEventListener('click', () => removeView(view,title));
+
+    // Find the lock button inside the title element
+    const lockBtn = title.querySelector('#lock_'+idView);
+
+    // Add a click event listener to the lock button
+    lockBtn.addEventListener('click', () => {
+        // Toggle the locked state
+        if (view.dataset.locked === 'false') {
+            view.dataset.locked = 'true';
+            lockBtn.children[0].src = "../images/TitleLock.png"
+        } else {
+            view.dataset.locked = 'false'; 
+            lockBtn.children[0].src = "../images/TitleUnlock.png"
+        }
+    });
+
+    // Retrieve the textarea using its id
+    let textarea = document.getElementById('title-'+idView)
+    let fillerL = document.getElementById('tfl_'+idView)
+    let fillerR = document.getElementById('tfr_'+idView)
+    let intervalId 
+
+    function titleEnter(){
+        textarea.parentElement.classList.add('title-hover')
+        fillerL.classList.add('title-hover')
+        fillerR.classList.add('title-hover')
+    }
+
+    function titleLeave(){
+        textarea.parentElement.classList.remove('title-hover')
+        fillerL.classList.remove('title-hover')
+        fillerR.classList.remove('title-hover')
+    }
+    
+    textarea.addEventListener('mouseenter', titleEnter)
+    textarea.addEventListener('mouseleave', titleLeave)
+    fillerL.addEventListener('mouseenter', titleEnter)
+    fillerL.addEventListener('mouseleave', titleLeave)
+    fillerR.addEventListener('mouseenter', titleEnter)
+    fillerR.addEventListener('mouseleave', titleLeave)
+
+    // Attach focus and blur event listeners to the textarea
+    textarea.addEventListener('focus', function() {
+        var previous = ''
+        intervalId = setInterval(function() {
+            if(previous != textarea.value){
+                previous = textarea.value
+                saveProject()
+                isDirty = false
+            }
+        }, 5000); 
+    });
+
+    textarea.addEventListener('blur', function() {
+        clearInterval(intervalId);
+        saveProject()
+        isDirty = false
+    });
+
+    document.querySelector('#title-'+idView).innerText = viewObj.title
+
+    document.getElementById('permission-btn-'+idView).onclick = function(){
+        openNav('permission')
+    };
+
+}
+
+

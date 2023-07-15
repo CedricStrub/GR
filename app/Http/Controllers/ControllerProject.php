@@ -177,6 +177,7 @@ class ControllerProject extends Controller
         $project = $request->project;
         $view = $request->view;
         $widget = $request->widget;
+        $file = File::find($request->file);
 
         $w = ProjectWidget::where('project',$project)->where('css_id',$request->widget['id'])->get()->first();
         if($w){
@@ -203,6 +204,8 @@ class ControllerProject extends Controller
                 'content' => $request->file,
             ]);
         }
+        $w->filename = $file['filename'];
+
 
         $v = ProjectView::where('project', '=', $project)->where('css_id','=',$view)->get()->first();
         $pc = ProjectContent::where('project', '=', $project)->where('view','=',$v['id'])->where('widget','=',null)->get()->first();
@@ -266,6 +269,7 @@ class ControllerProject extends Controller
             $result[$viewId]['id'] = $view->css_id;
             $result[$viewId]['top'] = $view->haut;
             $result[$viewId]['height'] = $view->hauteur;
+            $result[$viewId]['state'] = 'locked';
     
             // Fetch related content
             $contents = ProjectContent::where('project', $id)->where('view', $view->id)->get();
@@ -287,6 +291,7 @@ class ControllerProject extends Controller
                     $widgetObj['content'] = $widget->content;
                     $widgetObj['type'] = $widgetContent->type;
                     $widgetObj['filename'] = $widgetContent->filename;
+                    $widgetObj['state'] = 'locked';
     
                     $result[$viewId]['widgets'][] = $widgetObj;
                     

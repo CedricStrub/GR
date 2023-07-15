@@ -85,29 +85,30 @@ export function image(widget,url){
 }
 
 export function text(widget,event,file = null){
-    // Create a new textarea element
-    const textarea = document.createElement('textarea');
-    textarea.classList.add('tinyMCE'+widget.id)
-    widget.appendChild(textarea);
-    var id = +widget.id.replace('widget_','')
-
+    
     // Load the file contents into the textarea
     if(file){
         fetch(file)
         .then(response => response.text())
         .then((data) => {
-            textarea.textContent = data;
-            initTinyMce(widget)
+            var c = document.createElement('div')
+            c.classList.add('tmce-display')
+            c.innerHTML = data
+            widget.appendChild(c)
+            // initTinyMce(widget)
         })
     }else{
+        console.log('test')
+        // Create a new textarea element
+        const textarea = document.createElement('textarea');
+        textarea.classList.add('tinyMCE'+widget.id)
+        widget.appendChild(textarea);
+        var id = +widget.id.replace('widget_','')
+
         textarea.textContent = event.target.result;
-        initTinyMce(widget)
-    }
 
-    
-
-    const lockButton = widget.querySelector('#lock_w'+id);
-    lockButton.addEventListener('click', () => {
+        const lockButton = widget.querySelector('#lock_w'+id);
+        lockButton.addEventListener('click', () => {
         if (tinymce) {
             if(tinymce.EditorManager.activeEditor.mode.get() === 'design'){
                 tinymce.activeEditor.mode.set('readonly')
@@ -118,9 +119,10 @@ export function text(widget,event,file = null){
             console.log("TinyMCE editor instance is not initialized.");
         }
     });
+    }
 }
 
-function initTinyMce(widget){
+export function initTinyMce(widget){
     var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
     tinymce.init({
         selector: 'textarea.tinyMCE'+widget.id,
@@ -132,6 +134,9 @@ function initTinyMce(widget){
         width: '100%',
         height: '100%',
         resize: false,
+        init_instance_callback: function (editor) {
+            localStorage.setItem('tinymce_content_'+widget.id, editor.getContent());
+        },
         setup: function (editor) {
             editor.on('dragover drop', function(e) {
                 e.preventDefault();
@@ -150,6 +155,9 @@ function initTinyMce(widget){
             });
 
             let previous = ''
+
+            console.log(data)
+
             const save = () => {
                 let content = editor.getContent()
                 if(previous != content){
@@ -186,8 +194,12 @@ function initTinyMce(widget){
             // Save when the editor's content is changed
             editor.on('change', save);
 
+            editor.on('change', function(e) {
+                localStorage.setItem('tinymce_content_'+widget.id, editor.getContent());
+            });
+
             // Also save every 1 seconds (1000 milliseconds)
-            setInterval(save, 1000);
+            setInterval(save, 5000);
         }
     });
 }

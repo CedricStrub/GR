@@ -120,6 +120,13 @@
     background-size: 25px 25px;
 }
 
+.tmce-display{
+    width: inherit;
+    height: inherit;
+    overflow: hidden;
+    background-color: white;
+}
+
 
 .view {
     width: 100%;
@@ -140,6 +147,11 @@
     justify-content: center;
     margin-bottom: 5px;
     margin-top: 8px;
+    font-size: 35px;
+}
+
+.title-border{
+    border: solid 1px black;
 }
 
 .view-title textarea{

@@ -129,7 +129,7 @@
 
 </div>
 
-<div class="cm">
+<div class="cm" style="visibility: hidden;">
     <!-- ajouter video -->
     <div id="cm-icon-video" class="cm-icon-video"></div>
     <svg class="cm-video" width="96" height="51" viewBox="0 0 96 51" fill="none" xmlns="http://www.w3.org/2000/svg">

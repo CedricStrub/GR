@@ -1,0 +1,34 @@
+<h3 id="optical-components">Optical Components</h3>
+<p>&nbsp;</p>
+<ul>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/optics/tube_lens.html">12.7 mm achromatic lens</a></li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/optics/condenser_lens.html">condenser lens</a></li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/optics/microscope-objective.html">microscope objective</a> - This page provides more information on choosing an objective.</li>
+</ul>
+<h3>&nbsp;</h3>
+<h3 id="electronic-components">Electronic Components</h3>
+<p>&nbsp;</p>
+<ul>
+<li>2 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/electronics/DuPont_Housing_1x2.html">2 pin Du Pont connector female housing</a></li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/electronics/PiCamera_RibbonCable_200mm.html">200mm Pi Camera ribbon cable</a> - This is longer than the standard ribbon cable the Pi Camera is sold with!</li>
+<li>3 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/electronics/28BYJ-48.html">28BYJ-48 micro geared stepper motors</a></li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/electronics/illumination_pcb.html">illumination PCB</a> - A 5mm LED can be used instead, if you follow the [LED workaround].</li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/electronics/RaspberryPi.html">Raspberry Pi</a></li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/electronics/PiCamera_2.html">Raspberry Pi Camera Module v2</a></li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/electronics/RaspberryPi_PowerSupply.html">Raspberry Pi Power Supply</a></li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/electronics/sangaboard.html">Sangaboard</a> - If you cannot get a Sangaboard, you can put together [workaround motor electronics] instead.</li>
+</ul>
+<h3>&nbsp;</h3>
+<h3 id="mechanical-components">Mechanical Components</h3>
+<p>&nbsp;</p>
+<ul>
+<li>3 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/mechanical/Nut_M3_Brass.html">M3 brass nut</a></li>
+<li>14 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/mechanical/Nut_M3_SS.html">M3 nut</a></li>
+<li>8 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/mechanical/Washer_M3_SS.html">M3 stainless steel washers</a></li>
+<li>11 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/mechanical/CapScrew_M3x10mm_SS.html">M3x10 cap head screws</a></li>
+<li>4 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/mechanical/HexBolt_M3x25mm_SS.html">M3x25mm stainless steel hex bolt</a></li>
+<li>6 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/mechanical/ButtonScrew_M4x6mm_SS.html">M4x6mm button head screws</a></li>
+<li>16 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/mechanical/SelfTap_PoziPan_No2x6.5_SS.html">No 2 6.5mm self tapping screws</a></li>
+<li>3 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/mechanical/O-Ring_30x2_Viton.html">Viton O-ring (30mmx2mm)</a> - "Viton band"</li>
+</ul>
+<p>ild server. Next steps Install the Software</p>

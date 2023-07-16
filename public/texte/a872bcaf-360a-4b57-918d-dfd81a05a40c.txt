@@ -1,0 +1,24 @@
+<div class="pagebom">
+<h2 id="for-this-section-you-will-need">For this section you will need:</h2>
+<p>&nbsp;</p>
+<h3 id="tools">Tools</h3>
+<p>&nbsp;</p>
+<ul>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/tools/2.5mmBallEndAllenKey.html">2.5mm Ball-end Allen key</a></li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/mechanical/CapScrew_M3x10mm_SS.html">extra M3x10 cap screw</a> - For mounting trapped nuts</li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/tools/precision-wire-cutters.html">precision wire cutters</a> - Can use a utility knife if these are unavailable.</li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/tools/utility-knife.html">utility knife</a></li>
+</ul>
+<h3>&nbsp;</h3>
+<h3 id="printed-parts">Printed Parts</h3>
+<p>&nbsp;</p>
+<ul>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/high_res_microscope/printing.html">Main body</a></li>
+</ul>
+<h3>&nbsp;</h3>
+<h3 id="mechanical-components">Mechanical Components</h3>
+<p>&nbsp;</p>
+<ul>
+<li>6 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/mechanical/Nut_M3_SS.html">M3 nut</a></li>
+</ul>
+</div>

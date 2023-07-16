@@ -1,0 +1,43 @@
+<div class="page-content">
+<div class="wrapper">
+<article class="post"><header class="post-header">
+<h1 class="post-title">&nbsp;</h1>
+<h1 class="post-title">Build a Microscope</h1>
+<p>&nbsp;</p>
+</header>
+<div class="post-content">
+<p>To build a standard microscope configuration, follow the assembly instructions below, which includes the download for the STL files.</p>
+<p>&nbsp;</p>
+<h3 id="openflexure-microscope-v7">OpenFlexure Microscope v7</h3>
+<p>&nbsp;</p>
+<p>v7 of the microscope is now in Beta. This means it&rsquo;s been tested by a small number of people, but we already believe it&rsquo;s much, much better than v6. We recommend you use v7 unless you have a particular reason to prefer v6.</p>
+<p>&nbsp;</p>
+<p><a class="download-btn" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/" target="_blank" rel="noopener">Instructions and STL files for v7</a></p>
+<p>&nbsp;</p>
+<p>Before you start building, you may find it useful to look at the <a href="https://openflexure.org/projects/microscope/interactive-view-v7">interactive view of the microscope</a>.</p>
+<p>Full release notes are available on <a href="https://gitlab.com/openflexure/openflexure-microscope/-/releases">GitLab</a>, but the headline features are:</p>
+<ul>
+<li>Rewritten instructions, with accurate bill of materials and rendered diagrams throughout.</li>
+<li>Fully enclosed wiring.</li>
+<li>No M3 screws threading into plastic, to eliminate stripped threads and damaged parts.</li>
+<li>Improved illumination mounting, and PCB option to eliminate wire-to-wire soldering.</li>
+<li>Standardised hardware: fewer types of screw required.</li>
+<li>Better optics module mounting to get the objective at the right height.</li>
+</ul>
+<p>Under the hood, there has also been an extensive rewrite of the OpenSCAD code to make it more reliable and maintainable for the future. It&rsquo;s the best OpenFlexure Microscope yet!</p>
+<p>&nbsp;</p>
+<h3 id="openflexure-microscope-v6">OpenFlexure Microscope v6</h3>
+<p>&nbsp;</p>
+<p>The previous version of the microscope is still accessible on the build server.<br>First, <a href="https://microscope-stls.openflexure.org" target="_blank" rel="noopener">configure and download STLs</a>, then follow the <a href="https://build.openflexure.org/openflexure-microscope/v6.1.5/docs" target="_blank" rel="noopener">assembly instructions</a>. There is also an <a href="https://openflexure.org/projects/microscope/interactive-view-v6">interactive view of v6.1.5</a>.</p>
+<p>&nbsp;</p>
+<h3 id="source">Source</h3>
+<p>&nbsp;</p>
+<p>You can view the source files on <a href="https://gitlab.com/openflexure/openflexure-microscope">Gitlab</a>.</p>
+<p>&nbsp;</p>
+<h3 id="legacy-versions">Legacy versions</h3>
+<p>&nbsp;</p>
+<p>You can view legacy versions of the microscope on the <a href="https://build.openflexure.org/openflexure-microscope/">build server</a>.</p>
+</div>
+</article>
+</div>
+</div>

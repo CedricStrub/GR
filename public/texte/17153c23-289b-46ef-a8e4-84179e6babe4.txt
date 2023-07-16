@@ -1,3 +1,0 @@
-<p>Ceci est un test de fichier text simple pour dropzone</p>
-<p>&nbsp;</p>
-<p>Je v&eacute;rifie que les zones de texte sont bien isol&eacute; les unes des autres</p>

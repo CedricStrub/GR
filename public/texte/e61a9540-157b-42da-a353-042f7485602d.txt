@@ -1,0 +1,3 @@
+<p>Etape 1 :</p>
+<p>&nbsp;</p>
+<p>retirer le support d'impression indiquer ici en rouge</p>

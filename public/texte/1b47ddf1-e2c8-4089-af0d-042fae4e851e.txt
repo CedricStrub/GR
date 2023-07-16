@@ -1,0 +1,30 @@
+<h1 id="bill-of-materials">Bill of Materials</h1>
+<p>&nbsp;</p>
+<p>Download this as a <a href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/high_res_microscope_BOM.csv">CSV file</a></p>
+<p>&nbsp;</p>
+<h3 id="tools">Tools</h3>
+<p>&nbsp;</p>
+<ul>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/tools/pozidrive_1_screwdriver.html">#1 pozidrive screwdriver</a></li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/tools/2.5mmBallEndAllenKey.html">2.5mm ball ended Allen key</a></li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/tools/2.5mmBallEndAllenKey.html">2.5mm Ball-end Allen key</a></li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/mechanical/CapScrew_M3x10mm_SS.html">extra M3x10 cap screw</a> - For mounting trapped nuts</li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/tools/pi_camera_lens_tool.html">Pi Camera lens tool</a> - This should come with the <a href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/electronics/PiCamera_2.html">Raspberry Pi Camera Module v2</a>. If it is missing, you can 3D print a [workaround lens remover].</li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/tools/precision-wire-cutters.html">precision wire cutters</a> - Can use a utility knife if these are unavailable.</li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/tools/rep-rap.html">RepRap-style printer</a></li>
+<li>1 <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/tools/utility-knife.html">utility knife</a> - Not a scalpel!</li>
+</ul>
+<h3>&nbsp;</h3>
+<h3 id="materials">Materials</h3>
+<p>&nbsp;</p>
+<ul>
+<li>4 cm^2 of <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/materials/white_polypropylene_sheet.html">0.5mm polypropylene</a></li>
+<li>50 g of <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/materials/black_pla_filament.html">Black PLA filament</a></li>
+<li>205 g of <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/materials/pla_filament.html">PLA filament</a> - Of any colour you want. Two contrasting colours may look best.</li>
+</ul>
+<h3>&nbsp;</h3>
+<h3 id="consumables">Consumables</h3>
+<p>&nbsp;</p>
+<ul>
+<li>3 drops of <a class="bom" href="https://build.openflexure.org/openflexure-microscope/v7.0.0-beta1/parts/consumables/light_oil.html">light oil</a> - Don't skip this or you will damage the screws</li>
+</ul>

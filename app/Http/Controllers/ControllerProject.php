@@ -204,8 +204,7 @@ class ControllerProject extends Controller
                 'content' => $request->file,
             ]);
         }
-        $w->filename = $file['filename'];
-
+        
 
         $v = ProjectView::where('project', '=', $project)->where('css_id','=',$view)->get()->first();
         $pc = ProjectContent::where('project', '=', $project)->where('view','=',$v['id'])->where('widget','=',null)->get()->first();

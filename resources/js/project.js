@@ -324,12 +324,15 @@ function newWidget(widgetObj = null, targetView = selectedView, file = null) {
     }
 
     // Definis le status Lock 
-    toggleLock(widget)
-
+    if(mode == 'presentation'){
+        toggleLock(widget)
+    }
+    
+    
     //Récupère le token csrf
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     //Definis les paramètres de la dropzone
-    let dropzone = new Dropzone('#' + idDropzone, {
+    let dropzone = new Dropzone('#'+ idDropzone, {
         url: '/upload', // definis la route
         maxFilesize: 5, // definis la taille max des fichiers
         acceptedFiles: ".jpeg,.jpg,.png,.gif,.txt,.csv", // definis les types de fichiers
@@ -408,6 +411,8 @@ function saveWidget(widget,view,idFile){
             console.log(response.view)
             console.log('ID returned: ', response.id);
             console.log(response.view.css_id)
+
+            response.widget.id = response.widget.css_id 
             
             data[response.view.css_id]['widgets'].push(response.widget)
             console.log(data)
@@ -619,7 +624,6 @@ function createResizableView() {
 
 let selectedView = null;
 
-
 export function newView(viewObj = null) {
     let viewId = 0
     if (viewObj) {
@@ -630,15 +634,31 @@ export function newView(viewObj = null) {
     const page = document.querySelector('.page');
     const view = createResizableView();
     const title = document.createElement('div');
-    title.className = 'view-title title-border title_'+idView
-    ;
-    title.innerHTML = viewObj.title
-    
+
+    if(mode == 'edition'){
+        idView += 1
+        title.className = 'view-title ';
+        title.innerHTML = `
+        <div class="user" id="permission-btn-`+idView+`"><img src="../images/TitleUser.png"></img></div>
+        <div class="title-filler-l" id="tfl_`+idView+`"><img src="../images/TitleFillerLeft.png"></img></div>
+        <div class="title">
+            <textarea class="title_`+idView+`" id="title_`+idView+`"></textarea>
+        </div>
+        <div class="title-filler-r" id="tfr_`+idView+`"><img src="../images/TitleFillerRight.png"></img></div>
+        <div class="delete" id="delete_`+idView+`"><img src="../images/TitleDel.png"></img></div>
+        <div class="lock" id="lock_`+idView+`"><img src="../images/TitleLock.png"></img></div>
+        `;
+        idView -= 1
+    }else{
+        title.className = 'view-title title-border title_'+idView
+    }
+
     page.appendChild(title);
     page.appendChild(view); 
 
     if (viewObj) {
         if (viewObj.type != 'click') {
+            title.innerHTML = viewObj.title
             view.style.height = viewObj.height + 'px';
             view.style.left = '0px';
             view.style.width = '100%';
@@ -647,15 +667,17 @@ export function newView(viewObj = null) {
             idView += 1;
 
         } else {
+            idView += 1;
+            addViewEvent(idView,view)
             view.setAttribute('id', 'view_' + idView);
             viewId = 'view_' + idView
-            idView += 1;
             makeView(view)
         }
     }else{
+        
+        idView += 1
         view.setAttribute('id', 'view_' + idView);
         viewId = 'view_' + idView
-        idView += 1
         makeView(view)
     }
 
@@ -756,8 +778,9 @@ function extractSizeAndPosition() {
     for (const view of views) {
         var tID = view.id.replace('view_','')
         var t = document.querySelector('#title-'+tID)
+
         if(t == null){
-            t = document.querySelector('.title_'+tID).innerHTML
+            t = document.querySelector('.title_'+tID).value
         }else{
             t = t.value
         }
@@ -930,7 +953,15 @@ document.getElementById('cf-h-right').onclick = function(){
 };
 document.getElementById('cf-h-left').onclick = function(){
     saveProject()
+    toggleEdit()
     closeNav('publication')
+    var publish = document.getElementById('publish')
+    var ico = document.getElementById('project-icon')
+    ico.classList.remove('publish-icon')
+    ico.classList.add('edit-icon')
+    publish.onclick = function(){
+        toggleEdit()
+    };
 };
 document.getElementById('publish').onclick = function(){
     toggleEdit()
@@ -947,6 +978,13 @@ document.getElementById('cm-icon-vue').onclick = newView;
 document.getElementById('saveProject').onclick = saveProject;
 
 function toggleEdit(){
+    var publish = document.getElementById('publish')
+    var ico = document.getElementById('project-icon')
+    ico.classList.add('publish-icon')
+    ico.classList.remove('edit-icon')
+    publish.onclick = function(){
+        openNav('publication')
+    };
     var menu = document.querySelector('.cm')
     if(menu.style.visibility == 'hidden'){
         menu.style.visibility = 'visible'
@@ -958,11 +996,14 @@ function toggleEdit(){
         var el = document.querySelector('.title_'+idView)
         var v = document.querySelector('#'+data[view].id)
         if(data[view].state == 'unloked'){
+            mode = "presentation"
             data[view].state = ['locked']
             el.classList.add('title-border')
             el.innerHTML = data[view].title
             v.dataset.locked = 'false'
         }else{
+
+            mode = "edition"
             data[view].state = 'unloked'
             el.classList.remove('title-border')
             el.innerHTML = `
@@ -982,7 +1023,6 @@ function toggleEdit(){
         for (let i = 0; i < data[view].widgets.length; i++) {
             var w = document.querySelector('#'+data[view].widgets[i].id)
             if(data[view].widgets[i].state == 'unloked'){
-                console.log('lock')
                 data[view].widgets[i].state = 'locked'
                 toggleLock(w)
                 if(w.querySelector('.tox') != null){
@@ -994,16 +1034,15 @@ function toggleEdit(){
                     w.appendChild(c)
                 }
             }else{
-                console.log('unlock')
                 data[view].widgets[i].state = 'unloked'
                 toggleLock(w)
                 if(w.querySelector('.tmce-display')){
-                    w.querySelector('.tmce-display').remove()
                     const textarea = document.createElement('textarea');
                     textarea.classList.add('tinyMCE'+data[view].widgets[i].id)
                     w.appendChild(textarea);
-                    textarea.textContent = localStorage.getItem('tinymce_content_'+data[view].widgets[i].id)
-                    fileProcess.initTinyMce(data[view].widgets[i])  // Initialize TinyMCE on the widget instance, not the parent element
+                    textarea.textContent = w.querySelector('.tmce-display').innerHTML
+                    fileProcess.initTinyMce(data[view].widgets[i])
+                    w.querySelector('.tmce-display').remove()
                 }
             }
         }
@@ -1013,11 +1052,11 @@ function toggleEdit(){
 function addViewEvent(idView,viewObj){
     var title = document.querySelector('.title_'+idView)
     var view = document.querySelector('#view_'+idView)
-    const removeButton = title.querySelector('#delete_'+idView);
+    var removeButton = document.querySelector('#delete_'+idView);
     removeButton.addEventListener('click', () => removeView(view,title));
 
     // Find the lock button inside the title element
-    const lockBtn = title.querySelector('#lock_'+idView);
+    var lockBtn = document.querySelector('#lock_'+idView);
 
     // Add a click event listener to the lock button
     lockBtn.addEventListener('click', () => {
@@ -1033,6 +1072,9 @@ function addViewEvent(idView,viewObj){
 
     // Retrieve the textarea using its id
     let textarea = document.getElementById('title-'+idView)
+    if(textarea == null){
+        textarea = document.getElementById('title_'+idView)
+    }
     let fillerL = document.getElementById('tfl_'+idView)
     let fillerR = document.getElementById('tfr_'+idView)
     let intervalId 
@@ -1074,8 +1116,14 @@ function addViewEvent(idView,viewObj){
         isDirty = false
     });
 
-    document.querySelector('#title-'+idView).innerText = viewObj.title
-
+    var t = document.querySelector('#title-'+idView) 
+    
+    if(t == null){
+        t = document.querySelector('#title_'+idView)
+    }else{
+        t.innerText = viewObj.title
+    }
+        
     document.getElementById('permission-btn-'+idView).onclick = function(){
         openNav('permission')
     };

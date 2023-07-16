@@ -131,7 +131,7 @@
         
         <div id="profil-icon" class="profil-icon"></div>
         @if(isset($result))
-            <div id="project-icon" class="publish-icon"></div>
+            <div id="project-icon" class="edit-icon"></div>
             <div id="dark-icon" class="save-icon"></div>
         @else
             <div id="project-icon" class="project-icon"></div>

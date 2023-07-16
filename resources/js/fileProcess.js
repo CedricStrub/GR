@@ -156,8 +156,6 @@ export function initTinyMce(widget){
 
             let previous = ''
 
-            console.log(data)
-
             const save = () => {
                 let content = editor.getContent()
                 if(previous != content){
@@ -198,8 +196,8 @@ export function initTinyMce(widget){
                 localStorage.setItem('tinymce_content_'+widget.id, editor.getContent());
             });
 
-            // Also save every 1 seconds (1000 milliseconds)
-            setInterval(save, 5000);
+            // Also save every 0.5 seconds (500 milliseconds)
+            setInterval(save, 500);
         }
     });
 }

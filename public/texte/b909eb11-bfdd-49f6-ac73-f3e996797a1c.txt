@@ -1,5 +1,1 @@
-<p style="text-align: center;"><span style="text-decoration: underline;">Titre centr&eacute;e et soulign&eacute;</span></p>
-<p style="text-align: center;">&nbsp;</p>
-<p style="text-align: left;"><strong>La suite du texte est en gras&nbsp;</strong></p>
-<p style="text-align: left;">&nbsp;</p>
-<p style="text-align: left;">Et puis plus. C'est la magie du WYSIWYG</p>
+<p>Nunc elit quam, c Le logo a &eacute;t&eacute; choisis pour son aspect minimaliste et qui &eacute;voque la route a parcourir vers le savoir &nbsp; Ut condimentum mi in efficitur efficitufhghgfhfghr. &nbsp; test test 123 123</p>

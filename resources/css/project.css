@@ -152,6 +152,7 @@
 
 .title-border{
     border: solid 1px black;
+    background-color: var(--bg-sec);
 }
 
 .view-title textarea{

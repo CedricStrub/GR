@@ -6,6 +6,7 @@
     var isDirty = @json($isDirty);
     var init = @json(false);
     var idView = @json(0);
+    var mode = @json('presentation');
 </script>
 
 @if(isset($result))

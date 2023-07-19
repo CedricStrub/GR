@@ -58,12 +58,28 @@ window.menuMobile = function() {
     }
 }
 
+window.menuFooter = function() {
+    
+    var x = document.getElementById("mf-burger");
+    if (x.style.display === "block") {
+      x.style.display = "none";
+    } else {
+      x.style.display = "block";
+    }
+}
+
 function checkClickOutside(event) {
     var x = document.getElementById("menuM");
     var menu = document.querySelector('.s-mc');
+    var y = document.getElementById("mf-burger");
+    var foot = document.querySelector('.s-footer')
 
     if (!menu.contains(event.target)) {
         x.style.display = "none";
+    }
+    
+    if (!foot.contains(event.target)) {
+        y.style.display = "none";
     }
 }
 

@@ -75,9 +75,6 @@ tarteaucitron.init({
         <a href="" class="f-link">Conditions d'utilisation</a>
     </div>
 </div>
-<div>
-
-
 
 @stack('modals')
 @livewireScripts
